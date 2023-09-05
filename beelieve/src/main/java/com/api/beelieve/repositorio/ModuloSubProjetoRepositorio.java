@@ -1,8 +1,8 @@
-package repositorio;
+package com.api.beelieve.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import entidades.ModuloSubProjeto;
+import com.api.beelieve.entidades.ModuloSubProjeto;
 
 public interface ModuloSubProjetoRepositorio extends JpaRepository<ModuloSubProjeto, Long> {
 

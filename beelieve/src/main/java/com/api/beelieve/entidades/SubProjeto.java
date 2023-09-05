@@ -1,4 +1,4 @@
-package entidades;
+package com.api.beelieve.entidades;
 
 import java.math.BigDecimal;
 import java.util.Date;

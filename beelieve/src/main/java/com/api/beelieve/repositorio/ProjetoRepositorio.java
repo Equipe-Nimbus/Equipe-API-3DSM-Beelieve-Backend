@@ -1,8 +1,8 @@
-package repositorio;
+package com.api.beelieve.repositorio;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import entidades.Projeto;
+import com.api.beelieve.entidades.Projeto;
 
 public interface ProjetoRepositorio extends JpaRepository<Projeto, Long> {
 

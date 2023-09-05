@@ -1,4 +1,4 @@
-package entidades;
+package com.api.beelieve.entidades;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

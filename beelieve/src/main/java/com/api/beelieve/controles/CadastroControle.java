@@ -1,4 +1,4 @@
-package controles;
+package com.api.beelieve.controles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import entidades.ModuloSubProjeto;
-import entidades.Projeto;
-import entidades.SubProjeto;
-import entidades.Tarefa;
-import repositorio.ModuloSubProjetoRepositorio;
-import repositorio.ProjetoRepositorio;
-import repositorio.SubProjetoRepositorio;
-import repositorio.TarefaRepositorio;
+import com.api.beelieve.entidades.ModuloSubProjeto;
+import com.api.beelieve.entidades.Projeto;
+import com.api.beelieve.entidades.SubProjeto;
+import com.api.beelieve.entidades.Tarefa;
+import com.api.beelieve.repositorio.ModuloSubProjetoRepositorio;
+import com.api.beelieve.repositorio.ProjetoRepositorio;
+import com.api.beelieve.repositorio.SubProjetoRepositorio;
+import com.api.beelieve.repositorio.TarefaRepositorio;
 
 @RestController
 @RequestMapping("/cadastrar")
