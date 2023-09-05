@@ -15,7 +15,7 @@ import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "modulosSubProjeto")
+@Table(name = "moduloSubProjeto")
 public class ModuloSubProjeto implements tipoProjeto {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
