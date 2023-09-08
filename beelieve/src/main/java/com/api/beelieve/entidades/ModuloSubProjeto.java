@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class ModuloSubProjeto implements tipoProjeto {
 	@Column
 	private String nomeModuloSubProjeto;
 	
-	@OneToMany(mappedBy = "atreladoModuloSubProjeto")
+	@OneToMany(mappedBy = "atreladoModuloSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
 	@Column
