@@ -8,13 +8,15 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import lombok.ToString;
 
 @Entity
+@ToString
 @Table(name = "tarefa")
 public class Tarefa {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tarefaId;
+	private Long tarefa_id;
 	
 	@Column
 	private String descricaoAtividade;
@@ -26,22 +28,42 @@ public class Tarefa {
 	private Boolean status;
 	
 	@ManyToOne
-	@JoinColumn(name = "subProjetoId")
-	private SubProjeto atreladoSubProjeto;
+	@JoinColumn(name = "sub_projeto_id")
+	private SubProjeto subProjeto;
 	
 	@ManyToOne
-	@JoinColumn(name = "moduloSubProjetoId")
-	private ModuloSubProjeto atreladoModuloSubProjeto;
+	@JoinColumn(name = "modulo_sub_projeto_id")
+	private ModuloSubProjeto moduloSubProjeto;
 
 	
 	
 	
-	public Long getTarefaId() {
-		return tarefaId;
+
+
+
+
+	public Long getTarefa_id() {
+		return tarefa_id;
 	}
 
-	public void setTarefaId(Long tarefaId) {
-		this.tarefaId = tarefaId;
+	public void setTarefa_id(Long tarefa_id) {
+		this.tarefa_id = tarefa_id;
+	}
+
+	public SubProjeto getSubProjeto() {
+		return subProjeto;
+	}
+
+	public void setSubProjeto(SubProjeto subProjeto) {
+		this.subProjeto = subProjeto;
+	}
+
+	public ModuloSubProjeto getModuloSubProjeto() {
+		return moduloSubProjeto;
+	}
+
+	public void setModuloSubProjeto(ModuloSubProjeto moduloSubProjeto) {
+		this.moduloSubProjeto = moduloSubProjeto;
 	}
 
 	public String getDescricaoAtividade() {
@@ -67,23 +89,6 @@ public class Tarefa {
 	public void setStatus(Boolean status) {
 		this.status = status;
 	}
-
-	public SubProjeto getAtreladoSubProjeto() {
-		return atreladoSubProjeto;
-	}
-
-	public void setAtreladoSubProjeto(SubProjeto atreladoSubProjeto) {
-		this.atreladoSubProjeto = atreladoSubProjeto;
-	}
-
-	public ModuloSubProjeto getAtreladoModuloSubProjeto() {
-		return atreladoModuloSubProjeto;
-	}
-
-	public void setAtreladoModuloSubProjeto(ModuloSubProjeto atreladoModuloSubProjeto) {
-		this.atreladoModuloSubProjeto = atreladoModuloSubProjeto;
-	}
-
 	
 
 

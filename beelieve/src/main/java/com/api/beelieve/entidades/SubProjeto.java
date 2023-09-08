@@ -7,28 +7,35 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
+@EqualsAndHashCode
 @Table(name = "subProjeto")
+@ToString
 public class SubProjeto implements tipoProjeto{
 
+	@EqualsAndHashCode.Include
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long subProjetoId;
+	private Long sub_projeto_id;
 	
 	@Column
 	private String nomeSubProjeto;
 	
-	@OneToMany(mappedBy = "atreladoSubProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
 	private List<Tarefa> tarefas;
 	
-	@OneToMany(mappedBy = "atreladoSubProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
 	private List<ModuloSubProjeto> moduloSubProjeto;
 	
 	@Column
@@ -47,25 +54,41 @@ public class SubProjeto implements tipoProjeto{
 	private BigDecimal horaHomemSubprojeto;
 
 	@ManyToOne
-	@JoinColumn(name = "projetoId")
-	private Projeto atreladoProjeto;
+	@JoinColumn(name = "projeto_id")
+	private Projeto projeto;
+	
+	@PrePersist
+	public void persistenciaChaveEstrangeira() {
+		if (tarefas != null) {
+			tarefas.forEach((tarefa)->{
+				tarefa.setSubProjeto(this);
+			});
+		}
+		else if (moduloSubProjeto != null) {
+			moduloSubProjeto.forEach((modulo)->{
+				modulo.setSubProjeto(this);
+			});
+		}
+			
+	}
 	
 	
-	
-	public Projeto getAtreladoProjeto() {
-		return atreladoProjeto;
+
+
+	public Long getSub_projeto_id() {
+		return sub_projeto_id;
 	}
 
-	public void setAtreladoProjeto(Projeto atreladoProjeto) {
-		this.atreladoProjeto = atreladoProjeto;
+	public void setSub_projeto_id(Long sub_projeto_id) {
+		this.sub_projeto_id = sub_projeto_id;
 	}
 
-	public Long getSubProjetoId() {
-		return subProjetoId;
+	public Projeto getProjeto() {
+		return projeto;
 	}
 
-	public void setSubProjetoId(Long subProjetoId) {
-		this.subProjetoId = subProjetoId;
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
 	}
 
 	public String getNomeSubProjeto() {

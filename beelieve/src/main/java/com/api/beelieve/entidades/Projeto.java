@@ -1,24 +1,32 @@
 package com.api.beelieve.entidades;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Entity
+@EqualsAndHashCode
 @Table(name = "projeto")
+@ToString
 public class Projeto implements tipoProjeto {
 	
+	@EqualsAndHashCode.Include
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long projetoId;
+	private Long projeto_id;
 	
 	@Column
 	private String nomeProjeto;
@@ -26,7 +34,7 @@ public class Projeto implements tipoProjeto {
 	@Column
 	private String chefeProjeto;
 	
-	@OneToMany(mappedBy = "atreladoProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
 	private List<SubProjeto> subProjeto;
 	
 	@Column
@@ -38,15 +46,24 @@ public class Projeto implements tipoProjeto {
 	@Column
 	private BigDecimal horaHomemTotal;
 	
+
+	@PrePersist
+	public void persistenciaChaveEstrangeira() {
+		if(subProjeto != null) {
+			subProjeto.forEach((sub) -> {
+				sub.setProjeto(this);
+			});
+		}
+	}
 	
 	
-	
-	public Long getProjetoId() {
-		return projetoId;
+
+	public Long getProjeto_id() {
+		return projeto_id;
 	}
 
-	public void setProjetoId(Long projetoId) {
-		this.projetoId = projetoId;
+	public void setProjeto_id(Long projeto_id) {
+		this.projeto_id = projeto_id;
 	}
 
 	public String getNomeProjeto() {
