@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,12 +21,12 @@ import jakarta.persistence.Table;
 public class ModuloSubProjeto implements tipoProjeto {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long moduloSubProjetoId;
+	private Long modulo_sub_projeto_id;
 	
 	@Column
 	private String nomeModuloSubProjeto;
 	
-	@OneToMany(mappedBy = "atreladoModuloSubProjeto")
+	@OneToMany(mappedBy = "moduloSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
 	@Column
@@ -40,28 +42,39 @@ public class ModuloSubProjeto implements tipoProjeto {
 	private BigDecimal horaModuloHomemSubProjeto;
 
 	@ManyToOne
-	@JoinColumn(name = "subProjetoId")
-	private SubProjeto atreladoSubProjeto;
+	@JoinColumn(name = "sub_projeto_id")
+	private SubProjeto subProjeto;
 	
 	
+	@PrePersist
+	public void persistenciaChaveEstrangeira() {
+		if (tarefas != null) {
+			tarefas.forEach((tarefa)->{
+				tarefa.setModuloSubProjeto(this);
+			});
+		}	
+	}
 	
 	
-	
-	public SubProjeto getAtreladoSubProjeto() {
-		return atreladoSubProjeto;
+
+
+
+	public SubProjeto getSubProjeto() {
+		return subProjeto;
 	}
 
-	public void setAtreladoSubProjeto(SubProjeto atreladoSubProjeto) {
-		this.atreladoSubProjeto = atreladoSubProjeto;
+	public void setSubProjeto(SubProjeto subProjeto) {
+		this.subProjeto = subProjeto;
 	}
 
 	
-	public Long getModuloSubProjetoId() {
-		return moduloSubProjetoId;
+
+	public Long getModulo_sub_projeto_id() {
+		return modulo_sub_projeto_id;
 	}
 
-	public void setModuloSubProjetoId(Long moduloSubProjetoId) {
-		this.moduloSubProjetoId = moduloSubProjetoId;
+	public void setModulo_sub_projeto_id(Long modulo_sub_projeto_id) {
+		this.modulo_sub_projeto_id = modulo_sub_projeto_id;
 	}
 
 	public String getNomeModuloSubProjeto() {

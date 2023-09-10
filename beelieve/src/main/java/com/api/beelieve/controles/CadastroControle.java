@@ -15,6 +15,8 @@ import com.api.beelieve.repositorio.ProjetoRepositorio;
 import com.api.beelieve.repositorio.SubProjetoRepositorio;
 import com.api.beelieve.repositorio.TarefaRepositorio;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/cadastrar")
 public class CadastroControle {
@@ -31,7 +33,9 @@ public class CadastroControle {
 	@Autowired
 	private TarefaRepositorio tarefaRepositorio;
 	
+	
 	@PostMapping("/projeto")
+	@Transactional
 	public void cadastrarProjeto(@RequestBody Projeto projeto) {
 		projetoRepositorio.save(projeto);
 	}
