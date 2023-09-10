@@ -31,3 +31,7 @@ build/
 
 ### VS Code ###
 .vscode/
+
+*.class
+bin/
+beelieve/bin/
