@@ -32,8 +32,8 @@ public class Tarefa {
 	private SubProjeto subProjeto;
 	
 	@ManyToOne
-	@JoinColumn(name = "modulo_sub_projeto_id")
-	private ModuloSubProjeto moduloSubProjeto;
+	@JoinColumn(name = "nivel_sub_projeto_id")
+	private NivelSubProjeto nivelSubProjeto;
 
 	
 	
@@ -58,12 +58,12 @@ public class Tarefa {
 		this.subProjeto = subProjeto;
 	}
 
-	public ModuloSubProjeto getModuloSubProjeto() {
-		return moduloSubProjeto;
+	public NivelSubProjeto getModuloSubProjeto() {
+		return nivelSubProjeto;
 	}
 
-	public void setModuloSubProjeto(ModuloSubProjeto moduloSubProjeto) {
-		this.moduloSubProjeto = moduloSubProjeto;
+	public void setNivelSubProjeto(NivelSubProjeto nivelSubProjeto) {
+		this.nivelSubProjeto = nivelSubProjeto;
 	}
 
 	public String getDescricaoAtividade() {

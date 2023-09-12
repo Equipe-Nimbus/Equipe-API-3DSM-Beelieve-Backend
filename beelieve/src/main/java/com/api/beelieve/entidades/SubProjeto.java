@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -36,7 +35,7 @@ public class SubProjeto implements tipoProjeto{
 	private List<Tarefa> tarefas;
 	
 	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
-	private List<ModuloSubProjeto> moduloSubProjeto;
+	private List<NivelSubProjeto> nivelSubProjeto;
 	
 	@Column
 	private String chefeSubProjeto;
@@ -64,8 +63,8 @@ public class SubProjeto implements tipoProjeto{
 				tarefa.setSubProjeto(this);
 			});
 		}
-		else if (moduloSubProjeto != null) {
-			moduloSubProjeto.forEach((modulo)->{
+		else if (nivelSubProjeto != null) {
+			nivelSubProjeto.forEach((modulo)->{
 				modulo.setSubProjeto(this);
 			});
 		}
@@ -107,12 +106,12 @@ public class SubProjeto implements tipoProjeto{
 		this.tarefas = tarefas;
 	}
 
-	public List<ModuloSubProjeto> getModuloSubProjeto() {
-		return moduloSubProjeto;
+	public List<NivelSubProjeto> getNivelSubProjeto() {
+		return nivelSubProjeto;
 	}
 
-	public void setModuloSubProjeto(List<ModuloSubProjeto> moduloSubProjeto) {
-		this.moduloSubProjeto = moduloSubProjeto;
+	public void setModuloSubProjeto(List<NivelSubProjeto> nivelSubProjeto) {
+		this.nivelSubProjeto = nivelSubProjeto;
 	}
 
 
