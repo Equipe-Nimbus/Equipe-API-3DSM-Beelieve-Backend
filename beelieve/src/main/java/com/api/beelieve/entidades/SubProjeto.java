@@ -7,7 +7,6 @@ import java.util.List;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -23,80 +22,81 @@ import lombok.ToString;
 @EqualsAndHashCode
 @Table(name = "subProjeto")
 @ToString
-public class SubProjeto implements tipoProjeto{
+public class SubProjeto {
 
 	@EqualsAndHashCode.Include
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long sub_projeto_id;
+	private Long id_sub_projeto;
 	
 	@Column
-	private String nomeSubProjeto;
+	private String ordem_sub_projeto;
 	
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
+	@Column
+	private String nome_sub_projeto;
+	
+	@OneToMany(mappedBy = "sub_projeto", cascade = CascadeType.PERSIST)
 	private List<Tarefa> tarefas;
 	
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
-	private List<ModuloSubProjeto> moduloSubProjeto;
+	@OneToMany(mappedBy = "sub_projeto", cascade = CascadeType.PERSIST)
+	private List<NivelSubProjeto> nivel_sub_projeto;
 	
 	@Column
-	private String chefeSubProjeto;
+	private String chefe_sub_projeto;
 	
 	@Column
-	private Date prazoSubProjeto;
+	private Date prazo_sub_projeto;
 	
 	@Column
-	private BigDecimal progresso;
+	private Double progresso_sub_projeto;
 	
 	@Column
-	private BigDecimal orcamentoSubProjeto;
+	private BigDecimal orcamento_sub_projeto;
 	
 	@Column
-	private BigDecimal horaHomemSubprojeto;
+	private BigDecimal hora_humano_sub_projeto;
 
 	@ManyToOne
-	@JoinColumn(name = "projeto_id")
+	@JoinColumn(name = "id_porjeto")
 	private Projeto projeto;
 	
 	@PrePersist
 	public void persistenciaChaveEstrangeira() {
 		if (tarefas != null) {
 			tarefas.forEach((tarefa)->{
-				tarefa.setSubProjeto(this);
+				tarefa.setSub_projeto(this);
 			});
 		}
-		else if (moduloSubProjeto != null) {
-			moduloSubProjeto.forEach((modulo)->{
-				modulo.setSubProjeto(this);
+		else if (nivel_sub_projeto != null) {
+			nivel_sub_projeto.forEach((modulo)->{
+				modulo.setSub_projeto(this);
 			});
 		}
 			
 	}
+
 	
-	
-
-
-	public Long getSub_projeto_id() {
-		return sub_projeto_id;
+	public Long getId_sub_projeto() {
+		return id_sub_projeto;
 	}
 
-	public void setSub_projeto_id(Long sub_projeto_id) {
-		this.sub_projeto_id = sub_projeto_id;
+	public void setId_sub_projeto(Long id_sub_projeto) {
+		this.id_sub_projeto = id_sub_projeto;
 	}
 
-	public Projeto getProjeto() {
-		return projeto;
+	public String getOrdem_sub_projeto() {
+		return ordem_sub_projeto;
 	}
 
-	public void setProjeto(Projeto projeto) {
-		this.projeto = projeto;
+	public void setOrdem_sub_projeto(String ordem_sub_projeto) {
+		this.ordem_sub_projeto = ordem_sub_projeto;
 	}
 
-	public String getNomeSubProjeto() {
-		return nomeSubProjeto;
+	public String getNome_sub_projeto() {
+		return nome_sub_projeto;
 	}
 
-	public void setNomeSubProjeto(String nomeSubProjeto) {
-		this.nomeSubProjeto = nomeSubProjeto;
+	public void setNome_sub_projeto(String nome_sub_projeto) {
+		this.nome_sub_projeto = nome_sub_projeto;
 	}
 
 	public List<Tarefa> getTarefas() {
@@ -107,55 +107,59 @@ public class SubProjeto implements tipoProjeto{
 		this.tarefas = tarefas;
 	}
 
-	public List<ModuloSubProjeto> getModuloSubProjeto() {
-		return moduloSubProjeto;
+	public List<NivelSubProjeto> getNivel_sub_projeto() {
+		return nivel_sub_projeto;
 	}
 
-	public void setModuloSubProjeto(List<ModuloSubProjeto> moduloSubProjeto) {
-		this.moduloSubProjeto = moduloSubProjeto;
+	public void setNivel_sub_projeto(List<NivelSubProjeto> nivel_sub_projeto) {
+		this.nivel_sub_projeto = nivel_sub_projeto;
 	}
 
-
-
-	public String getChefeSubProjeto() {
-		return chefeSubProjeto;
+	public String getChefe_sub_projeto() {
+		return chefe_sub_projeto;
 	}
 
-	public void setChefeSubProjeto(String chefeSubProjeto) {
-		this.chefeSubProjeto = chefeSubProjeto;
+	public void setChefe_sub_projeto(String chefe_sub_projeto) {
+		this.chefe_sub_projeto = chefe_sub_projeto;
 	}
 
-	public Date getPrazoSubProjeto() {
-		return prazoSubProjeto;
+	public Date getPrazo_sub_projeto() {
+		return prazo_sub_projeto;
 	}
 
-	public void setPrazoSubProjeto(Date prazoSubProjeto) {
-		this.prazoSubProjeto = prazoSubProjeto;
+	public void setPrazo_sub_projeto(Date prazo_sub_projeto) {
+		this.prazo_sub_projeto = prazo_sub_projeto;
 	}
 
-	public BigDecimal getProgresso() {
-		return progresso;
+	public Double getProgresso_sub_projeto() {
+		return progresso_sub_projeto;
 	}
 
-	public void setProgresso(BigDecimal progresso) {
-		this.progresso = progresso;
+	public void setProgresso_sub_projeto(Double progresso_sub_projeto) {
+		this.progresso_sub_projeto = progresso_sub_projeto;
 	}
 
-	public BigDecimal getOrcamentoSubProjeto() {
-		return orcamentoSubProjeto;
+	public BigDecimal getOrcamento_sub_projeto() {
+		return orcamento_sub_projeto;
 	}
 
-	public void setOrcamentoSubProjeto(BigDecimal orcamentoSubProjeto) {
-		this.orcamentoSubProjeto = orcamentoSubProjeto;
+	public void setOrcamento_sub_projeto(BigDecimal orcamento_sub_projeto) {
+		this.orcamento_sub_projeto = orcamento_sub_projeto;
 	}
 
-	public BigDecimal getHoraHomemSubprojeto() {
-		return horaHomemSubprojeto;
+	public BigDecimal getHora_humano_sub_projeto() {
+		return hora_humano_sub_projeto;
 	}
 
-	public void setHoraHomemSubprojeto(BigDecimal horaHomemSubprojeto) {
-		this.horaHomemSubprojeto = horaHomemSubprojeto;
+	public void setHora_humano_sub_projeto(BigDecimal hora_humano_sub_projeto) {
+		this.hora_humano_sub_projeto = hora_humano_sub_projeto;
 	}
-	
-	
+
+	public Projeto getProjeto() {
+		return projeto;
+	}
+
+	public void setProjeto(Projeto projeto) {
+		this.projeto = projeto;
+	}
 }
