@@ -6,11 +6,11 @@ import org.springframework.stereotype.Service;
 public class AtualizarTarefa {
 
 	public void atualizar(Tarefa tarefaAtual, DadosTarefaAtualizacao dadosTarefa) {
-		if(dadosTarefa.descricaoAtividade() != null) {
-			tarefaAtual.setDescricaoAtividade(dadosTarefa.descricaoAtividade());
+		if(dadosTarefa.descricao_atividade_tarefa() != null) {
+			tarefaAtual.setDescricaoAtividade(dadosTarefa.descricao_atividade_tarefa());
 		}
-		if(dadosTarefa.resultadoEsperado() != null) {
-			tarefaAtual.setResultadoEsperado(dadosTarefa.resultadoEsperado());
+		if(dadosTarefa.resultado_esperado_tarefa() != null) {
+			tarefaAtual.setResultadoEsperado(dadosTarefa.resultado_esperado_tarefa());
 		}
 	}
 }

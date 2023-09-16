@@ -1,5 +1,7 @@
 package com.api.beelieve.entidades.tarefa;
 
+import java.util.Date;
+
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
@@ -21,16 +23,22 @@ import lombok.ToString;
 public class Tarefa {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long tarefa_id;
+	private Long id_tarefa;
 	
 	@Column
-	private String descricaoAtividade;
+	private String descricao_atividade_tarefa;
 	
 	@Column
-	private String resultadoEsperado;
+	private String resultado_esperado_tarefa;
 	
 	@Column
-	private Boolean status;
+	private Integer peso_tarefa;
+	
+	@Column
+	private Integer status_tarefa;
+	
+	@Column
+	private Date prazo_tarefa;
 	
 	@ManyToOne
 	@JoinColumn(name = "sub_projeto_id")
@@ -40,17 +48,16 @@ public class Tarefa {
 	@JoinColumn(name = "nivel_sub_projeto_id")
 	private NivelSubProjeto nivelSubProjeto;
 
-
 	public Tarefa() {
 		
 	}
 	
 	public Tarefa(DadosTarefaAtualizacao dadosTarefa, SubProjeto subProjeto) {
 		
-		this.descricaoAtividade = dadosTarefa.descricaoAtividade();
+		this.descricao_atividade_tarefa = dadosTarefa.descricao_atividade_tarefa();
 		this.subProjeto = subProjeto;
-		this.resultadoEsperado = dadosTarefa.resultadoEsperado();
-		this.status = dadosTarefa.status();
+		this.resultado_esperado_tarefa = dadosTarefa.resultado_esperado_tarefa();
+		this.status_tarefa = dadosTarefa.status_tarefa();
 		
 	}
 
@@ -58,19 +65,19 @@ public class Tarefa {
 	
 	
 	public Tarefa(DadosTarefaAtualizacao dadosTarefa, NivelSubProjeto nivelSubProjeto) {
-		this.descricaoAtividade = dadosTarefa.descricaoAtividade();
+		this.descricao_atividade_tarefa = dadosTarefa.descricao_atividade_tarefa();
 		this.nivelSubProjeto = nivelSubProjeto;
-		this.resultadoEsperado = dadosTarefa.resultadoEsperado();
-		this.status = dadosTarefa.status();
+		this.resultado_esperado_tarefa = dadosTarefa.resultado_esperado_tarefa();
+		this.status_tarefa = dadosTarefa.status_tarefa();
 	}
 
 
 
 
 	public Tarefa(DadosTarefaCadastro tarefa, NivelSubProjeto nivelSubProjeto) {
-		this.descricaoAtividade = tarefa.descricaoAtividade();
-		this.resultadoEsperado = tarefa.resultadoEsperado();
-		this.status = false;
+		this.descricao_atividade_tarefa = tarefa.descricao_atividade_tarefa();
+		this.resultado_esperado_tarefa = tarefa.resultado_esperado_tarefa();
+		this.status_tarefa = 0;
 		this.nivelSubProjeto = nivelSubProjeto;
 	}
 
@@ -78,9 +85,9 @@ public class Tarefa {
 
 
 	public Tarefa(DadosTarefaCadastro tarefa, SubProjeto subProjeto) {
-		this.descricaoAtividade = tarefa.descricaoAtividade();
-		this.resultadoEsperado = tarefa.resultadoEsperado();
-		this.status = false;
+		this.descricao_atividade_tarefa = tarefa.descricao_atividade_tarefa();
+		this.resultado_esperado_tarefa = tarefa.resultado_esperado_tarefa();
+		this.status_tarefa = 0;
 		this.subProjeto = subProjeto;
 	}
 
@@ -88,11 +95,11 @@ public class Tarefa {
 
 
 	public Long getTarefa_id() {
-		return tarefa_id;
+		return id_tarefa;
 	}
 
 	public void setTarefa_id(Long tarefa_id) {
-		this.tarefa_id = tarefa_id;
+		this.id_tarefa = tarefa_id;
 	}
 
 	public SubProjeto getSubProjeto() {
@@ -112,27 +119,27 @@ public class Tarefa {
 	}
 
 	public String getDescricaoAtividade() {
-		return descricaoAtividade;
+		return descricao_atividade_tarefa;
 	}
 
 	public void setDescricaoAtividade(String descricaoAtividade) {
-		this.descricaoAtividade = descricaoAtividade;
+		this.descricao_atividade_tarefa = descricaoAtividade;
 	}
 
 	public String getResultadoEsperado() {
-		return resultadoEsperado;
+		return resultado_esperado_tarefa;
 	}
 
 	public void setResultadoEsperado(String resultadoEsperado) {
-		this.resultadoEsperado = resultadoEsperado;
+		this.resultado_esperado_tarefa = resultadoEsperado;
 	}
 
-	public Boolean getStatus() {
-		return status;
+	public Integer getStatus() {
+		return status_tarefa;
 	}
 
-	public void setStatus(Boolean status) {
-		this.status = status;
+	public void setStatus(Integer status) {
+		this.status_tarefa = status;
 	}
 	
 

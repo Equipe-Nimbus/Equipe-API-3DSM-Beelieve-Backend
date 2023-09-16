@@ -13,17 +13,17 @@ public class AtualizarNivelSubProjeto {
 	private LeituraListaTarefa leituraListaTarefa;
 
 	public void atualizar(NivelSubProjeto nivelSubProjetoAtual, DadosNivelSubProjetoAtualizacao dadosNivelSubProjeto) {
-		if(dadosNivelSubProjeto.horaHomemNivelSubProjeto() != null) {
-			nivelSubProjetoAtual.setHoraNivelHomemSubProjeto(dadosNivelSubProjeto.horaHomemNivelSubProjeto());
+		if(dadosNivelSubProjeto.hora_humano_nivel_sub_projeto() != null) {
+			nivelSubProjetoAtual.setHoraNivelHomemSubProjeto(dadosNivelSubProjeto.hora_humano_nivel_sub_projeto());
 		}
-		if(dadosNivelSubProjeto.nomeNivelSubProjeto() != null) {
-			nivelSubProjetoAtual.setNomeNivelSubProjeto(dadosNivelSubProjeto.nomeNivelSubProjeto());
+		if(dadosNivelSubProjeto.nome_nivel_sub_projeto() != null) {
+			nivelSubProjetoAtual.setNomeNivelSubProjeto(dadosNivelSubProjeto.nome_nivel_sub_projeto());
 		}
-		if(dadosNivelSubProjeto.orcamentoNivelSubProjeto() != null) {
-			nivelSubProjetoAtual.setOrcamentoNivelSubProjeto(dadosNivelSubProjeto.orcamentoNivelSubProjeto());
+		if(dadosNivelSubProjeto.orcamento_nivel_sub_projeto() != null) {
+			nivelSubProjetoAtual.setOrcamentoNivelSubProjeto(dadosNivelSubProjeto.orcamento_nivel_sub_projeto());
 		}
-		if(dadosNivelSubProjeto.prazoNivelSubProjeto() != null) {
-			nivelSubProjetoAtual.setPrazoNivelSubProjeto(dadosNivelSubProjeto.prazoNivelSubProjeto());
+		if(dadosNivelSubProjeto.prazo_nivel_sub_projeto() != null) {
+			nivelSubProjetoAtual.setPrazoNivelSubProjeto(dadosNivelSubProjeto.prazo_nivel_sub_projeto());
 		}
 		if(dadosNivelSubProjeto.tarefas() != null) {
 			leituraListaTarefa.atualizarListaNivel(dadosNivelSubProjeto.tarefas(), nivelSubProjetoAtual);

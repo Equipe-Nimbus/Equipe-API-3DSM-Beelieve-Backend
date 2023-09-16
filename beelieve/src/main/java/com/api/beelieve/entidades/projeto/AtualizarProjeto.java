@@ -15,24 +15,24 @@ public class AtualizarProjeto {
 	private LeituraListaSubProjetoAtualizacao listaSubNivel;
 	
 	public void atualizar(Projeto projetoAtual, DadosProjetoAtualizacao dadosAtualizacao) {
-		if(dadosAtualizacao.nomeProjeto() != null) {
-			projetoAtual.setNomeProjeto(dadosAtualizacao.nomeProjeto());
+		if(dadosAtualizacao.nome_projeto() != null) {
+			projetoAtual.setNome_projeto(dadosAtualizacao.nome_projeto());
 		}
-		if(dadosAtualizacao.chefeProjeto() != null) {
-			projetoAtual.setChefeProjeto(dadosAtualizacao.chefeProjeto());
+		if(dadosAtualizacao.chefe_projeto() != null) {
+			projetoAtual.setChefe_projeto(dadosAtualizacao.chefe_projeto());
 		}
-		if(dadosAtualizacao.prazoProjeto() != null) {
-			projetoAtual.setPrazoProjeto(dadosAtualizacao.prazoProjeto());
+		if(dadosAtualizacao.prazo_projeto() != null) {
+			projetoAtual.setPrazo_projeto(dadosAtualizacao.prazo_projeto());
 		}
-		if(dadosAtualizacao.orcamentoProjeto() != null) {
-			projetoAtual.setOrcamentoProjeto(dadosAtualizacao.orcamentoProjeto());
+		if(dadosAtualizacao.orcamento_projeto() != null) {
+			projetoAtual.setOrcamento_projeto(dadosAtualizacao.orcamento_projeto());
 		}
-		if(dadosAtualizacao.horaHumanoTotal() != null) {
-			projetoAtual.setHoraHomemTotal(dadosAtualizacao.horaHumanoTotal());
+		if(dadosAtualizacao.hora_humano_total() != null) {
+			projetoAtual.setHora_humano_total(dadosAtualizacao.hora_humano_total());
 		}
-		if(dadosAtualizacao.subProjetos() != null) {
-			List<SubProjeto> listaSubProjeto = listaSubNivel.atualizarLista(dadosAtualizacao.subProjetos(), projetoAtual);
-			projetoAtual.setSubProjeto(listaSubProjeto);
+		if(dadosAtualizacao.sub_projetos() != null) {
+			List<SubProjeto> listaSubProjeto = listaSubNivel.atualizarLista(dadosAtualizacao.sub_projetos(), projetoAtual);
+			projetoAtual.setSub_projetos(listaSubProjeto);
 		}
 		
 	}

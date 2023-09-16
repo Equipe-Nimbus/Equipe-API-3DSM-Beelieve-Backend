@@ -19,7 +19,7 @@ public class LeituraListaNivelSubProjeto {
 	private AtualizarNivelSubProjeto atualizaNivelSubProjeto;
 	
 	@Autowired
-	private SavarListaNivelSubProjeto salvarListaNivelSubProjeto;
+	private SalvarListaNivelSubProjeto salvarListaNivelSubProjeto;
 	
 	public void atualizarLista(List<DadosNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
 		List<NivelSubProjeto> listaNivelSubProjetoAtual = repositorio_nivel.findBySubProjeto(subProjeto);
@@ -31,7 +31,7 @@ public class LeituraListaNivelSubProjeto {
 			DadosNivelSubProjetoAtualizacao dadosNivel = iteratorDadosNivel.next();
 			while(iteratorNivelSubProjeto.hasNext()) {
 				NivelSubProjeto nivelSubProj = iteratorNivelSubProjeto.next();
-				if(dadosNivel.nivel_sub_projeto_id() == nivelSubProj.getNivel_sub_projeto_id()) {
+				if(dadosNivel.id_nivel_sub_projeto() == nivelSubProj.getNivel_sub_projeto_id()) {
 					atualizaNivelSubProjeto.atualizar(nivelSubProj, dadosNivel);
 					iteratorDadosNivel.remove();
 					iteratorNivelSubProjeto.remove();

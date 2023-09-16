@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.api.beelieve.entidades.tipoProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 
@@ -20,33 +19,41 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "nivelSubProjeto")
 @NoArgsConstructor
-public class NivelSubProjeto implements tipoProjeto {
+@Getter
+@Setter
+public class NivelSubProjeto{
+
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long nivel_sub_projeto_id;
+	private Long id_nivel_sub_projeto;
 	
 	@Column
-	private String nomeNivelSubProjeto;
+	private String ordem_nivel_sub_projeto;
+	
+	@Column
+	private String nome_nivel_sub_projeto;
 	
 	@OneToMany(mappedBy = "nivelSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
 	@Column
-	private Date prazoNivelSubProjeto;
+	private Date prazo_nivel_sub_projeto;
 	
 	@Column
-	private BigDecimal progresso;
+	private Double progresso_nivel_sub_projeto;
 	
 	@Column
-	private BigDecimal orcamentoNivelSubProjeto;
+	private BigDecimal orcamento_nivel_sub_projeto;
 	
 	@Column
-	private BigDecimal horaNivelHomemSubProjeto;
+	private BigDecimal hora_humano_nivel_sub_projeto;
 
 	@ManyToOne
 	@JoinColumn(name = "sub_projeto_id")
@@ -58,10 +65,10 @@ public class NivelSubProjeto implements tipoProjeto {
 	}
 	
 	public NivelSubProjeto(DadosNivelSubProjetoAtualizacao dadosNivelSubProjeto, SubProjeto subProjeto) {
-		this.nomeNivelSubProjeto = dadosNivelSubProjeto.nomeNivelSubProjeto();
-		this.orcamentoNivelSubProjeto = dadosNivelSubProjeto.orcamentoNivelSubProjeto();
-		this.horaNivelHomemSubProjeto = dadosNivelSubProjeto.horaHomemNivelSubProjeto();
-		this.prazoNivelSubProjeto = dadosNivelSubProjeto.prazoNivelSubProjeto();
+		this.nome_nivel_sub_projeto = dadosNivelSubProjeto.nome_nivel_sub_projeto();
+		this.orcamento_nivel_sub_projeto = dadosNivelSubProjeto.orcamento_nivel_sub_projeto();
+		this.hora_humano_nivel_sub_projeto = dadosNivelSubProjeto.hora_humano_nivel_sub_projeto();
+		this.prazo_nivel_sub_projeto = dadosNivelSubProjeto.prazo_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
 		if (!dadosNivelSubProjeto.tarefas().isEmpty()) {
 			List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
@@ -77,10 +84,10 @@ public class NivelSubProjeto implements tipoProjeto {
 
 
 	public NivelSubProjeto(DadosNivelSubProjetoCadastro nivelSubProj, SubProjeto subProjeto) {
-		this.nomeNivelSubProjeto = nivelSubProj.nomeNivelSubProjeto();
-		this.horaNivelHomemSubProjeto = nivelSubProj.horaNivelHomemSubProjeto();
-		this.orcamentoNivelSubProjeto = nivelSubProj.orcamentoNivelSubProjeto();
-		this.prazoNivelSubProjeto = nivelSubProj.prazoNivelSubProjeto();
+		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
+		this.hora_humano_nivel_sub_projeto = nivelSubProj.hora_nivel_humano_sub_projeto();
+		this.orcamento_nivel_sub_projeto = nivelSubProj.orcamento_nivel_sub_projeto();
+		this.prazo_nivel_sub_projeto = nivelSubProj.prazo_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
 		if(nivelSubProj.tarefas() != null) {
 			List<Tarefa> tarefas = new ArrayList<Tarefa>();
@@ -106,19 +113,19 @@ public class NivelSubProjeto implements tipoProjeto {
 	
 
 	public Long getNivel_sub_projeto_id() {
-		return nivel_sub_projeto_id;
+		return id_nivel_sub_projeto;
 	}
 
 	public void setNivel_sub_projeto_id(Long nivel_sub_projeto_id) {
-		this.nivel_sub_projeto_id = nivel_sub_projeto_id;
+		this.id_nivel_sub_projeto = nivel_sub_projeto_id;
 	}
 
 	public String getNomeNivelSubProjeto() {
-		return nomeNivelSubProjeto;
+		return nome_nivel_sub_projeto;
 	}
 
 	public void setNomeNivelSubProjeto(String nomeNivelSubProjeto) {
-		this.nomeNivelSubProjeto = nomeNivelSubProjeto;
+		this.nome_nivel_sub_projeto = nomeNivelSubProjeto;
 	}
 
 	public List<Tarefa> getTarefas() {
@@ -130,35 +137,35 @@ public class NivelSubProjeto implements tipoProjeto {
 	}
 
 	public Date getPrazoNivelSubProjeto() {
-		return prazoNivelSubProjeto;
+		return prazo_nivel_sub_projeto;
 	}
 
 	public void setPrazoNivelSubProjeto(Date prazoModuloSubProjeto) {
-		this.prazoNivelSubProjeto = prazoModuloSubProjeto;
+		this.prazo_nivel_sub_projeto = prazoModuloSubProjeto;
 	}
 
-	public BigDecimal getProgresso() {
-		return progresso;
+	public Double getProgresso() {
+		return progresso_nivel_sub_projeto;
 	}
 
-	public void setProgresso(BigDecimal progresso) {
-		this.progresso = progresso;
+	public void setProgresso(Double progresso) {
+		this.progresso_nivel_sub_projeto = progresso;
 	}
 
 	public BigDecimal getOrcamentoNivelSubProjeto() {
-		return orcamentoNivelSubProjeto;
+		return orcamento_nivel_sub_projeto;
 	}
 
 	public void setOrcamentoNivelSubProjeto(BigDecimal orcamentoNivelSubProjeto) {
-		this.orcamentoNivelSubProjeto = orcamentoNivelSubProjeto;
+		this.orcamento_nivel_sub_projeto = orcamentoNivelSubProjeto;
 	}
 
 	public BigDecimal getHoraNivelHomemSubProjeto() {
-		return horaNivelHomemSubProjeto;
+		return hora_humano_nivel_sub_projeto;
 	}
 
 	public void setHoraNivelHomemSubProjeto(BigDecimal horaNivelHomemSubProjeto) {
-		this.horaNivelHomemSubProjeto = horaNivelHomemSubProjeto;
+		this.hora_humano_nivel_sub_projeto = horaNivelHomemSubProjeto;
 	}
 
 	

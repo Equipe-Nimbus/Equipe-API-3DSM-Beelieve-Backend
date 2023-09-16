@@ -9,7 +9,7 @@ import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
 
 @Service
-public class SavarListaNivelSubProjeto {
+public class SalvarListaNivelSubProjeto {
 	
 	@Autowired
 	private NivelSubProjetoRepositorio repositorio_nivel;

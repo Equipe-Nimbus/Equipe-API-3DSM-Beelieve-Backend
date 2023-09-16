@@ -10,8 +10,8 @@ import com.api.beelieve.entidades.tarefa.Tarefa;
 
 public interface TarefaRepositorio extends JpaRepository<Tarefa, Long>{
 
-	List<Tarefa> findByNivelSubProjeto(NivelSubProjeto nivelSubProjeto);
+	List<Tarefa> findByNivelSubProjeto(NivelSubProjeto nivel_sub_projeto);
 
-	List<Tarefa> findBySubProjeto(SubProjeto subProjeto);
+	List<Tarefa> findBySubProjeto(SubProjeto sub_projeto);
 
 }

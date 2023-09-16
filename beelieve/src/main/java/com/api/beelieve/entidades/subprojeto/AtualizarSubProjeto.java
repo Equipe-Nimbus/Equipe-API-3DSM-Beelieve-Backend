@@ -19,23 +19,23 @@ public class AtualizarSubProjeto {
 	
 	@Transactional
 	public void atualizar(SubProjeto subProjetoAtual, DadosSubProjetoAtualizacao dadosSubProjeto) {
-		if(dadosSubProjeto.chefeSubProjeto() != null) {
-			subProjetoAtual.setChefeSubProjeto(dadosSubProjeto.chefeSubProjeto());
+		if(dadosSubProjeto.chefe_sub_projeto() != null) {
+			subProjetoAtual.setChefeSubProjeto(dadosSubProjeto.chefe_sub_projeto());
 		}
-		if(dadosSubProjeto.horaHumanoSubProjeto() != null) {
-			subProjetoAtual.setHoraHomemSubprojeto(dadosSubProjeto.horaHumanoSubProjeto());
+		if(dadosSubProjeto.hora_humano_sub_projeto() != null) {
+			subProjetoAtual.setHoraHomemSubprojeto(dadosSubProjeto.hora_humano_sub_projeto());
 		}
-		if(dadosSubProjeto.nomeSubProjeto() != null) {
-			subProjetoAtual.setNomeSubProjeto(dadosSubProjeto.nomeSubProjeto());
+		if(dadosSubProjeto.nome_sub_projeto() != null) {
+			subProjetoAtual.setNomeSubProjeto(dadosSubProjeto.nome_sub_projeto());
 		}
-		if(dadosSubProjeto.orcamentoSubProjeto() != null) {
-			subProjetoAtual.setOrcamentoSubProjeto(dadosSubProjeto.orcamentoSubProjeto());
+		if(dadosSubProjeto.orcamento_sub_projeto() != null) {
+			subProjetoAtual.setOrcamentoSubProjeto(dadosSubProjeto.orcamento_sub_projeto());
 		}
-		if(dadosSubProjeto.prazoSubProjeto() != null) {
-			subProjetoAtual.setPrazoSubProjeto(dadosSubProjeto.prazoSubProjeto());
+		if(dadosSubProjeto.prazo_sub_projeto() != null) {
+			subProjetoAtual.setPrazoSubProjeto(dadosSubProjeto.prazo_sub_projeto());
 		}
-		if(dadosSubProjeto.nivelSubProjetos() != null) {
-			lerListaDadosNivelSubProjeto.atualizarLista(dadosSubProjeto.nivelSubProjetos(), subProjetoAtual);
+		if(dadosSubProjeto.nivel_sub_projetos() != null) {
+			lerListaDadosNivelSubProjeto.atualizarLista(dadosSubProjeto.nivel_sub_projetos(), subProjetoAtual);
 			subProjetoAtual.setTarefas(null);
 		}
 		else if(dadosSubProjeto.tarefas() != null) {

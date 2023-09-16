@@ -1,9 +1,8 @@
 package com.api.beelieve.entidades.tarefa;
 
 public record DadosTarefaCadastro(
-		String descricaoAtividade,
-		String resultadoEsperado,
-		Boolean status
+		String descricao_atividade_tarefa,
+		String resultado_esperado_tarefa
 		
 		) {
 

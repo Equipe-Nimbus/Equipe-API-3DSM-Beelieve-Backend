@@ -32,7 +32,7 @@ public class LeituraListaTarefa {
 			DadosTarefaAtualizacao dadoTarefa = iteratorDadosTarefaAtualizacao.next();
 			while(iteratorTarefaAtual.hasNext()) {
 				Tarefa tarefaAtual = iteratorTarefaAtual.next();
-				if(dadoTarefa.tarefa_id() == tarefaAtual.getTarefa_id()) {
+				if(dadoTarefa.id_tarefa() == tarefaAtual.getTarefa_id()) {
 					atualizaTarefa.atualizar(tarefaAtual, dadoTarefa);
 					iteratorDadosTarefaAtualizacao.remove();
 					iteratorTarefaAtual.remove();
@@ -62,7 +62,7 @@ public class LeituraListaTarefa {
 			DadosTarefaAtualizacao dadoTarefa = iteratorDadosTarefaAtualizacao.next();
 			while(iteratorTarefaAtual.hasNext()) {
 				Tarefa tarefaAtual = iteratorTarefaAtual.next();
-				if(dadoTarefa.tarefa_id() == tarefaAtual.getTarefa_id()) {
+				if(dadoTarefa.id_tarefa() == tarefaAtual.getTarefa_id()) {
 					atualizaTarefa.atualizar(tarefaAtual, dadoTarefa);
 					iteratorDadosTarefaAtualizacao.remove();
 					iteratorTarefaAtual.remove();

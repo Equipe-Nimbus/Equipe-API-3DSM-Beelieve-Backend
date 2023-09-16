@@ -31,7 +31,7 @@ public class LeituraListaSubProjetoAtualizacao {
 			DadosSubProjetoAtualizacao dadosSub = iteratorDadosSubProjetoAtualizacao.next();
 			while(iteratorSubProjetoAtual.hasNext()) {
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
-				if(dadosSub.sub_projeto_id() == subProjeto.getSub_projeto_id()) {
+				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					atualizaSubProjeto.atualizar(subProjeto, dadosSub);
 					iteratorDadosSubProjetoAtualizacao.remove();
 					iteratorSubProjetoAtual.remove();
