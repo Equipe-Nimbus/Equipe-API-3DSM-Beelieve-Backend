@@ -1,8 +1,12 @@
-package com.api.beelieve.entidades;
+package com.api.beelieve.entidades.projeto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.api.beelieve.entidades.tipoProjeto;
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -12,9 +16,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
+
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -45,16 +50,29 @@ public class Projeto implements tipoProjeto {
 	@Column
 	private BigDecimal horaHomemTotal;
 	
+	@Column
+	private BigDecimal progressoProjeto;
+	
 
-	@PrePersist
-	public void persistenciaChaveEstrangeira() {
-		if(subProjeto != null) {
-			subProjeto.forEach((sub) -> {
-				sub.setProjeto(this);
-			});
-		}
+	public Projeto() {
+		
 	}
 	
+	public Projeto(DadosProjetoCadastro dadosProjeto) {
+		this.chefeProjeto = dadosProjeto.chefeProjeto();
+		this.nomeProjeto = dadosProjeto.nomeProjeto();
+		this.prazoProjeto = dadosProjeto.prazoProjeto();
+		this.orcamentoProjeto = dadosProjeto.orcamentoProjeto();
+		this.horaHomemTotal = dadosProjeto.horaHomemTotal();
+		this.progressoProjeto = dadosProjeto.progressoProjeto();
+		if(dadosProjeto.subProjeto() != null) {
+			List<SubProjeto> listaSubProjeto = new ArrayList<SubProjeto>();
+			dadosProjeto.subProjeto().forEach((subProj)->{
+				listaSubProjeto.add(new SubProjeto(subProj, this));
+			});
+			this.subProjeto = listaSubProjeto;
+		}
+	}
 	
 
 	public Long getProjeto_id() {

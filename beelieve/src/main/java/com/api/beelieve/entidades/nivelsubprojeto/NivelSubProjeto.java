@@ -1,8 +1,13 @@
-package com.api.beelieve.entidades;
+package com.api.beelieve.entidades.nivelsubprojeto;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import com.api.beelieve.entidades.tipoProjeto;
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.tarefa.Tarefa;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -15,9 +20,11 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "nivelSubProjeto")
+@NoArgsConstructor
 public class NivelSubProjeto implements tipoProjeto {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -26,7 +33,7 @@ public class NivelSubProjeto implements tipoProjeto {
 	@Column
 	private String nomeNivelSubProjeto;
 	
-	@OneToMany(mappedBy = "NivelSubProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "nivelSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
 	@Column
@@ -46,16 +53,45 @@ public class NivelSubProjeto implements tipoProjeto {
 	private SubProjeto subProjeto;
 	
 	
-	@PrePersist
-	public void persistenciaChaveEstrangeira() {
-		if (tarefas != null) {
-			tarefas.forEach((tarefa)->{
-				tarefa.setNivelSubProjeto(this);
-			});
-		}	
+	public NivelSubProjeto() {
+		
 	}
 	
-	
+	public NivelSubProjeto(DadosNivelSubProjetoAtualizacao dadosNivelSubProjeto, SubProjeto subProjeto) {
+		this.nomeNivelSubProjeto = dadosNivelSubProjeto.nomeNivelSubProjeto();
+		this.orcamentoNivelSubProjeto = dadosNivelSubProjeto.orcamentoNivelSubProjeto();
+		this.horaNivelHomemSubProjeto = dadosNivelSubProjeto.horaHomemNivelSubProjeto();
+		this.prazoNivelSubProjeto = dadosNivelSubProjeto.prazoNivelSubProjeto();
+		this.subProjeto = subProjeto;
+		if (!dadosNivelSubProjeto.tarefas().isEmpty()) {
+			List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
+			dadosNivelSubProjeto.tarefas().forEach((dadosTarefa)->{
+				listaTarefas.add(new Tarefa(dadosTarefa, this));
+			});
+			this.tarefas = listaTarefas;
+		};
+	}
+
+
+
+
+
+	public NivelSubProjeto(DadosNivelSubProjetoCadastro nivelSubProj, SubProjeto subProjeto) {
+		this.nomeNivelSubProjeto = nivelSubProj.nomeNivelSubProjeto();
+		this.horaNivelHomemSubProjeto = nivelSubProj.horaNivelHomemSubProjeto();
+		this.orcamentoNivelSubProjeto = nivelSubProj.orcamentoNivelSubProjeto();
+		this.prazoNivelSubProjeto = nivelSubProj.prazoNivelSubProjeto();
+		this.subProjeto = subProjeto;
+		if(nivelSubProj.tarefas() != null) {
+			List<Tarefa> tarefas = new ArrayList<Tarefa>();
+			nivelSubProj.tarefas().forEach((tarefa)->{
+				tarefas.add(new Tarefa(tarefa, this));
+			});
+			this.tarefas = tarefas;
+		}
+	}
+
+
 
 
 
