@@ -1,14 +1,17 @@
 package com.api.beelieve.entidades.subprojeto;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
+
 
 
 import com.api.beelieve.entidades.nivelsubprojeto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.DadosTarefaCadastro;
 
 public record DadosSubProjetoCadastro(
+		Long projeto_id,
 		String nome_sub_projeto,
 		String chefe_sub_projeto,
 		Date prazo_sub_projeto,
@@ -18,5 +21,6 @@ public record DadosSubProjetoCadastro(
 		List<DadosNivelSubProjetoCadastro> nivel_sub_projetos,
 		List<DadosTarefaCadastro> tarefas
 		) {
+
 	
 }
