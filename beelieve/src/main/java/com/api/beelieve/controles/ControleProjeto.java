@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.beelieve.entidades.projeto.AtualizarProjetoNiveis;
 import com.api.beelieve.entidades.projeto.DadosProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.DadosProjetoCadastro;
+import com.api.beelieve.entidades.projeto.DadosProjetoListagemGeral;
+import com.api.beelieve.entidades.projeto.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 
@@ -32,6 +34,8 @@ public class ControleProjeto {
 	@Autowired
 	private ProjetoRepositorio repositorio_projeto;
 	
+	@Autowired
+	private ListaProjetoGeral listaProjeto;
 
 	@Autowired
 	private AtualizarProjetoNiveis atualizaProjeto;
@@ -44,16 +48,17 @@ public class ControleProjeto {
 	}
 	
 	@GetMapping("/listar")
-	public ResponseEntity<List<Projeto>> listar() {
-		var listaProjeto = repositorio_projeto.findAll();
-		return ResponseEntity.ok(listaProjeto);
+	@Transactional
+	public ResponseEntity<List<DadosProjetoListagemGeral>> listar() {
+		List<DadosProjetoListagemGeral> resultado = listaProjeto.listarProjetos(repositorio_projeto.findAll());
+		return ResponseEntity.ok(resultado);
 	}
 
 	
 	@PutMapping("/atualizar/{id}")
 	@Transactional
-	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody DadosProjetoAtualizacao dadosAtualizacao){
-		System.out.println(dadosAtualizacao);
+	public ResponseEntity<Projeto> atualizar(@PathVariable Long id, @RequestBody DadosProjetoAtualizacao dadosAtualizacao){
+		//System.out.println(dadosAtualizacao);
 		atualizaProjeto.atualizarProjeto(id, dadosAtualizacao);
 		
 		return ResponseEntity.ok().build();
