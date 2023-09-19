@@ -12,5 +12,14 @@ public class AtualizarTarefa {
 		if(dadosTarefa.resultado_esperado_tarefa() != null) {
 			tarefaAtual.setResultadoEsperado(dadosTarefa.resultado_esperado_tarefa());
 		}
+		if(dadosTarefa.status_tarefa() != null) {
+			tarefaAtual.setStatus(dadosTarefa.status_tarefa());
+		}
+		if(dadosTarefa.peso_tarefa() != null) {
+			tarefaAtual.setPeso_tarefa(dadosTarefa.peso_tarefa());
+		}
+		if(dadosTarefa.prazo_tarefa() != null) {
+			tarefaAtual.setPrazo_tarefa(dadosTarefa.prazo_tarefa());
+		}
 	}
 }

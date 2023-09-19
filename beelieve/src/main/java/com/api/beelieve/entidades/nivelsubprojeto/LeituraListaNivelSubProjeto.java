@@ -26,9 +26,9 @@ public class LeituraListaNivelSubProjeto {
 		
 		//Atualizando elementos que existem no banco
 		Iterator<DadosNivelSubProjetoAtualizacao> iteratorDadosNivel = listaDadosNivelSubProjeto.iterator();
-		Iterator<NivelSubProjeto> iteratorNivelSubProjeto = listaNivelSubProjetoAtual.iterator();
 		while(iteratorDadosNivel.hasNext()) {
 			DadosNivelSubProjetoAtualizacao dadosNivel = iteratorDadosNivel.next();
+			Iterator<NivelSubProjeto> iteratorNivelSubProjeto = listaNivelSubProjetoAtual.iterator();
 			while(iteratorNivelSubProjeto.hasNext()) {
 				NivelSubProjeto nivelSubProj = iteratorNivelSubProjeto.next();
 				if(dadosNivel.id_nivel_sub_projeto() == nivelSubProj.getNivel_sub_projeto_id()) {

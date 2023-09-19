@@ -25,10 +25,10 @@ public class LeituraListaSubProjetoAtualizacao {
 		List<SubProjeto> listaSubProjetoAtual = repositorio_subprojeto.findByProjeto(projeto);
 		
 		//Atualizando elementos que existem no banco
-		Iterator<SubProjeto> iteratorSubProjetoAtual = listaSubProjetoAtual.iterator();
 		Iterator<DadosSubProjetoAtualizacao> iteratorDadosSubProjetoAtualizacao = listaSubProjeto.iterator();
 		while(iteratorDadosSubProjetoAtualizacao.hasNext()) {
 			DadosSubProjetoAtualizacao dadosSub = iteratorDadosSubProjetoAtualizacao.next();
+			Iterator<SubProjeto> iteratorSubProjetoAtual = listaSubProjetoAtual.iterator();
 			while(iteratorSubProjetoAtual.hasNext()) {
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
 				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {

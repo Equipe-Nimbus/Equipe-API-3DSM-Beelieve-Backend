@@ -141,6 +141,22 @@ public class Tarefa {
 	public void setStatus(Integer status) {
 		this.status_tarefa = status;
 	}
+
+	public Integer getPeso_tarefa() {
+		return peso_tarefa;
+	}
+
+	public void setPeso_tarefa(Integer peso_tarefa) {
+		this.peso_tarefa = peso_tarefa;
+	}
+
+	public Date getPrazo_tarefa() {
+		return prazo_tarefa;
+	}
+
+	public void setPrazo_tarefa(Date prazo_tarefa) {
+		this.prazo_tarefa = prazo_tarefa;
+	}
 	
 
 

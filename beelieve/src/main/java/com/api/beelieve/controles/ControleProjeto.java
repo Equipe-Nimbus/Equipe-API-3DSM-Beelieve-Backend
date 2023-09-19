@@ -40,7 +40,6 @@ public class ControleProjeto {
 	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		repositorio_projeto.save(new Projeto(projeto));
-
 	}
 	
 	@GetMapping("/listar")

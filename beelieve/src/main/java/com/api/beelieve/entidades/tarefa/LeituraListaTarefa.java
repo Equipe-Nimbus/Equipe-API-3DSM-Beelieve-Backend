@@ -26,10 +26,10 @@ public class LeituraListaTarefa {
 		List<Tarefa> listaTarefaAtual = repositorio_tarefa.findByNivelSubProjeto(nivelSubProjetoAtual);
 		
 		//Atualizando elementos que existem no banco
-		Iterator<Tarefa> iteratorTarefaAtual = listaTarefaAtual.iterator();
 		Iterator<DadosTarefaAtualizacao> iteratorDadosTarefaAtualizacao = listaDadosTarefaAtualizacao.iterator();
 		while(iteratorDadosTarefaAtualizacao.hasNext()) {
 			DadosTarefaAtualizacao dadoTarefa = iteratorDadosTarefaAtualizacao.next();
+			Iterator<Tarefa> iteratorTarefaAtual = listaTarefaAtual.iterator();
 			while(iteratorTarefaAtual.hasNext()) {
 				Tarefa tarefaAtual = iteratorTarefaAtual.next();
 				if(dadoTarefa.id_tarefa() == tarefaAtual.getTarefa_id()) {
@@ -55,14 +55,13 @@ public class LeituraListaTarefa {
 		List<Tarefa> listaTarefaAtual = repositorio_tarefa.findBySubProjeto(subProjetoAtual);
 		
 		//Atualizando elementos que existem no banco
-			
-		Iterator<Tarefa> iteratorTarefaAtual = listaTarefaAtual.iterator();
 		Iterator<DadosTarefaAtualizacao> iteratorDadosTarefaAtualizacao = listaDadosTarefaAtualizacao.iterator();
-		while(iteratorDadosTarefaAtualizacao.hasNext()) {
+		while(iteratorDadosTarefaAtualizacao.hasNext() ) {
 			DadosTarefaAtualizacao dadoTarefa = iteratorDadosTarefaAtualizacao.next();
+			Iterator<Tarefa> iteratorTarefaAtual = listaTarefaAtual.iterator();
 			while(iteratorTarefaAtual.hasNext()) {
 				Tarefa tarefaAtual = iteratorTarefaAtual.next();
-				if(dadoTarefa.id_tarefa() == tarefaAtual.getTarefa_id()) {
+				if(dadoTarefa.id_tarefa() == tarefaAtual.getTarefa_id() && dadoTarefa.id_tarefa() != null) {
 					atualizaTarefa.atualizar(tarefaAtual, dadoTarefa);
 					iteratorDadosTarefaAtualizacao.remove();
 					iteratorTarefaAtual.remove();
