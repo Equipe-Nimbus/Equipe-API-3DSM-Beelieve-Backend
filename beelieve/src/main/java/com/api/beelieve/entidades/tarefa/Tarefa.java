@@ -4,6 +4,7 @@ import java.util.Date;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -40,10 +41,12 @@ public class Tarefa {
 	@Column
 	private Date prazo_tarefa;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "sub_projeto_id")
 	private SubProjeto subProjeto;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "nivel_sub_projeto_id")
 	private NivelSubProjeto nivelSubProjeto;
@@ -79,6 +82,8 @@ public class Tarefa {
 		this.resultado_esperado_tarefa = tarefa.resultado_esperado_tarefa();
 		this.status_tarefa = 0;
 		this.nivelSubProjeto = nivelSubProjeto;
+		this.prazo_tarefa = tarefa.prazo_tarefa();
+		this.peso_tarefa = tarefa.peso_tarefa();
 	}
 
 

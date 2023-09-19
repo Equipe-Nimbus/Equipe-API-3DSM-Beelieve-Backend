@@ -5,14 +5,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
-
-import com.api.beelieve.entidades.nivelsubprojeto.LeituraListaNivelSubProjeto;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
-import com.api.beelieve.entidades.tarefa.LeituraListaTarefa;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -23,7 +21,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
@@ -46,9 +43,11 @@ public class SubProjeto{
 	@Column
 	private String nome_sub_projeto;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
 	private List<Tarefa> tarefas;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
 	private List<NivelSubProjeto> nivel_sub_projeto;
 	
@@ -66,7 +65,8 @@ public class SubProjeto{
 	
 	@Column
 	private BigDecimal hora_humano_sub_projeto;
-
+	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_porjeto")
 	private Projeto projeto;
@@ -84,6 +84,7 @@ public class SubProjeto{
 		this.orcamento_sub_projeto = dadosSubProjeto.orcamento_sub_projeto();
 		this.hora_humano_sub_projeto = dadosSubProjeto.hora_humano_sub_projeto();
 		this.projeto = projetoPai;
+		this.ordem_sub_projeto = dadosSubProjeto.ordem_sub_projeto();
 		if(dadosSubProjeto.nivel_sub_projetos() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
 			dadosSubProjeto.nivel_sub_projetos().forEach((nivelSubProj)->{

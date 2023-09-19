@@ -7,6 +7,8 @@ import java.util.List;
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -17,7 +19,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -40,6 +41,7 @@ public class NivelSubProjeto{
 	@Column
 	private String nome_nivel_sub_projeto;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "nivelSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
@@ -54,7 +56,8 @@ public class NivelSubProjeto{
 	
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
-
+	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "sub_projeto_id")
 	private SubProjeto subProjeto;
@@ -70,6 +73,7 @@ public class NivelSubProjeto{
 		this.hora_humano_nivel_sub_projeto = dadosNivelSubProjeto.hora_humano_nivel_sub_projeto();
 		this.prazo_nivel_sub_projeto = dadosNivelSubProjeto.prazo_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
+		this.progresso_nivel_sub_projeto = dadosNivelSubProjeto.progresso_nivel_sub_projeto();
 		if (!dadosNivelSubProjeto.tarefas().isEmpty()) {
 			List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
 			dadosNivelSubProjeto.tarefas().forEach((dadosTarefa)->{
@@ -85,10 +89,12 @@ public class NivelSubProjeto{
 
 	public NivelSubProjeto(DadosNivelSubProjetoCadastro nivelSubProj, SubProjeto subProjeto) {
 		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
-		this.hora_humano_nivel_sub_projeto = nivelSubProj.hora_nivel_humano_sub_projeto();
+		this.hora_humano_nivel_sub_projeto = nivelSubProj.hora_humano_nivel_sub_projeto();
 		this.orcamento_nivel_sub_projeto = nivelSubProj.orcamento_nivel_sub_projeto();
 		this.prazo_nivel_sub_projeto = nivelSubProj.prazo_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
+		this.progresso_nivel_sub_projeto = nivelSubProj.progresso_nivel_sub_projeto();
+		this.ordem_nivel_sub_projeto = nivelSubProj.ordem_nivel_sub_projeto();
 		if(nivelSubProj.tarefas() != null) {
 			List<Tarefa> tarefas = new ArrayList<Tarefa>();
 			nivelSubProj.tarefas().forEach((tarefa)->{

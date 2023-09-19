@@ -9,6 +9,7 @@ import com.api.beelieve.entidades.nivelsubprojeto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.DadosTarefaCadastro;
 
 public record DadosSubProjetoCadastro(
+		String ordem_sub_projeto,
 		String nome_sub_projeto,
 		String chefe_sub_projeto,
 		Date prazo_sub_projeto,
