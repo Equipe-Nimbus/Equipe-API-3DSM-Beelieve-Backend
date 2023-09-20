@@ -7,6 +7,7 @@ import java.util.List;
 
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -18,7 +19,6 @@ import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -40,6 +40,7 @@ public class Projeto {
 	@Column
 	private String chefe_projeto;
 	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "projeto", cascade = CascadeType.PERSIST)
 	private List<SubProjeto> sub_projetos;
 	
@@ -61,6 +62,9 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_humano_total;
 	
+	@Column
+	private BigDecimal hora_valor_projeto;
+	
 	
 
 
@@ -70,11 +74,15 @@ public class Projeto {
 	
 	public Projeto(DadosProjetoCadastro dadosProjeto) {
 		this.chefe_projeto = dadosProjeto.chefe_projeto();
+		this.ordem_projeto = dadosProjeto.ordem_projeto();
 		this.nome_projeto = dadosProjeto.nome_projeto();
 		this.prazo_projeto = dadosProjeto.prazo_projeto();
 		this.orcamento_projeto = dadosProjeto.orcamento_projeto();
 		this.hora_humano_total = dadosProjeto.hora_humano_total();
 		this.progresso_projeto = dadosProjeto.progresso_projeto();
+		this.hora_valor_projeto = dadosProjeto.hora_valor_projeto();
+		this.descricao_projeto = dadosProjeto.descricao_projeto();
+		this.data_inicio_projeto = dadosProjeto.data_inicio_projeto();
 		if(dadosProjeto.sub_projeto() != null) {
 			List<SubProjeto> listaSubProjeto = new ArrayList<SubProjeto>();
 			dadosProjeto.sub_projeto().forEach((subProj)->{
@@ -84,113 +92,104 @@ public class Projeto {
 		}
 	}
 
-
 	public Long getId_projeto() {
 		return id_projeto;
 	}
-
 
 	public void setId_projeto(Long id_projeto) {
 		this.id_projeto = id_projeto;
 	}
 
-
 	public String getOrdem_projeto() {
 		return ordem_projeto;
 	}
-
 
 	public void setOrdem_projeto(String ordem_projeto) {
 		this.ordem_projeto = ordem_projeto;
 	}
 
-
 	public String getNome_projeto() {
 		return nome_projeto;
 	}
-
 
 	public void setNome_projeto(String nome_projeto) {
 		this.nome_projeto = nome_projeto;
 	}
 
-
 	public String getChefe_projeto() {
 		return chefe_projeto;
 	}
-
 
 	public void setChefe_projeto(String chefe_projeto) {
 		this.chefe_projeto = chefe_projeto;
 	}
 
-
 	public List<SubProjeto> getSub_projetos() {
 		return sub_projetos;
 	}
-
 
 	public void setSub_projetos(List<SubProjeto> sub_projetos) {
 		this.sub_projetos = sub_projetos;
 	}
 
-
 	public Double getProgresso_projeto() {
 		return progresso_projeto;
 	}
-
 
 	public void setProgresso_projeto(Double progresso_projeto) {
 		this.progresso_projeto = progresso_projeto;
 	}
 
-
 	public Date getPrazo_projeto() {
 		return prazo_projeto;
 	}
-
 
 	public void setPrazo_projeto(Date prazo_projeto) {
 		this.prazo_projeto = prazo_projeto;
 	}
 
-
 	public String getDescricao_projeto() {
 		return descricao_projeto;
 	}
-
 
 	public void setDescricao_projeto(String descricao_projeto) {
 		this.descricao_projeto = descricao_projeto;
 	}
 
-
 	public Date getData_inicio_projeto() {
 		return data_inicio_projeto;
 	}
-
 
 	public void setData_inicio_projeto(Date data_inicio_projeto) {
 		this.data_inicio_projeto = data_inicio_projeto;
 	}
 
-
 	public BigDecimal getOrcamento_projeto() {
 		return orcamento_projeto;
 	}
-
 
 	public void setOrcamento_projeto(BigDecimal orcamento_projeto) {
 		this.orcamento_projeto = orcamento_projeto;
 	}
 
-
 	public BigDecimal getHora_humano_total() {
 		return hora_humano_total;
 	}
 
-
 	public void setHora_humano_total(BigDecimal hora_humano_total) {
 		this.hora_humano_total = hora_humano_total;
 	}
+
+	public BigDecimal getHora_valor_projeto() {
+		return hora_valor_projeto;
+	}
+
+	public void setHora_valor_projeto(BigDecimal hora_valor_projeto) {
+		this.hora_valor_projeto = hora_valor_projeto;
+	}
+	
+	
 }
+
+
+	

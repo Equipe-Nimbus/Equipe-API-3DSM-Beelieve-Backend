@@ -12,6 +12,7 @@ import com.api.beelieve.entidades.tarefa.DadosTarefaCadastro;
 
 public record DadosSubProjetoCadastro(
 		Long projeto_id,
+		String ordem_sub_projeto,
 		String nome_sub_projeto,
 		String chefe_sub_projeto,
 		Date prazo_sub_projeto,
