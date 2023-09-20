@@ -58,7 +58,8 @@ public class Tarefa {
 		this.subProjeto = subProjeto;
 		this.resultado_esperado_tarefa = dadosTarefa.resultado_esperado_tarefa();
 		this.status_tarefa = dadosTarefa.status_tarefa();
-		
+		this.peso_tarefa = dadosTarefa.peso_tarefa();
+		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
 	}
 
 	
@@ -69,6 +70,8 @@ public class Tarefa {
 		this.nivelSubProjeto = nivelSubProjeto;
 		this.resultado_esperado_tarefa = dadosTarefa.resultado_esperado_tarefa();
 		this.status_tarefa = dadosTarefa.status_tarefa();
+		this.peso_tarefa = dadosTarefa.peso_tarefa();
+		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
 	}
 
 

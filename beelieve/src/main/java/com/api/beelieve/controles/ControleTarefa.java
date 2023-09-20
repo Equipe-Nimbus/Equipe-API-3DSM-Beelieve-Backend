@@ -53,7 +53,6 @@ public class ControleTarefa {
 	@PutMapping("/atualizar")
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
-		List<Tarefa> tarefasResultado = new ArrayList<Tarefa>();
 		
 		if("subprojeto".equals(listaTarefas.tipo_pai())) {
 			SubProjeto nivelPai = repositorio_subprojeto.findById(listaTarefas.id_pai()).get();
@@ -64,6 +63,6 @@ public class ControleTarefa {
 			leituraListaTarefa.atualizarListaNivel(listaTarefas.lista_tarefas(), nivelPai);
 		}
 		
-		return ResponseEntity.ok(tarefasResultado);
+		return ResponseEntity.ok().build();
 	}
 }

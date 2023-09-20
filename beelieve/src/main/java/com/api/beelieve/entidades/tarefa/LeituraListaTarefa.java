@@ -78,7 +78,6 @@ public class LeituraListaTarefa {
 				repositorio_tarefa.delete(tarefa);
 			});
 		}
-		
 	}
 
 }
