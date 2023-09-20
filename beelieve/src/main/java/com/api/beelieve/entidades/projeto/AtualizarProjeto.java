@@ -15,6 +15,9 @@ public class AtualizarProjeto {
 	private LeituraListaSubProjetoAtualizacao listaSubNivel;
 	
 	public void atualizar(Projeto projetoAtual, DadosProjetoAtualizacao dadosAtualizacao) {
+		System.out.println(projetoAtual);
+		System.out.println(dadosAtualizacao);
+		System.out.println(dadosAtualizacao.nome_projeto());
 		if(dadosAtualizacao.nome_projeto() != null) {
 			projetoAtual.setNome_projeto(dadosAtualizacao.nome_projeto());
 		}
@@ -30,10 +33,8 @@ public class AtualizarProjeto {
 		if(dadosAtualizacao.hora_humano_total() != null) {
 			projetoAtual.setHora_humano_total(dadosAtualizacao.hora_humano_total());
 		}
-		if(dadosAtualizacao.sub_projetos() != null) {
-			List<SubProjeto> listaSubProjeto = listaSubNivel.atualizarLista(dadosAtualizacao.sub_projetos(), projetoAtual);
-			projetoAtual.setSub_projetos(listaSubProjeto);
+		if(dadosAtualizacao.sub_projeto() != null && !dadosAtualizacao.sub_projeto().isEmpty()) {
+			listaSubNivel.atualizarLista(dadosAtualizacao.sub_projeto(), projetoAtual);
 		}
-		
 	}
 }

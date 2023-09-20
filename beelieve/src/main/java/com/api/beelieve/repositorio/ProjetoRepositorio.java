@@ -13,38 +13,58 @@ public interface ProjetoRepositorio extends JpaRepository<Projeto, Long> {
 
 	public default Projeto acharProjeto(Long projeto_id) {
 		Projeto projeto = this.findById(projeto_id).get();
-		projeto.getSub_projetos().forEach((subProjeto)->{
-			subProjeto.setProjeto(null);
-			subProjeto.getNivelSubProjeto().forEach((nivelSub)->{
-				nivelSub.setSubProjeto(null);
-				nivelSub.getTarefas().forEach((tarefa)->{
-					tarefa.setNivelSubProjeto(null);
-				});
+		if(projeto.getSub_projetos() != null) {
+			projeto.getSub_projetos().forEach((subProjeto)->{
+				subProjeto.setProjeto(null);
+				if(subProjeto.getNivelSubProjeto() != null) {
+					subProjeto.getNivelSubProjeto().forEach((nivelSub)->{
+						nivelSub.setSubProjeto(null);
+						if(nivelSub.getTarefas() != null) {
+							nivelSub.getTarefas().forEach((tarefa)->{
+								tarefa.setNivelSubProjeto(null);
+							});
+						}
+					});
+				}
+				if(subProjeto.getTarefas() != null) {
+					subProjeto.getTarefas().forEach((tarefa)->{
+						tarefa.setSubProjeto(null);
+					});
+				}
 			});
-			subProjeto.getTarefas().forEach((tarefa)->{
-				tarefa.setSubProjeto(null);
-			});
-		});
+		}
+		
 		return projeto;
 	}
 	
 	
 	public default List<Projeto> acharTodosProjetos() {
 		List<Projeto> listaProjetos = this.findAll();
-		listaProjetos.forEach((projeto)->{
-			projeto.getSub_projetos().forEach((subProjeto)->{
-				subProjeto.setProjeto(null);
-				subProjeto.getNivelSubProjeto().forEach((nivelSub)->{
-					nivelSub.setSubProjeto(null);
-					nivelSub.getTarefas().forEach((tarefa)->{
-						tarefa.setNivelSubProjeto(null);
+		if(!listaProjetos.isEmpty()) {
+			listaProjetos.forEach((projeto)->{
+				if(projeto.getSub_projetos() != null) {
+					projeto.getSub_projetos().forEach((subProjeto)->{
+						subProjeto.setProjeto(null);
+						if(subProjeto.getNivelSubProjeto() != null) {
+							subProjeto.getNivelSubProjeto().forEach((nivelSub)->{
+								nivelSub.setSubProjeto(null);
+								if(nivelSub.getTarefas() != null) {
+									nivelSub.getTarefas().forEach((tarefa)->{
+										tarefa.setNivelSubProjeto(null);
+									});
+								}
+							});
+						}
+						if(subProjeto.getTarefas() != null) {
+							subProjeto.getTarefas().forEach((tarefa)->{
+								tarefa.setSubProjeto(null);
+							});
+						}
 					});
-				});
-				subProjeto.getTarefas().forEach((tarefa)->{
-					tarefa.setSubProjeto(null);
-				});
+				}
 			});
-		});
+		}
+		
 		return listaProjetos;
 	}
 }

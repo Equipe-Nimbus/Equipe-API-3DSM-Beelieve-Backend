@@ -43,11 +43,11 @@ public class Tarefa {
 	@Column
 	private Date prazo_tarefa;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_nivel_sub_projeto")
 	private NivelSubProjeto nivelSubProjeto;
 

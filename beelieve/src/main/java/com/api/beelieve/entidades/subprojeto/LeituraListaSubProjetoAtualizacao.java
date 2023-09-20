@@ -31,13 +31,15 @@ public class LeituraListaSubProjetoAtualizacao {
 			Iterator<SubProjeto> iteratorSubProjetoAtual = listaSubProjetoAtual.iterator();
 			while(iteratorSubProjetoAtual.hasNext()) {
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
-				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
+				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id() && dadosSub.id_sub_projeto() != null) {
 					atualizaSubProjeto.atualizar(subProjeto, dadosSub);
 					iteratorDadosSubProjetoAtualizacao.remove();
 					iteratorSubProjetoAtual.remove();
 				}
 			}
 		}
+		System.out.println(listaSubProjetoAtual);
+		System.out.println(listaSubProjeto);
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		System.out.println(!listaSubProjeto.isEmpty());
 		if(!listaSubProjeto.isEmpty()) {

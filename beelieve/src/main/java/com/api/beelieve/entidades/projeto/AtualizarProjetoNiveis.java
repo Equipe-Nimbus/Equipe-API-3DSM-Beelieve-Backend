@@ -18,8 +18,8 @@ public class AtualizarProjetoNiveis {
 	
 	
 	public void atualizarProjeto(Long id, DadosProjetoAtualizacao dadosAtualizacao) {
-		Optional<Projeto> projetoAtual = repositorio_projeto.findById(id);
-		atualizarProjeto.atualizar(projetoAtual.get(), dadosAtualizacao);
+		Projeto projetoAtual = repositorio_projeto.findById(id).get();
+		atualizarProjeto.atualizar(projetoAtual, dadosAtualizacao);
 	}
 
 }

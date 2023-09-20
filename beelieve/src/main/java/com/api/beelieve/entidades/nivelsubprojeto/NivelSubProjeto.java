@@ -57,7 +57,7 @@ public class NivelSubProjeto{
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	

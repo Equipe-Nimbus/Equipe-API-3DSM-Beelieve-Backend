@@ -54,13 +54,12 @@ public class ControleProjeto {
 		return ResponseEntity.ok(projeto);
 	}
 	
-	@PutMapping("/atualizar/{id}")
+	@PutMapping("/atualizar")
 	@Transactional
-	public ResponseEntity atualizar(@PathVariable Long id, @RequestBody DadosProjetoAtualizacao dadosAtualizacao){
+	public ResponseEntity<Projeto> atualizar(@RequestBody DadosProjetoAtualizacao dadosAtualizacao){
 		System.out.println(dadosAtualizacao);
-		atualizaProjeto.atualizarProjeto(id, dadosAtualizacao);
-		
-		return ResponseEntity.ok().build();
+		atualizaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
+		Projeto projetoAtualizado = repositorio_projeto.acharProjeto(dadosAtualizacao.id_projeto());
+		return ResponseEntity.ok(projetoAtualizado);
 	}
-
 }

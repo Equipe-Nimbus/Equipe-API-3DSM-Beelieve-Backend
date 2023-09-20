@@ -34,11 +34,13 @@ public class AtualizarSubProjeto {
 		if(dadosSubProjeto.prazo_sub_projeto() != null) {
 			subProjetoAtual.setPrazoSubProjeto(dadosSubProjeto.prazo_sub_projeto());
 		}
-		if(dadosSubProjeto.nivel_sub_projetos() != null) {
+		if(dadosSubProjeto.nivel_sub_projetos() != null || !dadosSubProjeto.nivel_sub_projetos().isEmpty()) {
+			System.out.println(dadosSubProjeto.nivel_sub_projetos());
 			lerListaDadosNivelSubProjeto.atualizarLista(dadosSubProjeto.nivel_sub_projetos(), subProjetoAtual);
 			subProjetoAtual.setTarefas(null);
 		}
 		else if(dadosSubProjeto.tarefas() != null) {
+			System.out.println(dadosSubProjeto.tarefas());
 			lerListaTarefa.atualizarListaSubProjeto(dadosSubProjeto.tarefas(), subProjetoAtual);
 		}
 		

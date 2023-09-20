@@ -33,7 +33,6 @@ import lombok.ToString;
 @Entity
 @EqualsAndHashCode
 @Table(name = "subProjeto")
-
 public class SubProjeto{
 	
 	@EqualsAndHashCode.Include
@@ -67,7 +66,7 @@ public class SubProjeto{
 	@Column
 	private BigDecimal hora_humano_sub_projeto;
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne
 	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 	
@@ -109,12 +108,16 @@ public class SubProjeto{
 			this.orcamento_sub_projeto = dadosSubProjeto.orcamento_sub_projeto();
 			this.hora_humano_sub_projeto = dadosSubProjeto.hora_humano_sub_projeto();
 			this.projeto = projetoPai;
+			System.out.println(dadosSubProjeto);
+			System.out.println(!dadosSubProjeto.nivel_sub_projetos().isEmpty());
+			//System.out.println(!dadosSubProjeto.tarefas().isEmpty());
 			//Conversão de listas de DadosNivelSubProjetoAtualizacao e DadosTarefaAtualizacao para listas de NivelSubProjeto e de Tarefa
 			if(!dadosSubProjeto.nivel_sub_projetos().isEmpty()) {
 				List<NivelSubProjeto> listaNivelSubProjetos = new ArrayList<NivelSubProjeto>();
 				dadosSubProjeto.nivel_sub_projetos().forEach((dadosNivelSubProjeto)->{
 					listaNivelSubProjetos.add(new NivelSubProjeto(dadosNivelSubProjeto, this));
 				});
+				this.nivel_sub_projeto = listaNivelSubProjetos;
 			}
 			else if (!dadosSubProjeto.tarefas().isEmpty()) {
 				List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
