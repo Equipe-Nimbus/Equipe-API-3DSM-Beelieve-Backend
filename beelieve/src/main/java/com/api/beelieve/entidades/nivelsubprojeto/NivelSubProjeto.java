@@ -11,6 +11,7 @@ import com.api.beelieve.entidades.tarefa.Tarefa;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -22,10 +23,11 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 
 @Entity
 @Table(name = "nivelSubProjeto")
-@NoArgsConstructor
+
 @Getter
 @Setter
 public class NivelSubProjeto{
@@ -55,8 +57,8 @@ public class NivelSubProjeto{
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
 
-	@ManyToOne
-	@JoinColumn(name = "sub_projeto_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
 	

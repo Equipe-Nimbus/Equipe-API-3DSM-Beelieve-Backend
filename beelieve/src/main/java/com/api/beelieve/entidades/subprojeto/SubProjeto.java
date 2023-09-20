@@ -17,6 +17,7 @@ import com.api.beelieve.entidades.tarefa.Tarefa;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -32,8 +33,7 @@ import lombok.ToString;
 @Entity
 @EqualsAndHashCode
 @Table(name = "subProjeto")
-@ToString
-@NoArgsConstructor
+
 public class SubProjeto{
 	
 	@EqualsAndHashCode.Include
@@ -46,10 +46,10 @@ public class SubProjeto{
 	@Column
 	private String nome_sub_projeto;
 	
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.ALL)
 	private List<NivelSubProjeto> nivel_sub_projeto;
 	
 	@Column
@@ -67,8 +67,8 @@ public class SubProjeto{
 	@Column
 	private BigDecimal hora_humano_sub_projeto;
 
-	@ManyToOne
-	@JoinColumn(name = "id_porjeto")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 	
 	

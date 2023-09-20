@@ -4,9 +4,13 @@ import java.util.Date;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -19,7 +23,6 @@ import lombok.ToString;
 @Entity
 @ToString
 @Table(name = "tarefa")
-@NoArgsConstructor
 public class Tarefa {
 
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,12 +43,12 @@ public class Tarefa {
 	@Column
 	private Date prazo_tarefa;
 	
-	@ManyToOne
-	@JoinColumn(name = "sub_projeto_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
-	@ManyToOne
-	@JoinColumn(name = "nivel_sub_projeto_id")
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "id_nivel_sub_projeto")
 	private NivelSubProjeto nivelSubProjeto;
 
 	public Tarefa() {

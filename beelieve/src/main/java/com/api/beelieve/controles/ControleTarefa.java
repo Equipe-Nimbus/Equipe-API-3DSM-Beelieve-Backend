@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.tarefa.DadosListaTarefas;
 import com.api.beelieve.entidades.tarefa.DadosListaTarefasAtualizacao;
 import com.api.beelieve.entidades.tarefa.LeituraListaTarefa;
 import com.api.beelieve.entidades.tarefa.Tarefa;
@@ -45,9 +46,10 @@ public class ControleTarefa {
 	}
 	
 	@GetMapping("/listar")
-	public ResponseEntity<List<Tarefa>> listar() {
-		var lista_tarefa = repositorio_tarefa.findAll();
-		return ResponseEntity.ok(lista_tarefa);
+	public List<Tarefa> listar() {
+		List<Tarefa> lista_tarefa = repositorio_tarefa.findAll();
+		System.out.println(lista_tarefa);
+		return lista_tarefa;
 	}
 	
 	@PutMapping("/atualizar")

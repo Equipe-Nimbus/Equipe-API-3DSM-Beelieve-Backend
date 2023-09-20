@@ -44,10 +44,15 @@ public class ControleProjeto {
 	
 	@GetMapping("/listar")
 	public ResponseEntity<List<Projeto>> listar() {
-		var listaProjeto = repositorio_projeto.findAll();
+		var listaProjeto = repositorio_projeto.acharTodosProjetos();
 		return ResponseEntity.ok(listaProjeto);
 	}
 
+	@GetMapping("/listar/{id}")
+	public ResponseEntity<Projeto> listarId(@PathVariable Long id){
+		Projeto projeto = repositorio_projeto.acharProjeto(id);
+		return ResponseEntity.ok(projeto);
+	}
 	
 	@PutMapping("/atualizar/{id}")
 	@Transactional
