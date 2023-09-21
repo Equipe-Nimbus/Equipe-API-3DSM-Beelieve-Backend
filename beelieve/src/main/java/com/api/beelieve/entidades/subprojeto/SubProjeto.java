@@ -8,7 +8,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 
-import com.api.beelieve.entidades.nivelsubprojeto.LeituraListaNivelSubProjeto;
+
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.tarefa.LeituraListaTarefa;
@@ -75,60 +75,31 @@ public class SubProjeto{
 		
 	}
 	
-	public SubProjeto(DadosSubProjetoCadastro dadosSubProjeto, Projeto projetoPai) {
-		this.nome_sub_projeto = dadosSubProjeto.nome_sub_projeto();
-		this.chefe_sub_projeto = dadosSubProjeto.chefe_sub_projeto();
-		this.prazo_sub_projeto = dadosSubProjeto.prazo_sub_projeto();
-		this.progresso_sub_projeto = dadosSubProjeto.progresso_sub_projeto();
-		this.orcamento_sub_projeto = dadosSubProjeto.orcamento_sub_projeto();
-		this.hora_humano_sub_projeto = dadosSubProjeto.hora_humano_sub_projeto();
+	public SubProjeto(DadosEstruturaSubProjetoAtualizacao subProj, Projeto projetoPai) {
+		this.nome_sub_projeto = subProj.nome_sub_projeto();
+		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		this.projeto = projetoPai;
-		if(dadosSubProjeto.nivel_sub_projetos() != null) {
+		if(subProj.nivel_sub_projetos() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
-			dadosSubProjeto.nivel_sub_projetos().forEach((nivelSubProj)->{
+			subProj.nivel_sub_projetos().forEach((nivelSubProj)->{
 				nivelSubProjetos.add(new NivelSubProjeto(nivelSubProj, this)); 
 			});
 			this.nivel_sub_projeto = nivelSubProjetos;
-				
 		}
-		else if(dadosSubProjeto.tarefas() != null) {
-			List<Tarefa> tarefas = new ArrayList<Tarefa>();
-			dadosSubProjeto.tarefas().forEach((tarefa)->{
-				tarefas.add(new Tarefa(tarefa, this));
+	};
+
+	public SubProjeto(DadosSubProjetoCadastro dadoSub, Projeto projetoPai) {
+		this.projeto = projetoPai;
+		this.ordem_sub_projeto = dadoSub.ordem_sub_projeto();
+		this.nome_sub_projeto = dadoSub.nome_sub_projeto();
+		if(dadoSub.nivel_sub_projeto() != null) {
+			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
+			dadoSub.nivel_sub_projeto().forEach((nivelSub)->{
+				nivelSubProjetos.add(new NivelSubProjeto(nivelSub, this));
 			});
-			this.tarefas = tarefas;
+			this.nivel_sub_projeto = nivelSubProjetos;
 		}
 	}
-
-	public SubProjeto(DadosSubProjetoAtualizacao dadosSubProjeto, Projeto projetoPai) {
-			this.nome_sub_projeto = dadosSubProjeto.nome_sub_projeto();
-			this.chefe_sub_projeto = dadosSubProjeto.chefe_sub_projeto();
-			this.prazo_sub_projeto = dadosSubProjeto.prazo_sub_projeto();
-			this.progresso_sub_projeto = dadosSubProjeto.progresso_sub_projeto();
-			this.orcamento_sub_projeto = dadosSubProjeto.orcamento_sub_projeto();
-			this.hora_humano_sub_projeto = dadosSubProjeto.hora_humano_sub_projeto();
-			this.projeto = projetoPai;
-			System.out.println(dadosSubProjeto);
-			System.out.println(!dadosSubProjeto.nivel_sub_projetos().isEmpty());
-			//System.out.println(!dadosSubProjeto.tarefas().isEmpty());
-			//Conversão de listas de DadosNivelSubProjetoAtualizacao e DadosTarefaAtualizacao para listas de NivelSubProjeto e de Tarefa
-			if(!dadosSubProjeto.nivel_sub_projetos().isEmpty()) {
-				List<NivelSubProjeto> listaNivelSubProjetos = new ArrayList<NivelSubProjeto>();
-				dadosSubProjeto.nivel_sub_projetos().forEach((dadosNivelSubProjeto)->{
-					listaNivelSubProjetos.add(new NivelSubProjeto(dadosNivelSubProjeto, this));
-				});
-				this.nivel_sub_projeto = listaNivelSubProjetos;
-			}
-			else if (!dadosSubProjeto.tarefas().isEmpty()) {
-				List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
-				dadosSubProjeto.tarefas().forEach((dadosTarefa)->{
-					listaTarefas.add(new Tarefa(dadosTarefa, this));
-				});
-				this.tarefas = listaTarefas;
-			};
-			
-	}
-
 
 
 	
@@ -215,6 +186,14 @@ public class SubProjeto{
 
 	public void setHoraHomemSubprojeto(BigDecimal horaHomemSubprojeto) {
 		this.hora_humano_sub_projeto = horaHomemSubprojeto;
+	}
+
+	public String getOrdem_sub_projeto() {
+		return ordem_sub_projeto;
+	}
+
+	public void setOrdem_sub_projeto(String ordem_sub_projeto) {
+		this.ordem_sub_projeto = ordem_sub_projeto;
 	}
 	
 	

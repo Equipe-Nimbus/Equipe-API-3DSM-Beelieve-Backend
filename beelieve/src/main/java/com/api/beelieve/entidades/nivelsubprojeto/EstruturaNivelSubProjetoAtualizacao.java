@@ -6,33 +6,30 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
 
 @Service
-public class LeituraListaNivelSubProjeto {
+public class EstruturaNivelSubProjetoAtualizacao {
 	
 	@Autowired
 	private NivelSubProjetoRepositorio repositorio_nivel;
 	
-	@Autowired
-	private AtualizarNivelSubProjeto atualizaNivelSubProjeto;
 	
-	@Autowired
-	private SalvarListaNivelSubProjeto salvarListaNivelSubProjeto;
-	
-	public void atualizarLista(List<DadosNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
+	public void atualizarEstrutura(List<DadosEstruturaNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
 		List<NivelSubProjeto> listaNivelSubProjetoAtual = repositorio_nivel.findBySubProjeto(subProjeto);
 		
 		//Atualizando elementos que existem no banco
-		Iterator<DadosNivelSubProjetoAtualizacao> iteratorDadosNivel = listaDadosNivelSubProjeto.iterator();
+		Iterator<DadosEstruturaNivelSubProjetoAtualizacao> iteratorDadosNivel = listaDadosNivelSubProjeto.iterator();
 		while(iteratorDadosNivel.hasNext()) {
-			DadosNivelSubProjetoAtualizacao dadosNivel = iteratorDadosNivel.next();
+			DadosEstruturaNivelSubProjetoAtualizacao dadosNivel = iteratorDadosNivel.next();
 			Iterator<NivelSubProjeto> iteratorNivelSubProjeto = listaNivelSubProjetoAtual.iterator();
 			while(iteratorNivelSubProjeto.hasNext()) {
 				NivelSubProjeto nivelSubProj = iteratorNivelSubProjeto.next();
 				if(dadosNivel.id_nivel_sub_projeto() == nivelSubProj.getNivel_sub_projeto_id()) {
-					atualizaNivelSubProjeto.atualizar(nivelSubProj, dadosNivel);
+					nivelSubProj.setNomeNivelSubProjeto(dadosNivel.nome_nivel_sub_projeto());
+					nivelSubProj.setOrdem_nivel_sub_projeto(dadosNivel.ordem_nivel_sub_projeto());
 					iteratorDadosNivel.remove();
 					iteratorNivelSubProjeto.remove();
 				}
@@ -40,7 +37,9 @@ public class LeituraListaNivelSubProjeto {
 		}
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		if(!listaDadosNivelSubProjeto.isEmpty()) {
-			salvarListaNivelSubProjeto.salvar(listaDadosNivelSubProjeto, subProjeto);
+			listaDadosNivelSubProjeto.forEach((nivelSub)->{
+				repositorio_nivel.save(new NivelSubProjeto(nivelSub, subProjeto));
+			});
 		};
 		//Deletando elementos que não estão no JSON
 		if(!listaNivelSubProjetoAtual.isEmpty()) {

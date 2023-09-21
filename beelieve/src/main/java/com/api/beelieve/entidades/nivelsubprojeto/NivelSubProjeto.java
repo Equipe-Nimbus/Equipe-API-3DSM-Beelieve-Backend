@@ -57,6 +57,9 @@ public class NivelSubProjeto{
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
 
+	@Column
+	private String grupo_nivel_sub_projeto;
+	
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
@@ -66,19 +69,10 @@ public class NivelSubProjeto{
 		
 	}
 	
-	public NivelSubProjeto(DadosNivelSubProjetoAtualizacao dadosNivelSubProjeto, SubProjeto subProjeto) {
+	public NivelSubProjeto(DadosEstruturaNivelSubProjetoAtualizacao dadosNivelSubProjeto, SubProjeto subProjeto) {
 		this.nome_nivel_sub_projeto = dadosNivelSubProjeto.nome_nivel_sub_projeto();
-		this.orcamento_nivel_sub_projeto = dadosNivelSubProjeto.orcamento_nivel_sub_projeto();
-		this.hora_humano_nivel_sub_projeto = dadosNivelSubProjeto.hora_humano_nivel_sub_projeto();
-		this.prazo_nivel_sub_projeto = dadosNivelSubProjeto.prazo_nivel_sub_projeto();
+		this.ordem_nivel_sub_projeto = dadosNivelSubProjeto.ordem_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
-		if (!dadosNivelSubProjeto.tarefas().isEmpty()) {
-			List<Tarefa> listaTarefas = new ArrayList<Tarefa>();
-			dadosNivelSubProjeto.tarefas().forEach((dadosTarefa)->{
-				listaTarefas.add(new Tarefa(dadosTarefa, this));
-			});
-			this.tarefas = listaTarefas;
-		};
 	}
 
 
@@ -87,17 +81,8 @@ public class NivelSubProjeto{
 
 	public NivelSubProjeto(DadosNivelSubProjetoCadastro nivelSubProj, SubProjeto subProjeto) {
 		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
-		this.hora_humano_nivel_sub_projeto = nivelSubProj.hora_nivel_humano_sub_projeto();
-		this.orcamento_nivel_sub_projeto = nivelSubProj.orcamento_nivel_sub_projeto();
-		this.prazo_nivel_sub_projeto = nivelSubProj.prazo_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
-		if(nivelSubProj.tarefas() != null) {
-			List<Tarefa> tarefas = new ArrayList<Tarefa>();
-			nivelSubProj.tarefas().forEach((tarefa)->{
-				tarefas.add(new Tarefa(tarefa, this));
-			});
-			this.tarefas = tarefas;
-		}
+		this.ordem_nivel_sub_projeto = nivelSubProj.ordem_nivel_sub_projeto();
 	}
 
 

@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.beelieve.entidades.projeto.AtualizarProjetoNiveis;
-import com.api.beelieve.entidades.projeto.DadosProjetoAtualizacao;
+import com.api.beelieve.entidades.AtualizaOrcamento;
+import com.api.beelieve.entidades.projeto.AtualizarEstruturaProjetoNiveis;
+import com.api.beelieve.entidades.projeto.DadosEstruturaProjetoAtualizacao;
+import com.api.beelieve.entidades.projeto.DadosOrcamentoProjeto;
 import com.api.beelieve.entidades.projeto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
@@ -32,9 +34,11 @@ public class ControleProjeto {
 	@Autowired
 	private ProjetoRepositorio repositorio_projeto;
 	
+	@Autowired
+	private AtualizaOrcamento atualizaOrcamento;
 
 	@Autowired
-	private AtualizarProjetoNiveis atualizaProjeto;
+	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
 	
 	@PostMapping("/cadastrar")
 	@Transactional
@@ -54,12 +58,21 @@ public class ControleProjeto {
 		return ResponseEntity.ok(projeto);
 	}
 	
-	@PutMapping("/atualizar")
+	
+	@PutMapping("/atualizar/estrutura")
 	@Transactional
-	public ResponseEntity<Projeto> atualizar(@RequestBody DadosProjetoAtualizacao dadosAtualizacao){
+	public ResponseEntity<Projeto> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
 		System.out.println(dadosAtualizacao);
-		atualizaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
+		atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
 		Projeto projetoAtualizado = repositorio_projeto.acharProjeto(dadosAtualizacao.id_projeto());
+		return ResponseEntity.ok(projetoAtualizado);
+	}
+	
+	@PutMapping("/atualizar/orcamento")
+	@Transactional
+	public ResponseEntity<Projeto> atualizarOrcamento(@RequestBody DadosOrcamentoProjeto dadoOrcamentoProduto){
+		atualizaOrcamento.atualizaOrcamento(dadoOrcamentoProduto);
+		Projeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
 		return ResponseEntity.ok(projetoAtualizado);
 	}
 }

@@ -27,12 +27,12 @@ public class ControleSubProjeto {
 	@Autowired
 	private ProjetoRepositorio repositorio_projeto;
 	
-	@PostMapping("/cadastrar")
+	/*@PostMapping("/cadastrar")
 	public ResponseEntity<SubProjeto> cadastrar(@RequestBody DadosSubProjetoCadastro sub_projeto) {
 		Optional<Projeto> projetoPai = repositorio_projeto.findById(sub_projeto.projeto_id());
-		var subProjetoCadastrado = repositorio_sub_projeto.save(new SubProjeto(sub_projeto, projetoPai.get()));
+		repositorio_sub_projeto.save(new SubProjeto(sub_projeto, projetoPai.get()));
 		return ResponseEntity.ok(subProjetoCadastrado);
-	}
+	}*/
 	
 	@GetMapping("/listar")
 	public ResponseEntity<List<SubProjeto>> listar() {

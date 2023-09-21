@@ -11,16 +11,9 @@ import com.api.beelieve.entidades.nivelsubprojeto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.DadosTarefaCadastro;
 
 public record DadosSubProjetoCadastro(
-		Long projeto_id,
 		String nome_sub_projeto,
-		String chefe_sub_projeto,
-		Date prazo_sub_projeto,
-		Double progresso_sub_projeto,
-		BigDecimal hora_humano_sub_projeto,
-		BigDecimal orcamento_sub_projeto,
-		List<DadosNivelSubProjetoCadastro> nivel_sub_projetos,
-		List<DadosTarefaCadastro> tarefas
+		String ordem_sub_projeto,
+		List<DadosNivelSubProjetoCadastro> nivel_sub_projeto
 		) {
 
-	
 }

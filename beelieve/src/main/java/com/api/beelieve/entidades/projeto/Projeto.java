@@ -40,7 +40,7 @@ public class Projeto {
 	@Column
 	private String chefe_projeto;
 	
-	@OneToMany(mappedBy = "projeto", cascade = CascadeType.PERSIST)
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL)
 	private List<SubProjeto> sub_projetos;
 	
 	@Column
@@ -61,6 +61,9 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_humano_total;
 	
+	@Column
+	private BigDecimal hora_valor_projeto;
+	
 	
 
 
@@ -69,15 +72,13 @@ public class Projeto {
 	}
 	
 	public Projeto(DadosProjetoCadastro dadosProjeto) {
-		this.chefe_projeto = dadosProjeto.chefe_projeto();
 		this.nome_projeto = dadosProjeto.nome_projeto();
-		this.prazo_projeto = dadosProjeto.prazo_projeto();
-		this.orcamento_projeto = dadosProjeto.orcamento_projeto();
-		this.hora_humano_total = dadosProjeto.hora_humano_total();
-		this.progresso_projeto = dadosProjeto.progresso_projeto();
-		if(dadosProjeto.sub_projeto() != null) {
+		this.ordem_projeto = dadosProjeto.ordem_projeto();
+		this.descricao_projeto = dadosProjeto.descricao_projeto();
+		this.hora_valor_projeto = dadosProjeto.hora_valor_projeto();
+		if(dadosProjeto.sub_projetos() != null) {
 			List<SubProjeto> listaSubProjeto = new ArrayList<SubProjeto>();
-			dadosProjeto.sub_projeto().forEach((subProj)->{
+			dadosProjeto.sub_projetos().forEach((subProj)->{
 				listaSubProjeto.add(new SubProjeto(subProj, this));
 			});
 			this.sub_projetos = listaSubProjeto;
@@ -192,5 +193,13 @@ public class Projeto {
 
 	public void setHora_humano_total(BigDecimal hora_humano_total) {
 		this.hora_humano_total = hora_humano_total;
+	}
+
+	public BigDecimal getHora_valor_projeto() {
+		return hora_valor_projeto;
+	}
+
+	public void setHora_valor_projeto(BigDecimal hora_valor_projeto) {
+		this.hora_valor_projeto = hora_valor_projeto;
 	}
 }
