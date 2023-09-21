@@ -1,29 +1,26 @@
 package com.api.beelieve.entidades.nivelsubprojeto;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
-import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.ToString;
+
 
 @Entity
 @Table(name = "nivelSubProjeto")
@@ -42,6 +39,7 @@ public class NivelSubProjeto{
 	@Column
 	private String nome_nivel_sub_projeto;
 	
+	@JsonBackReference
 	@OneToMany(mappedBy = "nivelSubProjeto", cascade = CascadeType.ALL)
 	private List<Tarefa> tarefas;
 	
@@ -57,9 +55,11 @@ public class NivelSubProjeto{
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
 
+
 	@Column
 	private String grupo_nivel_sub_projeto;
 	
+
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
@@ -83,6 +83,7 @@ public class NivelSubProjeto{
 		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
 		this.ordem_nivel_sub_projeto = nivelSubProj.ordem_nivel_sub_projeto();
+
 	}
 
 

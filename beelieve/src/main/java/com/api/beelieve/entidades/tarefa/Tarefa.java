@@ -4,20 +4,18 @@ import java.util.Date;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Entity
@@ -43,10 +41,12 @@ public class Tarefa {
 	@Column
 	private Date prazo_tarefa;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
+	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_nivel_sub_projeto")
 	private NivelSubProjeto nivelSubProjeto;
@@ -85,6 +85,8 @@ public class Tarefa {
 		this.resultado_esperado_tarefa = tarefa.resultado_esperado_tarefa();
 		this.status_tarefa = 0;
 		this.nivelSubProjeto = nivelSubProjeto;
+		this.prazo_tarefa = tarefa.prazo_tarefa();
+		this.peso_tarefa = tarefa.peso_tarefa();
 	}
 
 

@@ -22,6 +22,7 @@ import com.api.beelieve.entidades.projeto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.DadosOrcamentoProjeto;
 import com.api.beelieve.entidades.projeto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.projeto.SelecionarProjeto;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 
 import jakarta.transaction.Transactional;
@@ -37,13 +38,24 @@ public class ControleProjeto {
 	@Autowired
 	private AtualizaOrcamento atualizaOrcamento;
 
+
 	@Autowired
 	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
+	
+	@Autowired
+	private SelecionarProjeto selecionaProjeto;
 	
 	@PostMapping("/cadastrar")
 	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		repositorio_projeto.save(new Projeto(projeto));
+	}
+	
+	@GetMapping("/listar/{id}")
+	public ResponseEntity<Projeto> listarProjetoUnico(@PathVariable Long id) {
+		Projeto projetoSelecionado = repositorio_projeto.findById(id).get();
+		Projeto  projetoTratado = selecionaProjeto.selecionar(projetoSelecionado);
+		return ResponseEntity.ok(projetoTratado);
 	}
 	
 	@GetMapping("/listar")
@@ -74,5 +86,6 @@ public class ControleProjeto {
 		atualizaOrcamento.atualizaOrcamento(dadoOrcamentoProduto);
 		Projeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
 		return ResponseEntity.ok(projetoAtualizado);
+
 	}
 }
