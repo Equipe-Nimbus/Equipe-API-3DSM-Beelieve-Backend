@@ -39,7 +39,7 @@ public class NivelSubProjeto{
 	private String nome_nivel_sub_projeto;
 	
 	@JsonBackReference
-	@OneToMany(mappedBy = "nivelSubProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "nivelSubProjeto")
 	private List<Tarefa> tarefas;
 	
 	@Column

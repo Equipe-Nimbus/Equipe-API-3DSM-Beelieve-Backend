@@ -1,5 +1,6 @@
 package com.api.beelieve.entidades.subprojeto;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -9,8 +10,10 @@ import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.nivelsubprojeto.DadosEstruturaNivelSubProjetoAtualizacao;
 import com.api.beelieve.entidades.nivelsubprojeto.EstruturaNivelSubProjetoAtualizacao;
+import com.api.beelieve.entidades.projeto.DeleteProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.repositorio.SubProjetoRepositorio;
+import com.api.beelieve.repositorio.TarefaRepositorio;
 
 @Service
 public class EstruturaSubProjetoAtualizacao{
@@ -20,7 +23,16 @@ public class EstruturaSubProjetoAtualizacao{
 	private SubProjetoRepositorio repositorio_subprojeto;
 	
 	@Autowired
+	private TarefaRepositorio repositorio_tarefa;
+	
+	@Autowired
 	private EstruturaNivelSubProjetoAtualizacao estruturaNivelAtualizacao; 
+	
+	@Autowired
+	private CadastroSubProjeto cadastroSubProjeto;
+	
+	@Autowired
+	private DeleteSubProjeto deleteSubProjeto;
 	
 	public void atualizarEstrutura(List<DadosEstruturaSubProjetoAtualizacao> listaSubProjeto, Projeto projeto){
 		List<SubProjeto> listaSubProjetoAtual = repositorio_subprojeto.findByProjeto(projeto);
@@ -34,9 +46,9 @@ public class EstruturaSubProjetoAtualizacao{
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
 				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					subProjeto.setNomeSubProjeto(dadosSub.nome_sub_projeto());
-					if(dadosSub.nivel_sub_projetos() != null) {
-						subProjeto.setTarefas(null);
-						estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projetos(), subProjeto);
+					if(dadosSub.nivel_sub_projeto() != null) {
+						repositorio_tarefa.deleteAll(subProjeto.getTarefas());
+						estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projeto(), subProjeto);
 					}
 					iteratorDadosSubProjetoAtualizacao.remove();
 					iteratorSubProjetoAtual.remove();
@@ -47,17 +59,16 @@ public class EstruturaSubProjetoAtualizacao{
 		System.out.println(!listaSubProjetoAtual.isEmpty());
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		if(!listaSubProjeto.isEmpty()) {
+			List<SubProjeto> subProjetosNovos = new ArrayList<SubProjeto>();
 			listaSubProjeto.forEach((subProj)->{
-				repositorio_subprojeto.save(new SubProjeto(subProj, projeto));
+				subProjetosNovos.add(new SubProjeto(subProj, projeto));
 			});
-			
+			cadastroSubProjeto.cadastroCascata(subProjetosNovos);
 		};
 		
 		//Deletando elementos que não estão no JSON
 		if(!listaSubProjetoAtual.isEmpty()) {
-			listaSubProjetoAtual.forEach((subProj)->{
-				repositorio_subprojeto.delete(subProj);
-			});
+			deleteSubProjeto.deleteCascata(listaSubProjetoAtual);
 		}
 
 	}

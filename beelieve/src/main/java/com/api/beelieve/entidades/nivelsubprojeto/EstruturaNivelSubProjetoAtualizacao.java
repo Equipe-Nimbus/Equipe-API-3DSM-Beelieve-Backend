@@ -9,12 +9,19 @@ import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
+import com.api.beelieve.repositorio.TarefaRepositorio;
 
 @Service
 public class EstruturaNivelSubProjetoAtualizacao {
 	
 	@Autowired
 	private NivelSubProjetoRepositorio repositorio_nivel;
+	
+	@Autowired
+	private TarefaRepositorio repositorio_tarefa;
+	
+	@Autowired
+	private DeleteNivelSubProjeto deleteNivelSubProjeto;
 	
 	
 	public void atualizarEstrutura(List<DadosEstruturaNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
@@ -43,9 +50,7 @@ public class EstruturaNivelSubProjetoAtualizacao {
 		};
 		//Deletando elementos que não estão no JSON
 		if(!listaNivelSubProjetoAtual.isEmpty()) {
-			listaNivelSubProjetoAtual.forEach((nivelSub)->{
-				repositorio_nivel.delete(nivelSub);
-			});
+			deleteNivelSubProjeto.deleteCascata(listaNivelSubProjetoAtual);
 		}
 	}
 	

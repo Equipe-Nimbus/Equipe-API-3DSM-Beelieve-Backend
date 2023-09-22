@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.AtualizaOrcamento;
 import com.api.beelieve.entidades.projeto.AtualizarEstruturaProjetoNiveis;
+import com.api.beelieve.entidades.projeto.CadastroProjeto;
 import com.api.beelieve.entidades.projeto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.DadosOrcamentoProjeto;
@@ -44,12 +45,12 @@ public class ControleProjeto {
 	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
 	
 	@Autowired
-	private SelecionarProjeto selecionaProjeto;
+	private CadastroProjeto cadastraProjeto;
 	
 	@PostMapping("/cadastrar")
 	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
-		repositorio_projeto.save(new Projeto(projeto));
+		cadastraProjeto.cadastrarCascata(projeto);
 	}
 	
 	

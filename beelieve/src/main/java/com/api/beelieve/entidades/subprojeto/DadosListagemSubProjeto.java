@@ -5,16 +5,8 @@ import java.util.Date;
 import java.util.List;
 
 import com.api.beelieve.entidades.nivelsubprojeto.DadosListagemNivelSubProjeto;
-import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
-import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.tarefa.DadosListagemTarefa;
-import com.api.beelieve.entidades.tarefa.Tarefa;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.OneToMany;
 
 public record DadosListagemSubProjeto(
 		

@@ -12,7 +12,7 @@ public record DadosEstruturaProjetoAtualizacao(
 		Long id_projeto,
 		String ordem_projeto,
 		String nome_projeto,
-		List<DadosEstruturaSubProjetoAtualizacao> sub_projeto
+		List<DadosEstruturaSubProjetoAtualizacao> sub_projetos
 		) 
 {
 	

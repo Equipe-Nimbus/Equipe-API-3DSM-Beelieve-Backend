@@ -26,11 +26,10 @@ import lombok.EqualsAndHashCode;
 
 
 @Entity
-@EqualsAndHashCode
 @Table(name = "subProjeto")
 public class SubProjeto{
 	
-	@EqualsAndHashCode.Include
+
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_sub_projeto;
 	
@@ -41,10 +40,10 @@ public class SubProjeto{
 	private String nome_sub_projeto;
 	
 
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "subProjeto")
 	private List<Tarefa> tarefas;
 	
-	@OneToMany(mappedBy = "subProjeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "subProjeto")
 	private List<NivelSubProjeto> nivel_sub_projeto;
 	
 	@Column
@@ -77,9 +76,9 @@ public class SubProjeto{
 		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		this.projeto = projetoPai;
 		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
-		if(subProj.nivel_sub_projetos() != null) {
+		if(subProj.nivel_sub_projeto() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
-			subProj.nivel_sub_projetos().forEach((nivelSubProj)->{
+			subProj.nivel_sub_projeto().forEach((nivelSubProj)->{
 				nivelSubProjetos.add(new NivelSubProjeto(nivelSubProj, this)); 
 			});
 			this.nivel_sub_projeto = nivelSubProjetos;

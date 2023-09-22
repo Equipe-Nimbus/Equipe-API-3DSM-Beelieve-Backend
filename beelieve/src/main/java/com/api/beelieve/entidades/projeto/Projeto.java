@@ -22,11 +22,9 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@EqualsAndHashCode
 @Table(name = "projeto")
 public class Projeto {
 	
-	@EqualsAndHashCode.Include
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_projeto;
 	
@@ -40,7 +38,7 @@ public class Projeto {
 	private String chefe_projeto;
 	
 
-	@OneToMany(mappedBy = "projeto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "projeto")
 	private List<SubProjeto> sub_projetos;
 	
 	@Column
