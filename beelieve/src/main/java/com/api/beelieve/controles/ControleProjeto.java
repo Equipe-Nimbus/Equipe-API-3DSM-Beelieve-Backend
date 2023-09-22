@@ -52,12 +52,6 @@ public class ControleProjeto {
 		repositorio_projeto.save(new Projeto(projeto));
 	}
 	
-	@GetMapping("/listar/{id}")
-	public ResponseEntity<Projeto> listarProjetoUnico(@PathVariable Long id) {
-		Projeto projetoSelecionado = repositorio_projeto.findById(id).get();
-		Projeto  projetoTratado = selecionaProjeto.selecionar(projetoSelecionado);
-		return ResponseEntity.ok(projetoTratado);
-	}
 	
 	@GetMapping("/listar")
 	public ResponseEntity<List<DadosListagemProjeto>> listar() {

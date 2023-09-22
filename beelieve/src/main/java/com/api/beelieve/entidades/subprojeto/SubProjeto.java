@@ -28,7 +28,6 @@ import lombok.EqualsAndHashCode;
 @Entity
 @EqualsAndHashCode
 @Table(name = "subProjeto")
-@ToString
 public class SubProjeto{
 	
 	@EqualsAndHashCode.Include
