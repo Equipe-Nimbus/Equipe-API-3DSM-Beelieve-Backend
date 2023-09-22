@@ -27,7 +27,6 @@ import lombok.ToString;
 
 @Entity
 @Table(name = "nivelSubProjeto")
-
 @Getter
 @Setter
 public class NivelSubProjeto{

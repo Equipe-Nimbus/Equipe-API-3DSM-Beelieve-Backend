@@ -33,6 +33,7 @@ import lombok.ToString;
 @Entity
 @EqualsAndHashCode
 @Table(name = "subProjeto")
+@ToString
 public class SubProjeto{
 	
 	@EqualsAndHashCode.Include

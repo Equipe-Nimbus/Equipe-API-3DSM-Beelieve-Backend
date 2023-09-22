@@ -11,7 +11,7 @@ public record DadosOrcamentoProjeto(
 			BigDecimal hora_valor_projeto,
 			BigDecimal hora_humano_total,
 			BigDecimal orcamento_projeto,
-			List<DadosOrcamentoSubProjeto> orcamentoSubProjeto
+			List<DadosOrcamentoSubProjeto> sub_projetos
 		) {
 
 }

@@ -24,7 +24,6 @@ import lombok.ToString;
 @Entity
 @EqualsAndHashCode
 @Table(name = "projeto")
-@ToString
 public class Projeto {
 	
 	@EqualsAndHashCode.Include
