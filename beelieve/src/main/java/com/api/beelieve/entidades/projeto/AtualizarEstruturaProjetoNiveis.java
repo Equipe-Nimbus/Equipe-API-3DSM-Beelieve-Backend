@@ -21,7 +21,7 @@ public class AtualizarEstruturaProjetoNiveis {
 	public void atualizarProjeto(Long id, DadosEstruturaProjetoAtualizacao dadosAtualizacao) {
 		Projeto projetoAtual = repositorio_projeto.findById(id).get();
 		projetoAtual.setNome_projeto(dadosAtualizacao.nome_projeto());
-		if(dadosAtualizacao.sub_projeto() != null && !dadosAtualizacao.sub_projeto().isEmpty()) {
+		if(dadosAtualizacao.sub_projeto() != null) {
 			atualizaEstruturaProjeto.atualizarEstrutura(dadosAtualizacao.sub_projeto(), projetoAtual);
 		}
 	}

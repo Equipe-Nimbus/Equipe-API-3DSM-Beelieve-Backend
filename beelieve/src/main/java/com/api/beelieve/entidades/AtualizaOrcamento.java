@@ -23,13 +23,17 @@ public class AtualizaOrcamento {
 	
 	
 	public void atualizaOrcamento(DadosOrcamentoProjeto orcamentoProjeto) {
-		Projeto projeto = repositorio_projeto.acharProjeto(orcamentoProjeto.id_projeto());
+		Projeto projeto = repositorio_projeto.findById(orcamentoProjeto.id_projeto()).get();
 		
 		projeto.setOrcamento_projeto(orcamentoProjeto.orcamento_projeto());
 		projeto.setChefe_projeto(orcamentoProjeto.chefe_projeto());
 		projeto.setHora_humano_total(orcamentoProjeto.hora_humano_total());
 		projeto.setHora_valor_projeto(orcamentoProjeto.hora_valor_projeto());
-		this.atualizaOrcamentoSubProjeto(orcamentoProjeto.orcamentoSubProjeto(), projeto.getSub_projetos());
+		System.out.println(orcamentoProjeto);
+		if(orcamentoProjeto.sub_projetos() != null) {
+			this.atualizaOrcamentoSubProjeto(orcamentoProjeto.sub_projetos(), projeto.getSub_projetos());
+		}
+		
 		
 	}
 	
@@ -38,9 +42,11 @@ public class AtualizaOrcamento {
 			listaSubProjeto.forEach((subProjeto)->{
 				if(orcamentoSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					subProjeto.setOrcamentoSubProjeto(orcamentoSub.orcamento_sub_projeto());
-					subProjeto.setHoraHomemSubprojeto(orcamentoSub.hora_valor_sub_projeto());
+					subProjeto.setHoraHomemSubprojeto(orcamentoSub.hora_humano_sub_projeto());
 					subProjeto.setChefeSubProjeto(orcamentoSub.chefe_sub_projeto());
-					this.atualizaOrcamentoNivelSubProjeto(orcamentoSub.orcamentoNivelSubProjeto(), subProjeto.getNivelSubProjeto());
+					if(orcamentoSub.nivel_sub_projeto() != null) {
+						this.atualizaOrcamentoNivelSubProjeto(orcamentoSub.nivel_sub_projeto(), subProjeto.getNivelSubProjeto());
+					}
 				}
 			});
 		});
@@ -50,7 +56,7 @@ public class AtualizaOrcamento {
 		listaOrcamentoNivel.forEach((orcamentoNivel)->{
 			listaNivelSub.forEach((nivelSub)->{
 				if(orcamentoNivel.id_nivel_sub_projeto() == nivelSub.getId_nivel_sub_projeto()) {
-					nivelSub.setHora_humano_nivel_sub_projeto(orcamentoNivel.hora_valor_nivel_sub_projeto());
+					nivelSub.setHora_humano_nivel_sub_projeto(orcamentoNivel.hora_humano_nivel_sub_projeto());
 					nivelSub.setOrcamento_nivel_sub_projeto(orcamentoNivel.orcamento_nivel_sub_projeto());
 					nivelSub.setGrupo_nivel_sub_projeto(orcamentoNivel.grupo_nivel_sub_projeto());
 				}

@@ -1,6 +1,6 @@
 package com.api.beelieve.controles;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
-import com.api.beelieve.entidades.tarefa.DadosListaTarefas;
 import com.api.beelieve.entidades.tarefa.DadosListaTarefasAtualizacao;
 import com.api.beelieve.entidades.tarefa.LeituraListaTarefa;
 import com.api.beelieve.entidades.tarefa.Tarefa;

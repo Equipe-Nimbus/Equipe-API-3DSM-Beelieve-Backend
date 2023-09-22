@@ -32,9 +32,9 @@ public class EstruturaSubProjetoAtualizacao{
 			Iterator<SubProjeto> iteratorSubProjetoAtual = listaSubProjetoAtual.iterator();
 			while(iteratorSubProjetoAtual.hasNext()) {
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
-				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id() && dadosSub.id_sub_projeto() != null) {
+				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					subProjeto.setNomeSubProjeto(dadosSub.nome_sub_projeto());
-					if(!dadosSub.nivel_sub_projetos().isEmpty()) {
+					if(dadosSub.nivel_sub_projetos() != null) {
 						subProjeto.setTarefas(null);
 						estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projetos(), subProjeto);
 					}
@@ -43,6 +43,8 @@ public class EstruturaSubProjetoAtualizacao{
 				}
 			}
 		}
+		System.out.println(listaSubProjetoAtual);
+		System.out.println(!listaSubProjetoAtual.isEmpty());
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		if(!listaSubProjeto.isEmpty()) {
 			listaSubProjeto.forEach((subProj)->{
@@ -50,6 +52,7 @@ public class EstruturaSubProjetoAtualizacao{
 			});
 			
 		};
+		
 		//Deletando elementos que não estão no JSON
 		if(!listaSubProjetoAtual.isEmpty()) {
 			listaSubProjetoAtual.forEach((subProj)->{

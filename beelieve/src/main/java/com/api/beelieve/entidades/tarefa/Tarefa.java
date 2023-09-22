@@ -19,7 +19,6 @@ import jakarta.persistence.Table;
 import lombok.ToString;
 
 @Entity
-@ToString
 @Table(name = "tarefa")
 public class Tarefa {
 

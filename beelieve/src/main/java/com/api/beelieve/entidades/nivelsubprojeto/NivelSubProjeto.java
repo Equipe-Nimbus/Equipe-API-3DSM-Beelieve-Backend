@@ -24,7 +24,6 @@ import lombok.Setter;
 
 @Entity
 @Table(name = "nivelSubProjeto")
-
 @Getter
 @Setter
 public class NivelSubProjeto{
