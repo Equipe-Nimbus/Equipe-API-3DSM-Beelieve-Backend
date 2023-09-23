@@ -7,9 +7,7 @@ import java.util.List;
 
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
-import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -18,8 +16,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
 
 @Entity
 @Table(name = "projeto")
@@ -74,6 +70,7 @@ public class Projeto {
 		this.ordem_projeto = dadosProjeto.ordem_projeto();
 		this.descricao_projeto = dadosProjeto.descricao_projeto();
 		this.hora_valor_projeto = dadosProjeto.hora_valor_projeto();
+		this.progresso_projeto = 0.0;
 		if(dadosProjeto.sub_projetos() != null) {
 			List<SubProjeto> listaSubProjeto = new ArrayList<SubProjeto>();
 			dadosProjeto.sub_projetos().forEach((subProj)->{

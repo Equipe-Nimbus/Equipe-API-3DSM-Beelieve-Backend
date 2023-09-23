@@ -21,7 +21,6 @@ public class ListaProjetoGeral {
 					);
 			listaFinal.add(atributosProjeto);
 		}
-		System.out.println(listaFinal);
 		return listaFinal;
 	}
 }

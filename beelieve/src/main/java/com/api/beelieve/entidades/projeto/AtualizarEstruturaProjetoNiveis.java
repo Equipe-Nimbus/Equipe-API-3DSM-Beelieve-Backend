@@ -1,6 +1,5 @@
 package com.api.beelieve.entidades.projeto;
 
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

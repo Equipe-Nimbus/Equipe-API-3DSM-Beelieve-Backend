@@ -5,13 +5,6 @@ import java.util.Date;
 import java.util.List;
 
 import com.api.beelieve.entidades.subprojeto.DadosListagemSubProjeto;
-import com.api.beelieve.entidades.subprojeto.SubProjeto;
-
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Column;
-import jakarta.persistence.OneToMany;
-import lombok.NoArgsConstructor;
-
 
 public record DadosListagemProjeto(
 		
