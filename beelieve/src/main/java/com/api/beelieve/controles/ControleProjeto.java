@@ -19,10 +19,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.beelieve.entidades.AtualizaOrcamento;
 import com.api.beelieve.entidades.projeto.AtualizarEstruturaProjetoNiveis;
 import com.api.beelieve.entidades.projeto.CadastroProjeto;
+import com.api.beelieve.entidades.projeto.DadosArvoreProjetoBox;
 import com.api.beelieve.entidades.projeto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.DadosOrcamentoProjeto;
 import com.api.beelieve.entidades.projeto.DadosProjetoCadastro;
+import com.api.beelieve.entidades.projeto.MontarArvoreProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.SelecionarProjeto;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
@@ -47,6 +49,9 @@ public class ControleProjeto {
 	@Autowired
 	private CadastroProjeto cadastraProjeto;
 	
+	@Autowired
+	private MontarArvoreProjeto arvoreProjeto;
+	
 	@PostMapping("/cadastrar")
 	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
@@ -61,9 +66,10 @@ public class ControleProjeto {
 	}
 
 	@GetMapping("/listar/{id}")
-	public ResponseEntity<DadosListagemProjeto> listarId(@PathVariable Long id){
+	public ResponseEntity<List<DadosArvoreProjetoBox>> listarId(@PathVariable Long id){
 		DadosListagemProjeto projeto = repositorio_projeto.acharProjeto(id);
-		return ResponseEntity.ok(projeto);
+		List<DadosArvoreProjetoBox> nodes = arvoreProjeto.montarArvoreProjetoBox(projeto);
+		return ResponseEntity.ok(nodes);
 	}
 	
 	
