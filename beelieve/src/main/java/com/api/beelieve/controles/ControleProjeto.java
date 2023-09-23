@@ -1,5 +1,6 @@
 package com.api.beelieve.controles;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +21,7 @@ import com.api.beelieve.entidades.AtualizaOrcamento;
 import com.api.beelieve.entidades.projeto.AtualizarEstruturaProjetoNiveis;
 import com.api.beelieve.entidades.projeto.CadastroProjeto;
 import com.api.beelieve.entidades.projeto.DadosArvoreProjetoBox;
+import com.api.beelieve.entidades.projeto.DadosArvoreProjetoLigacao;
 import com.api.beelieve.entidades.projeto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.DadosOrcamentoProjeto;
@@ -73,12 +75,19 @@ public class ControleProjeto {
 	@GetMapping("/listar/{id}")
 	public ResponseEntity<DadosListagemProjeto> listarId(@PathVariable Long id){
 		DadosListagemProjeto projeto = repositorio_projeto.acharProjeto(id);
+		//List<DadosArvoreProjetoBox> nodes = arvoreProjeto.arvoreProjetoBox(projeto);
+		//List<DadosArvoreProjetoLigacao> edges = arvoreProjeto.arvoreProjetoLigacao(projeto);
+		//List<Object> listaProjetoMaisArvore = new ArrayList<Object>();
+		//listaProjetoMaisArvore.add(projeto);
+		//listaProjetoMaisArvore.add(nodes);
+		//listaProjetoMaisArvore.add(edges);		
 		return ResponseEntity.ok(projeto);
 	};
 	
 	@PutMapping("/atualizar/estrutura")
 	@Transactional
 	public ResponseEntity<DadosListagemProjeto> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
+		System.out.println(dadosAtualizacao);
 		atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
 		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadosAtualizacao.id_projeto());
 		return ResponseEntity.ok(projetoAtualizado);

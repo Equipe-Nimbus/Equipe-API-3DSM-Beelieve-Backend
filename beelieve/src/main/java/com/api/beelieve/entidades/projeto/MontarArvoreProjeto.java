@@ -12,11 +12,10 @@ import com.api.beelieve.entidades.subprojeto.DadosListagemSubProjeto;
 @Service
 public class MontarArvoreProjeto {
 
-	public List<DadosArvoreProjetoBox> montarArvoreProjetoBox(DadosListagemProjeto projetoSelecionado) {
+	public List<DadosArvoreProjetoBox> arvoreProjetoBox(DadosListagemProjeto projetoSelecionado) {
 		List<DadosArvoreProjetoBox> quadradoArvore = new ArrayList<DadosArvoreProjetoBox>();
 		DadosListagemProjeto projeto = projetoSelecionado;
 		List<DadosListagemSubProjeto> listaSubProjeto = projeto.sub_projetos();
-		List<DadosListagemNivelSubProjeto> listaNivelSubProjeto = new ArrayList<DadosListagemNivelSubProjeto>();
 		DadosArvoreProjetoBox noProjeto = null;
 		DadosArvoreProjetoBox noSubProjeto = null;
 		DadosArvoreProjetoBox noNivelSubProjeto = null;
@@ -29,6 +28,7 @@ public class MontarArvoreProjeto {
 				);
 		quadradoArvore.add(noProjeto);
 		for (DadosListagemSubProjeto subProjeto : listaSubProjeto) {
+			List<DadosListagemNivelSubProjeto> listaNivelSubProjeto = new ArrayList<DadosListagemNivelSubProjeto>();
 			listaNivelSubProjeto.addAll(subProjeto.nivel_sub_projeto());
 			if (listaNivelSubProjeto.isEmpty()) {
 				noSubProjeto = new DadosArvoreProjetoBox(
@@ -62,27 +62,36 @@ public class MontarArvoreProjeto {
 		return quadradoArvore;
 	};
 	
-	public List<DadosArvoreProjetoLigacao> ligacaoArvoreProjeto (DadosListagemProjeto projetoSelecionado){
-		List<DadosArvoreProjetoLigacao> ligacaooArvore = new ArrayList<DadosArvoreProjetoLigacao>();
+	public List<DadosArvoreProjetoLigacao> arvoreProjetoLigacao (DadosListagemProjeto projetoSelecionado){
+		List<DadosArvoreProjetoLigacao> ligacaoArvore = new ArrayList<DadosArvoreProjetoLigacao>();
 		DadosListagemProjeto projeto = projetoSelecionado;
 		List<DadosListagemSubProjeto> listaSubProjeto = projeto.sub_projetos();
-		List<DadosListagemNivelSubProjeto> listaNivelSubProjeto = new ArrayList<DadosListagemNivelSubProjeto>();
 		DadosArvoreProjetoLigacao ligacaoProjeto = null;
 		DadosArvoreProjetoLigacao ligacaoSubProjeto = null;
-		DadosArvoreProjetoLigacao ligacaoNivelSubProjeto = null;
 		String type = "smoothstep";
 		for (DadosListagemSubProjeto subProjeto : listaSubProjeto) {
+			List<DadosListagemNivelSubProjeto> listaNivelSubProjeto = new ArrayList<DadosListagemNivelSubProjeto>();
 			ligacaoProjeto = new DadosArvoreProjetoLigacao(
 					"e" + projeto.ordem_projeto() + "-" + subProjeto.ordem_sub_projeto(),
 					projeto.ordem_projeto(),
 					subProjeto.ordem_sub_projeto(),
 					type
 					);
-			for (DadosListagemNivelSubProjeto nivelSubProjeto : listaNivelSubProjeto) {
-				String ordemNivelSubProjeto = nivelSubProjeto.ordem_nivel_sub_projeto();
+			ligacaoArvore.add(ligacaoProjeto);
+			listaNivelSubProjeto.addAll(subProjeto.nivel_sub_projeto());
+			if (listaNivelSubProjeto.isEmpty() != true) {
+				for (DadosListagemNivelSubProjeto nivelSubProjeto : listaNivelSubProjeto) {
+					ligacaoSubProjeto = new DadosArvoreProjetoLigacao(
+							"e" + subProjeto.ordem_sub_projeto() + "-" + nivelSubProjeto.ordem_nivel_sub_projeto(),
+							subProjeto.ordem_sub_projeto(),
+							nivelSubProjeto.ordem_nivel_sub_projeto(),
+							type
+							);
+					ligacaoArvore.add(ligacaoSubProjeto);
+				};				
 				
 			}
 		}
-		return ligacaooArvore;
+		return ligacaoArvore;
 	}
 }
