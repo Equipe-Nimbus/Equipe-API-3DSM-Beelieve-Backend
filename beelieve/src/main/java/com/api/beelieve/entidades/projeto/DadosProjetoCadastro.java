@@ -11,6 +11,7 @@ public record DadosProjetoCadastro(
 		String nome_projeto,
 		String descricao_projeto,
 		BigDecimal hora_valor_projeto,
+		Double progresso_projeto,
 		List<DadosSubProjetoCadastro> sub_projetos
 
 		) {
