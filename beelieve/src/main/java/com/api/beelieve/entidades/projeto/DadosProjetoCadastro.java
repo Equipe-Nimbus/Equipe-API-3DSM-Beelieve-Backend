@@ -10,7 +10,7 @@ public record DadosProjetoCadastro(
 		String ordem_projeto,
 		String nome_projeto,
 		String descricao_projeto,
-		BigDecimal hora_valor_projeto,
+		BigDecimal valor_hora_projeto,
 		Double progresso_projeto,
 		List<DadosSubProjetoCadastro> sub_projetos
 

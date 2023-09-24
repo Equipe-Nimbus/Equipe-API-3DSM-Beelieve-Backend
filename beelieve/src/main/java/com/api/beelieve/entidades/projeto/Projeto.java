@@ -69,7 +69,7 @@ public class Projeto {
 		this.nome_projeto = dadosProjeto.nome_projeto();
 		this.ordem_projeto = dadosProjeto.ordem_projeto();
 		this.descricao_projeto = dadosProjeto.descricao_projeto();
-		this.hora_valor_projeto = dadosProjeto.hora_valor_projeto();
+		this.hora_valor_projeto = dadosProjeto.valor_hora_projeto();
 		this.progresso_projeto = 0.0;
 		if(dadosProjeto.sub_projetos() != null) {
 			List<SubProjeto> listaSubProjeto = new ArrayList<SubProjeto>();
