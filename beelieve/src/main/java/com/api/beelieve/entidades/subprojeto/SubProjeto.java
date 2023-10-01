@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
+import com.api.beelieve.entidade.cronograma.Cronograma;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.subprojeto.dto.DadosEstruturaSubProjetoAtualizacao;
+import com.api.beelieve.entidades.subprojeto.dto.DadosSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -65,6 +66,9 @@ public class SubProjeto{
 	@ManyToOne
 	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
+	
+	@OneToMany(mappedBy = "sub_projeto")
+	private Cronograma cronograma;
 	
 	
 	public SubProjeto() {

@@ -5,7 +5,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
+import com.api.beelieve.entidade.cronograma.Cronograma;
+import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
 import jakarta.persistence.Column;
@@ -58,8 +59,8 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-	
-
+	@OneToMany(mappedBy = "projeto")
+	private Cronograma cronograma;
 
 	public Projeto() {
 		

@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
-import com.api.beelieve.entidades.tarefa.DadosListaTarefasAtualizacao;
-import com.api.beelieve.entidades.tarefa.LeituraListaTarefa;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.api.beelieve.entidades.tarefa.dto.DadosListaTarefasAtualizacao;
+import com.api.beelieve.entidades.tarefa.servico.LeituraListaTarefa;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
 import com.api.beelieve.repositorio.SubProjetoRepositorio;
 import com.api.beelieve.repositorio.TarefaRepositorio;

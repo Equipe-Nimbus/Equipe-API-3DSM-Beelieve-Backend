@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.api.beelieve.entidade.cronograma.Cronograma;
+import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProjetoAtualizacao;
+import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -62,6 +65,9 @@ public class NivelSubProjeto{
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
+	
+	@OneToMany(mappedBy = "nivel_sub_projeto")
+	private Cronograma cronograma;
 	
 	
 	public NivelSubProjeto() {
