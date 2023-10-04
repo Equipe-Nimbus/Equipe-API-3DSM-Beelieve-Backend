@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.entidade.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoBox;
 import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoLigacao;
@@ -47,6 +48,9 @@ public class ControleProjeto {
 	
 	@Autowired
 	private ListaProjetoGeral listaProjetoGeral;
+	
+	@Autowired
+	private CriaCronograma criaCronograma;
 
 	@Autowired
 	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
@@ -60,7 +64,14 @@ public class ControleProjeto {
 	@PostMapping("/cadastrar")
 	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
-		cadastraProjeto.cadastrarCascata(projeto);
+		Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
+		if (projeto.prazo_meses() != null) {
+			criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
+		}
+		else {
+			criaCronograma.criarCronograma(projetoCadastrado, 6);
+		}
+		
 	}
 	
 	

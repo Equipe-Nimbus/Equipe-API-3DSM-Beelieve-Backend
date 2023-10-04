@@ -17,12 +17,13 @@ public class CadastroProjeto {
 	@Autowired
 	private CadastroSubProjeto cadastroCascataSubProjeto;
 	
-	public void cadastrarCascata(DadosProjetoCadastro dadosProjeto) {
+	public Projeto cadastrarCascata(DadosProjetoCadastro dadosProjeto) {
 		Projeto projeto = new Projeto(dadosProjeto);
 		repositorio_projeto.save(projeto);
 		if(projeto.getSub_projetos() != null) {
 			cadastroCascataSubProjeto.cadastroCascata(projeto.getSub_projetos());
 		}
+		return projeto;
 	}
 	
 }

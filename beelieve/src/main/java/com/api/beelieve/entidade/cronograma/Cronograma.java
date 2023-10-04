@@ -35,4 +35,9 @@ public class Cronograma {
 		this.lista_cronograma = lista_cronograma;
 			
 	}
+
+	public Cronograma(Long id_projeto, List<Mes> meses) {
+		this._id = id_projeto;
+		this.lista_cronograma = meses;
+	}
 }
