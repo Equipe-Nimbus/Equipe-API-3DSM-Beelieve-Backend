@@ -67,8 +67,7 @@ public class SubProjeto{
 	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
 	
-	@OneToMany(mappedBy = "sub_projeto")
-	private Cronograma cronograma;
+
 	
 	
 	public SubProjeto() {

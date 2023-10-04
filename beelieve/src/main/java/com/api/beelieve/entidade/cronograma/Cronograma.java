@@ -1,61 +1,38 @@
 package com.api.beelieve.entidade.cronograma;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
-import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
-import com.api.beelieve.entidades.projeto.Projeto;
-import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import org.springframework.data.mongodb.core.mapping.Document;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import com.api.beelieve.entidade.cronograma.dto.DadosCronogramaPlanejamento;
+
 import jakarta.persistence.Id;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Table;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 
-@Entity
-@Table(name = "cronograma")
-@Getter
-@Setter
+
+
+@Data
+@Document(collection = "Cronograma")
 public class Cronograma {
 
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_cronograma_mes;
+	private Long _id;
 	
-	@Column
-	private String mes_cronograma;
+	private List<Mes> lista_cronograma;
 	
-	@Column
-	private String ordem_mes_cronograma;
+	public Cronograma() {};
 	
-	@Column
-	private String ano_cronograma;
-	
-	@Column
-	private Date data_limite_cronograma;
-	
-	@Column
-	private Double progresso_planejado_cronograma;
-	
-	@Column
-	private Double progresso_real_cronograma;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_projeto")
-	private Projeto projeto;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_sub_projeto")
-	private SubProjeto sub_projeto;
-	
-	@ManyToOne
-	@JoinColumn(name = "id_nivel_sub_projeto")
-	private NivelSubProjeto nivel_sub_projeto;
-	
+	public Cronograma(DadosCronogramaPlanejamento cronogramaPlanejamento){
+		this._id = cronogramaPlanejamento.id_projeto();
+		List<Mes> lista_cronograma = new ArrayList<Mes>();
+		cronogramaPlanejamento.lista_cronograma().forEach((cronograma)->{
+			lista_cronograma.add(new Mes(cronograma));
+		});
+		
+		this.lista_cronograma = lista_cronograma;
+			
+	}
 }

@@ -59,8 +59,7 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-	@OneToMany(mappedBy = "projeto")
-	private Cronograma cronograma;
+
 
 	public Projeto() {
 		
