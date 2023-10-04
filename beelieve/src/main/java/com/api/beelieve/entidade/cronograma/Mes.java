@@ -5,6 +5,11 @@ import java.util.List;
 
 import com.api.beelieve.entidade.cronograma.dto.DadosMes;
 
+import lombok.Data;
+import lombok.ToString;
+
+@Data
+@ToString
 public class Mes {
 	private String mes_cronograma;
 	private Integer ordem_mes_cronograma;
@@ -26,5 +31,14 @@ public class Mes {
 		this.mes_cronograma = nome_mes;
 		this.ordem_mes_cronograma = mes;
 		this.niveis = niveis;
+	}
+
+	public Mes(Mes mes) {
+		this.mes_cronograma = mes.mes_cronograma;
+		List<Progresso> listaProgresso =new ArrayList<Progresso>();
+		mes.niveis.forEach((nivel)->{
+			listaProgresso.add(new Progresso(nivel));
+		});
+		this.niveis = listaProgresso;
 	}
 }

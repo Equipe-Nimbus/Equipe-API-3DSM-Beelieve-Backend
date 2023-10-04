@@ -1,13 +1,16 @@
 package com.api.beelieve.entidades.nivelsubprojeto.servico;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.beelieve.entidade.cronograma.Progresso;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProjetoAtualizacao;
+import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
 import com.api.beelieve.repositorio.TarefaRepositorio;
@@ -24,8 +27,9 @@ public class EstruturaNivelSubProjetoAtualizacao {
 	@Autowired
 	private DeleteNivelSubProjeto deleteNivelSubProjeto;
 	
+	private List<Progresso> insertNovosNiveis = new ArrayList<Progresso>();
 	
-	public void atualizarEstrutura(List<DadosEstruturaNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
+	public List<Progresso> atualizarEstrutura(List<DadosEstruturaNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
 		List<NivelSubProjeto> listaNivelSubProjetoAtual = repositorio_nivel.findBySubProjeto(subProjeto);
 		
 		//Atualizando elementos que existem no banco
@@ -46,13 +50,17 @@ public class EstruturaNivelSubProjetoAtualizacao {
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		if(!listaDadosNivelSubProjeto.isEmpty()) {
 			listaDadosNivelSubProjeto.forEach((nivelSub)->{
-				repositorio_nivel.save(new NivelSubProjeto(nivelSub, subProjeto));
+				NivelSubProjeto nivelSubProjeto = new NivelSubProjeto(nivelSub, subProjeto);
+				repositorio_nivel.save(nivelSubProjeto);
+				insertNovosNiveis.add(new Progresso(nivelSubProjeto));
 			});
 		};
 		//Deletando elementos que não estão no JSON
 		if(!listaNivelSubProjetoAtual.isEmpty()) {
 			deleteNivelSubProjeto.deleteCascata(listaNivelSubProjetoAtual);
 		}
+		
+		return insertNovosNiveis;
 	}
 	
 	

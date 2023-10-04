@@ -11,10 +11,12 @@ import com.api.beelieve.entidade.cronograma.dto.DadosCronogramaPlanejamento;
 
 import jakarta.persistence.Id;
 import lombok.Data;
+import lombok.ToString;
 
 
 
 @Data
+@ToString
 @Document(collection = "Cronograma")
 public class Cronograma {
 

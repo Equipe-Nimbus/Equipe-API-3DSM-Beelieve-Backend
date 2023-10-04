@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidade.cronograma.servico.AtualizaEstruturaCronograma;
 import com.api.beelieve.entidade.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoBox;
@@ -29,8 +31,11 @@ import com.api.beelieve.entidades.projeto.dto.DadosProjetoListagemGeral;
 import com.api.beelieve.entidades.projeto.servico.AtualizaOrcamento;
 import com.api.beelieve.entidades.projeto.servico.AtualizarEstruturaProjetoNiveis;
 import com.api.beelieve.entidades.projeto.servico.CadastroProjeto;
+import com.api.beelieve.entidades.projeto.servico.ClonaDadosEstrutura;
+import com.api.beelieve.entidades.projeto.servico.ConversorListagem;
 import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
+
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 
 import jakarta.transaction.Transactional;
@@ -51,12 +56,21 @@ public class ControleProjeto {
 	
 	@Autowired
 	private CriaCronograma criaCronograma;
+	
+	@Autowired
+	private AtualizaEstruturaCronograma atualizaEstruturaCronograma;
 
 	@Autowired
 	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
 	
 	@Autowired
+	private ConversorListagem conversorListagem;
+	
+	@Autowired
 	private CadastroProjeto cadastraProjeto;
+	
+	@Autowired
+	private ClonaDadosEstrutura clonaDadosEstrutura;
 	
 	@Autowired
 	private MontarArvoreProjeto arvoreProjeto;
@@ -97,11 +111,11 @@ public class ControleProjeto {
 	
 	@PutMapping("/atualizar/estrutura")
 	@Transactional
-	public ResponseEntity<DadosListagemProjeto> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
-		System.out.println(dadosAtualizacao);
-		atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
-		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadosAtualizacao.id_projeto());
-		return ResponseEntity.ok(projetoAtualizado);
+	public ResponseEntity<List<Progresso>> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
+		DadosEstruturaProjetoAtualizacao dadosClone = clonaDadosEstrutura.clonar(dadosAtualizacao);
+		List<Progresso> listaNovosNiveis = atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
+		atualizaEstruturaCronograma.atualizaEstrutura(dadosClone, listaNovosNiveis);
+		return ResponseEntity.ok().build();
 	}
 	
 	@PutMapping("/atualizar/orcamento")
@@ -110,6 +124,5 @@ public class ControleProjeto {
 		atualizaOrcamento.atualizaOrcamento(dadoOrcamentoProduto);
 		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
 		return ResponseEntity.ok(projetoAtualizado);
-
 	}
 }

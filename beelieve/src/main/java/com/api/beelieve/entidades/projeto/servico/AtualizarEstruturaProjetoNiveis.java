@@ -1,9 +1,13 @@
 package com.api.beelieve.entidades.projeto.servico;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.beelieve.entidade.cronograma.Progresso;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.subprojeto.servico.EstruturaSubProjetoAtualizacao;
@@ -18,13 +22,16 @@ public class AtualizarEstruturaProjetoNiveis {
 	@Autowired
 	private EstruturaSubProjetoAtualizacao atualizaEstruturaProjeto;
 	
+	private List<Progresso> listaProgresso;
 	
-	public void atualizarProjeto(Long id, DadosEstruturaProjetoAtualizacao dadosAtualizacao) {
+	public List<Progresso> atualizarProjeto(Long id, DadosEstruturaProjetoAtualizacao dadosAtualizacao) {
 		Projeto projetoAtual = repositorio_projeto.findById(id).get();
 		projetoAtual.setNome_projeto(dadosAtualizacao.nome_projeto());
 		if(dadosAtualizacao.sub_projetos() != null) {
-			atualizaEstruturaProjeto.atualizarEstrutura(dadosAtualizacao.sub_projetos(), projetoAtual);
+			listaProgresso = atualizaEstruturaProjeto.atualizarEstrutura(dadosAtualizacao.sub_projetos(), projetoAtual);
 		}
+
+		return listaProgresso;
 	}
 
 }

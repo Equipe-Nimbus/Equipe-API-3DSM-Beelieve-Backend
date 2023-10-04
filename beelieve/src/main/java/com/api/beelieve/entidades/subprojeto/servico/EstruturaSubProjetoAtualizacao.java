@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.api.beelieve.entidade.cronograma.Progresso;
 import com.api.beelieve.entidades.nivelsubprojeto.servico.EstruturaNivelSubProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
@@ -30,10 +31,16 @@ public class EstruturaSubProjetoAtualizacao{
 	@Autowired
 	private CadastroSubProjeto cadastroSubProjeto;
 	
+	
 	@Autowired
 	private DeleteSubProjeto deleteSubProjeto;
 	
-	public void atualizarEstrutura(List<DadosEstruturaSubProjetoAtualizacao> listaSubProjeto, Projeto projeto){
+
+	private List<Progresso> insertNiveisCronograma = new ArrayList<Progresso>();
+	
+
+	
+	public List<Progresso> atualizarEstrutura(List<DadosEstruturaSubProjetoAtualizacao> listaSubProjeto, Projeto projeto){
 		List<SubProjeto> listaSubProjetoAtual = repositorio_subprojeto.findByProjeto(projeto);
 		
 		//Atualizando elementos que existem no banco
@@ -45,10 +52,15 @@ public class EstruturaSubProjetoAtualizacao{
 				SubProjeto subProjeto = iteratorSubProjetoAtual.next();
 				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					subProjeto.setNomeSubProjeto(dadosSub.nome_sub_projeto());
+					subProjeto.setOrdem_sub_projeto(dadosSub.ordem_sub_projeto());
 					if(dadosSub.nivel_sub_projeto() != null) {
 						repositorio_tarefa.deleteAll(subProjeto.getTarefas());
-						estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projeto(), subProjeto);
+						List<Progresso> listaNivel = estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projeto(), subProjeto);
+						if(!listaNivel.isEmpty()) {
+							insertNiveisCronograma.addAll(listaNivel);
+						}
 					}
+					
 					iteratorDadosSubProjetoAtualizacao.remove();
 					iteratorSubProjetoAtual.remove();
 				}
@@ -60,7 +72,12 @@ public class EstruturaSubProjetoAtualizacao{
 		if(!listaSubProjeto.isEmpty()) {
 			List<SubProjeto> subProjetosNovos = new ArrayList<SubProjeto>();
 			listaSubProjeto.forEach((subProj)->{
-				subProjetosNovos.add(new SubProjeto(subProj, projeto));
+				SubProjeto novoSubProj = new SubProjeto(subProj, projeto);
+				subProjetosNovos.add(novoSubProj);
+				insertNiveisCronograma.add(new Progresso(novoSubProj));
+				novoSubProj.getNivelSubProjeto().forEach((novoNivel)->{
+					insertNiveisCronograma.add(new Progresso(novoNivel));
+				});
 			});
 			cadastroSubProjeto.cadastroCascata(subProjetosNovos);
 		};
@@ -69,9 +86,7 @@ public class EstruturaSubProjetoAtualizacao{
 		if(!listaSubProjetoAtual.isEmpty()) {
 			deleteSubProjeto.deleteCascata(listaSubProjetoAtual);
 		}
-
+		
+		return insertNiveisCronograma;
 	}
-
-
-
 }

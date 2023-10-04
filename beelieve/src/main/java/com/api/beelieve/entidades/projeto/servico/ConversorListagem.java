@@ -3,6 +3,8 @@ package com.api.beelieve.entidades.projeto.servico;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.stereotype.Service;
+
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosListagemNivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
@@ -12,6 +14,7 @@ import com.api.beelieve.entidades.subprojeto.dto.DadosListagemSubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.api.beelieve.entidades.tarefa.dto.DadosListagemTarefa;
 
+@Service
 public class ConversorListagem {
 	
 	public DadosListagemProjeto converterListagemProjeto(Projeto projeto) {
