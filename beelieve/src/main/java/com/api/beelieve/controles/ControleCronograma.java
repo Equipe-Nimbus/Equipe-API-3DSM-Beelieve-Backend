@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -19,18 +20,21 @@ public class ControleCronograma {
 	
 	@Autowired
 	private CronogramaRepositorio cronograma_repositorio;
+	
 
-	@PostMapping("/teste")
-	public void cadastro(@RequestBody DadosCronogramaPlanejamento cronograma) {
-		cronograma_repositorio.save(new Cronograma(cronograma));
-	}
 	
 	@GetMapping("/{id}")
-	public Cronograma resgataCronograma(@PathVariable Long id) {
+	public ResponseEntity<Cronograma> resgataCronograma(@PathVariable Long id) {
 		Cronograma cronograma = cronograma_repositorio.findById(id).get();
-		System.out.println(cronograma);
-		return cronograma;
+		return ResponseEntity.ok(cronograma);
 	}
+	
+	@PutMapping("/atualiza")
+	public ResponseEntity<CronogramaRepositorio> atualizaCronograma(@RequestBody Cronograma cronograma){
+		cronograma_repositorio.save(cronograma);
+		return ResponseEntity.ok().build();
+	}
+	
 	
 	
 }
