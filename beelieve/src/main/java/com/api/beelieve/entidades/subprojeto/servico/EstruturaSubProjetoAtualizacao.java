@@ -7,7 +7,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.servico.CriaListaProgresso;
 import com.api.beelieve.entidades.nivelsubprojeto.servico.EstruturaNivelSubProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
@@ -35,6 +36,10 @@ public class EstruturaSubProjetoAtualizacao{
 	@Autowired
 	private DeleteSubProjeto deleteSubProjeto;
 	
+	
+	@Autowired
+	private CriaListaProgresso criaListaProgresso;
+	
 
 	private List<Progresso> insertNiveisCronograma = new ArrayList<Progresso>();
 	
@@ -42,7 +47,7 @@ public class EstruturaSubProjetoAtualizacao{
 	
 	public List<Progresso> atualizarEstrutura(List<DadosEstruturaSubProjetoAtualizacao> listaSubProjeto, Projeto projeto){
 		List<SubProjeto> listaSubProjetoAtual = repositorio_subprojeto.findByProjeto(projeto);
-		
+		insertNiveisCronograma = new ArrayList<Progresso>();
 		//Atualizando elementos que existem no banco
 		Iterator<DadosEstruturaSubProjetoAtualizacao> iteratorDadosSubProjetoAtualizacao = listaSubProjeto.iterator();
 		while(iteratorDadosSubProjetoAtualizacao.hasNext()) {
@@ -60,27 +65,28 @@ public class EstruturaSubProjetoAtualizacao{
 							insertNiveisCronograma.addAll(listaNivel);
 						}
 					}
-					
 					iteratorDadosSubProjetoAtualizacao.remove();
 					iteratorSubProjetoAtual.remove();
 				}
 			}
 		}
-		System.out.println(listaSubProjetoAtual);
-		System.out.println(!listaSubProjetoAtual.isEmpty());
+		
+
+		
 		//Criando elementos não encontrados no banco mas que estão no JSON
 		if(!listaSubProjeto.isEmpty()) {
 			List<SubProjeto> subProjetosNovos = new ArrayList<SubProjeto>();
 			listaSubProjeto.forEach((subProj)->{
 				SubProjeto novoSubProj = new SubProjeto(subProj, projeto);
 				subProjetosNovos.add(novoSubProj);
-				insertNiveisCronograma.add(new Progresso(novoSubProj));
-				novoSubProj.getNivelSubProjeto().forEach((novoNivel)->{
-					insertNiveisCronograma.add(new Progresso(novoNivel));
-				});
 			});
 			cadastroSubProjeto.cadastroCascata(subProjetosNovos);
+
+			insertNiveisCronograma.addAll(criaListaProgresso.criarListaInsertProgresso(subProjetosNovos, insertNiveisCronograma));
 		};
+		
+
+		
 		
 		//Deletando elementos que não estão no JSON
 		if(!listaSubProjetoAtual.isEmpty()) {

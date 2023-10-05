@@ -1,9 +1,9 @@
-package com.api.beelieve.entidade.cronograma;
+package com.api.beelieve.entidades.cronograma;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.api.beelieve.entidade.cronograma.dto.DadosMes;
+import com.api.beelieve.entidades.cronograma.dto.DadosMes;
 
 import lombok.Data;
 import lombok.ToString;

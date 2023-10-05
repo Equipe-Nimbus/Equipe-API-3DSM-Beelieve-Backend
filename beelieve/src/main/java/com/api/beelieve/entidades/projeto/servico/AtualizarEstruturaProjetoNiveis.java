@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.subprojeto.servico.EstruturaSubProjetoAtualizacao;

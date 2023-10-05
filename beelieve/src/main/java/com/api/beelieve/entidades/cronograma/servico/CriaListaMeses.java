@@ -1,12 +1,12 @@
-package com.api.beelieve.entidade.cronograma.servico;
+package com.api.beelieve.entidades.cronograma.servico;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Mes;
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Mes;
+import com.api.beelieve.entidades.cronograma.Progresso;
 
 @Service
 public class CriaListaMeses {

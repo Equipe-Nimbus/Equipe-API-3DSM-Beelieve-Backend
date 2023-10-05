@@ -7,7 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.Projeto;
@@ -31,6 +31,8 @@ public class EstruturaNivelSubProjetoAtualizacao {
 	
 	public List<Progresso> atualizarEstrutura(List<DadosEstruturaNivelSubProjetoAtualizacao> listaDadosNivelSubProjeto, SubProjeto subProjeto) {
 		List<NivelSubProjeto> listaNivelSubProjetoAtual = repositorio_nivel.findBySubProjeto(subProjeto);
+		insertNovosNiveis = new ArrayList<Progresso>();
+		
 		
 		//Atualizando elementos que existem no banco
 		Iterator<DadosEstruturaNivelSubProjetoAtualizacao> iteratorDadosNivel = listaDadosNivelSubProjeto.iterator();

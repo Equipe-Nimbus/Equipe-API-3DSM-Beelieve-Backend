@@ -1,6 +1,9 @@
-package com.api.beelieve.entidade.cronograma;
+package com.api.beelieve.entidades.cronograma;
 
-import com.api.beelieve.entidade.cronograma.dto.DadosPlanejamento;
+import java.util.ArrayList;
+import java.util.List;
+
+import com.api.beelieve.entidades.cronograma.dto.DadosPlanejamento;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
@@ -21,6 +24,8 @@ public class Progresso {
 	public Progresso() {}
 	
 	public Progresso(SubProjeto subProjeto) {
+		
+		
 		this.tipo = "subprojeto";
 		this.ordem_nivel = subProjeto.getOrdem_sub_projeto();
 		this.nome_nivel = subProjeto.getNomeSubProjeto();

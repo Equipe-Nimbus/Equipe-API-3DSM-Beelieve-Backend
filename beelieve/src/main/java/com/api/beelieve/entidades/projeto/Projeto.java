@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.api.beelieve.entidade.cronograma.Cronograma;
+import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 

@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma.dto;
+package com.api.beelieve.entidades.cronograma.dto;
 
 public record DadosPlanejamento(
 		String tipo,

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.api.beelieve.entidade.cronograma.Cronograma;
+import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.dto.DadosEstruturaSubProjetoAtualizacao;
@@ -24,8 +24,9 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
-
+@ToString
 @Entity
 @Table(name = "subProjeto")
 public class SubProjeto{
@@ -78,7 +79,6 @@ public class SubProjeto{
 		this.nome_sub_projeto = subProj.nome_sub_projeto();
 		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		this.projeto = projetoPai;
-		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		if(subProj.nivel_sub_projeto() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
 			subProj.nivel_sub_projeto().forEach((nivelSubProj)->{

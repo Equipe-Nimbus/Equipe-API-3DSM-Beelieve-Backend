@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma.servico;
+package com.api.beelieve.entidades.cronograma.servico;
 
 import java.util.Collections;
 import java.util.List;
@@ -8,9 +8,9 @@ import java.util.Iterator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Cronograma;
-import com.api.beelieve.entidade.cronograma.Mes;
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Cronograma;
+import com.api.beelieve.entidades.cronograma.Mes;
+import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.subprojeto.dto.DadosEstruturaSubProjetoAtualizacao;
 import com.api.beelieve.repositorio.CronogramaRepositorio;
@@ -27,7 +27,6 @@ public class AtualizaEstruturaCronograma {
 		Mes cloneMes = new Mes(mesOriginal);
 		List<Progresso> niveisProgresso = cloneMes.getNiveis();
 
-		
 		
 		//Atualização
 		cronograma.getLista_cronograma().forEach((mes)->{
@@ -81,14 +80,13 @@ public class AtualizaEstruturaCronograma {
 			}
 			
 		}
+
 		cronograma.getLista_cronograma().forEach((mes)->{
-			System.out.println(novosNiveis);
 			if(!novosNiveis.isEmpty()) {
 				mes.getNiveis().addAll(novosNiveis);
 				Collections.sort(mes.getNiveis(), Comparator.comparing(Progresso::getOrdem_nivel));
 			}
 		});
-		
 		
 		cronograma_repositorio.save(cronograma);
 		

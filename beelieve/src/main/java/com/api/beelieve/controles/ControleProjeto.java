@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.api.beelieve.entidade.cronograma.Progresso;
-import com.api.beelieve.entidade.cronograma.servico.AtualizaEstruturaCronograma;
-import com.api.beelieve.entidade.cronograma.servico.CriaCronograma;
+import com.api.beelieve.entidades.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma;
+import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoBox;
 import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoLigacao;

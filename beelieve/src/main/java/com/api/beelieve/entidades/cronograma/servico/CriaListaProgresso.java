@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma.servico;
+package com.api.beelieve.entidades.cronograma.servico;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,14 +6,15 @@ import java.util.List;
 
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Progresso;
-import com.api.beelieve.entidade.cronograma.dto.DadosPlanejamento;
+import com.api.beelieve.entidades.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.dto.DadosPlanejamento;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
 @Service
 public class CriaListaProgresso {
 
-	public List<Progresso> criarListaProgresso(Projeto projeto) {
+	public List<Progresso> criarListaProgressoProjeto(Projeto projeto) {
 		List<Progresso> niveis = new ArrayList<Progresso>();
 		niveis.add(new Progresso(
 				new DadosPlanejamento(
@@ -50,4 +51,18 @@ public class CriaListaProgresso {
 		return niveis;
 	}
 	
+	public List<Progresso> criarListaInsertProgresso(List<SubProjeto> subProjetos, List<Progresso> listaInsertProgresso) {
+		List<Progresso> listaProgresso = new ArrayList<Progresso>();
+		subProjetos.forEach((subProjeto)->{
+			listaProgresso.add(new Progresso(subProjeto));
+			subProjeto.getNivelSubProjeto().forEach((nivel)->{
+				Progresso novoProgresso = new Progresso(nivel);
+				if(!listaInsertProgresso.contains(novoProgresso)) {
+					listaProgresso.add(novoProgresso);
+				}
+			});
+		});
+		return listaProgresso;
+	
+	}
 }

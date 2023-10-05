@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma.dto;
+package com.api.beelieve.entidades.cronograma.dto;
 
 import java.util.List;
 

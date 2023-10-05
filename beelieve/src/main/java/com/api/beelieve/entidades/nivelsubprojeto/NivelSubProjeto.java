@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
-import com.api.beelieve.entidade.cronograma.Cronograma;
+import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProjetoAtualizacao;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;

@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma;
+package com.api.beelieve.entidades.cronograma;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -7,7 +7,7 @@ import java.util.List;
 
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import com.api.beelieve.entidade.cronograma.dto.DadosCronogramaPlanejamento;
+import com.api.beelieve.entidades.cronograma.dto.DadosCronogramaPlanejamento;
 
 import jakarta.persistence.Id;
 import lombok.Data;

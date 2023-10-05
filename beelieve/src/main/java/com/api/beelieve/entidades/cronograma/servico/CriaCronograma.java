@@ -1,4 +1,4 @@
-package com.api.beelieve.entidade.cronograma.servico;
+package com.api.beelieve.entidades.cronograma.servico;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -6,9 +6,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidade.cronograma.Cronograma;
-import com.api.beelieve.entidade.cronograma.Mes;
-import com.api.beelieve.entidade.cronograma.Progresso;
+import com.api.beelieve.entidades.cronograma.Cronograma;
+import com.api.beelieve.entidades.cronograma.Mes;
+import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.repositorio.CronogramaRepositorio;
@@ -26,7 +26,7 @@ public class CriaCronograma {
 	private CriaListaMeses criaMeses;
 
 	public void criarCronograma(Projeto projeto, Integer prazo) {
-		List<Progresso> niveis = criaListaProgresso.criarListaProgresso(projeto);
+		List<Progresso> niveis = criaListaProgresso.criarListaProgressoProjeto(projeto);
 		Object criaListaMeses;
 		List<Mes> meses = criaMeses.criarListaMeses(prazo, niveis);
 		cronograma_repositorio.insert(new Cronograma(projeto.getId_projeto(), meses));
