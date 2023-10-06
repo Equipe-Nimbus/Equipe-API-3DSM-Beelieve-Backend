@@ -1,10 +1,13 @@
 package com.api.beelieve.entidades.projeto;
 
 import java.math.BigDecimal;
+
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.hateoas.RepresentationModel;
 
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 
@@ -17,9 +20,10 @@ import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
 
+
 @Entity
 @Table(name = "projeto")
-public class Projeto {
+public class Projeto extends RepresentationModel<Projeto>{
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_projeto;

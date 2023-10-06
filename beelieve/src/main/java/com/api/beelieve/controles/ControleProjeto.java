@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -68,8 +69,15 @@ public class ControleProjeto {
 	public ResponseEntity<List<DadosProjetoListagemGeral>> listar() {
 		List<Projeto> listaProjeto = repositorio_projeto.findAll();
 		System.out.println(listaProjeto);
-		List<DadosProjetoListagemGeral> listaProjetoModificada = listaProjetoGeral.listarProjetos(listaProjeto);
-		return ResponseEntity.ok(listaProjetoModificada);
+		if(listaProjeto.isEmpty()) {
+			ResponseEntity<List<DadosProjetoListagemGeral>> listaProjetoModificada = new ResponseEntity<>(HttpStatus.NOT_FOUND);
+			return listaProjetoModificada;
+		} else {
+			
+			ResponseEntity<List<DadosProjetoListagemGeral>> listaProjetoModificada = new ResponseEntity<>(listaProjetoGeral.listarProjetos(listaProjeto), HttpStatus.OK);
+			return listaProjetoModificada;
+
+		}
 	}
 
 	@GetMapping("/listar/{id}")
