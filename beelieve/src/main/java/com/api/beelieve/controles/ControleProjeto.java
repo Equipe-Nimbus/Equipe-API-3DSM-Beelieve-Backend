@@ -92,7 +92,6 @@ public class ControleProjeto {
 	@GetMapping("/listar")
 	public ResponseEntity<List<DadosProjetoListagemGeral>> listar() {
 		List<Projeto> listaProjeto = repositorio_projeto.findAll();
-		System.out.println(listaProjeto);
 		List<DadosProjetoListagemGeral> listaProjetoModificada = listaProjetoGeral.listarProjetos(listaProjeto);
 		return ResponseEntity.ok(listaProjetoModificada);
 	}

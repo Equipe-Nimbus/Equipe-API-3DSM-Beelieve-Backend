@@ -23,12 +23,14 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
-@ToString
+
 @Entity
 @Table(name = "subProjeto")
+@Data
 public class SubProjeto{
 	
 
@@ -59,6 +61,9 @@ public class SubProjeto{
 	
 	@Column
 	private BigDecimal orcamento_sub_projeto;
+	
+	@Column
+	private BigDecimal materiais_sub_projeto;
 	
 	@Column
 	private BigDecimal hora_humano_sub_projeto;

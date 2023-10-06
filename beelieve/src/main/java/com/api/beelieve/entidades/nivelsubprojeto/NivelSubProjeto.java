@@ -56,6 +56,9 @@ public class NivelSubProjeto{
 	
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
+	
+	@Column
+	private BigDecimal materiais_nivel_sub_projeto;
 
 
 	@Column

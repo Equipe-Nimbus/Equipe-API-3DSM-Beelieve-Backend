@@ -17,9 +17,11 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
+import lombok.Data;
 
 @Entity
 @Table(name = "projeto")
+@Data
 public class Projeto {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -54,12 +56,15 @@ public class Projeto {
 	private BigDecimal orcamento_projeto;
 	
 	@Column
+	private BigDecimal materiais_projeto;
+	
+	@Column
 	private BigDecimal hora_humano_total;
 	
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-
+	
 
 	public Projeto() {
 		

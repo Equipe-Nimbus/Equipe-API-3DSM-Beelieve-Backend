@@ -54,6 +54,8 @@ public class ControleTarefa {
 	@PutMapping("/atualizar")
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
+		System.out.println("============= ENTRADA ==============");
+		System.out.println(listaTarefas);
 		
 		if("subprojeto".equals(listaTarefas.tipo_pai())) {
 			SubProjeto nivelPai = repositorio_subprojeto.findById(listaTarefas.id_pai()).get();

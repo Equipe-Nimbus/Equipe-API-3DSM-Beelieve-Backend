@@ -28,7 +28,7 @@ public class AtualizaOrcamento {
 		projeto.setChefe_projeto(orcamentoProjeto.chefe_projeto());
 		projeto.setHora_humano_total(orcamentoProjeto.hora_humano_total());
 		projeto.setHora_valor_projeto(orcamentoProjeto.hora_valor_projeto());
-		System.out.println(orcamentoProjeto);
+		projeto.setMateriais_projeto(orcamentoProjeto.materiais_projeto());
 		if(orcamentoProjeto.sub_projetos() != null) {
 			this.atualizaOrcamentoSubProjeto(orcamentoProjeto.sub_projetos(), projeto.getSub_projetos());
 		}
@@ -43,6 +43,7 @@ public class AtualizaOrcamento {
 					subProjeto.setOrcamentoSubProjeto(orcamentoSub.orcamento_sub_projeto());
 					subProjeto.setHoraHomemSubprojeto(orcamentoSub.hora_humano_sub_projeto());
 					subProjeto.setChefeSubProjeto(orcamentoSub.chefe_sub_projeto());
+					subProjeto.setMateriais_sub_projeto(orcamentoSub.materiais_sub_projeto());
 					if(orcamentoSub.nivel_sub_projeto() != null) {
 						this.atualizaOrcamentoNivelSubProjeto(orcamentoSub.nivel_sub_projeto(), subProjeto.getNivelSubProjeto());
 					}
@@ -58,6 +59,7 @@ public class AtualizaOrcamento {
 					nivelSub.setHora_humano_nivel_sub_projeto(orcamentoNivel.hora_humano_nivel_sub_projeto());
 					nivelSub.setOrcamento_nivel_sub_projeto(orcamentoNivel.orcamento_nivel_sub_projeto());
 					nivelSub.setGrupo_nivel_sub_projeto(orcamentoNivel.grupo_nivel_sub_projeto());
+					nivelSub.setMateriais_nivel_sub_projeto(orcamentoNivel.materiais_nivel_sub_projeto());
 				}
 			});
 		});

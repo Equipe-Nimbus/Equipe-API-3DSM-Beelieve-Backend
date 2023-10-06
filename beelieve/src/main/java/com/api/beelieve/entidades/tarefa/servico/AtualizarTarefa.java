@@ -24,5 +24,6 @@ public class AtualizarTarefa {
 		if(dadosTarefa.prazo_tarefa() != null) {
 			tarefaAtual.setPrazo_tarefa(dadosTarefa.prazo_tarefa());
 		}
+		System.out.println(dadosTarefa);
 	}
 }
