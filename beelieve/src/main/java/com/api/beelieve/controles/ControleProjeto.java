@@ -7,6 +7,7 @@ import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
+import com.api.beelieve.entidades.cronograma.servico.DeletaCronograma;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
@@ -31,6 +33,7 @@ import com.api.beelieve.entidades.projeto.servico.AtualizarEstruturaProjetoNivei
 import com.api.beelieve.entidades.projeto.servico.CadastroProjeto;
 import com.api.beelieve.entidades.projeto.servico.ClonaDadosEstrutura;
 import com.api.beelieve.entidades.projeto.servico.ConversorListagem;
+import com.api.beelieve.entidades.projeto.servico.DeleteProjeto;
 import com.api.beelieve.entidades.projeto.servico.InicializaProjeto;
 import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
@@ -76,6 +79,12 @@ public class ControleProjeto {
 	
 	@Autowired
 	private MontarArvoreProjeto arvoreProjeto;
+	
+	@Autowired
+	private DeletaCronograma deletaCronograma;
+	
+	@Autowired
+	private DeleteProjeto deletaProjeto;
 	
 	@Autowired
 	private InicializaProjeto service;
@@ -150,6 +159,16 @@ public class ControleProjeto {
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}
+	}
+	
+	@DeleteMapping("/deletar/{id}")
+	@Transactional
+	public ResponseEntity<?> deletarProjetoPorId(@PathVariable Long id) {
+		Projeto projetoEscolhido = repositorio_projeto.findById(id).get();
+		Long idProjetoEscolhido = projetoEscolhido.getId_projeto();
+		deletaCronograma.deletar(idProjetoEscolhido);
+		deletaProjeto.deleteCascata(projetoEscolhido);
+		return ResponseEntity.ok().build();
 	}
 }
 
