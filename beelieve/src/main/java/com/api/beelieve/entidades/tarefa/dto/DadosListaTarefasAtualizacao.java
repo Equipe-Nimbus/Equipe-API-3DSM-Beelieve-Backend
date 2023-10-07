@@ -6,6 +6,7 @@ public record DadosListaTarefasAtualizacao(
 		String tipo_pai,
 		Long id_pai,
 		Double progresso_pai,
+		Boolean inicializado,
 		List<DadosTarefaAtualizacao> lista_tarefas
 		) {
 }

@@ -62,15 +62,14 @@ public class ControleTarefa {
 		if("subprojeto".equals(listaTarefas.tipo_pai())) {
 			SubProjeto nivelPai = repositorio_subprojeto.findById(listaTarefas.id_pai()).get();
 			leituraListaTarefa.atualizarListaSubProjeto(listaTarefas.lista_tarefas(), nivelPai);
-			if(listaTarefas.progresso_pai() != null) {
+			if(listaTarefas.progresso_pai() != null && listaTarefas.inicializado()) {
 				atualizaProgresso.atualizarProgressoSubProjeto(listaTarefas.progresso_pai(), nivelPai);
 			}
-			
 		}
 		else if ("nivelsubprojeto".equals(listaTarefas.tipo_pai())) {
 			NivelSubProjeto nivelPai = repositorio_nivelsubProjetoRepositorio.findById(listaTarefas.id_pai()).get();
 			leituraListaTarefa.atualizarListaNivel(listaTarefas.lista_tarefas(), nivelPai);
-			if(listaTarefas.progresso_pai() != null) {
+			if(listaTarefas.progresso_pai() != null && listaTarefas.inicializado()) {
 				atualizaProgresso.atualizarProgressoNivelSubProjeto(listaTarefas.progresso_pai(), nivelPai);
 			}
 		}
