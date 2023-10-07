@@ -1,44 +1,46 @@
 package com.api.beelieve.controles;
 
-import java.util.ArrayList;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-
-
-
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.projeto.Projeto;
-import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoBox;
-import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoLigacao;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.dto.DadosOrcamentoProjeto;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoListagemGeral;
+import com.api.beelieve.entidades.projeto.dto.DateInicializaProjeto;
 import com.api.beelieve.entidades.projeto.servico.AtualizaOrcamento;
 import com.api.beelieve.entidades.projeto.servico.AtualizarEstruturaProjetoNiveis;
 import com.api.beelieve.entidades.projeto.servico.CadastroProjeto;
 import com.api.beelieve.entidades.projeto.servico.ClonaDadosEstrutura;
 import com.api.beelieve.entidades.projeto.servico.ConversorListagem;
+import com.api.beelieve.entidades.projeto.servico.InicializaProjeto;
 import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
-
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 
 import jakarta.transaction.Transactional;
+import jakarta.validation.ConstraintViolation;
+import jakarta.validation.Validation;
+import jakarta.validation.Validator;
+import jakarta.validation.ValidatorFactory;
 
 
 @RestController
@@ -74,6 +76,12 @@ public class ControleProjeto {
 	
 	@Autowired
 	private MontarArvoreProjeto arvoreProjeto;
+	
+	@Autowired
+	private InicializaProjeto service;
+	
+	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
+	
 	
 	@PostMapping("/cadastrar")
 	@Transactional
@@ -124,4 +132,24 @@ public class ControleProjeto {
 		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
 		return ResponseEntity.ok(projetoAtualizado);
 	}
+	
+	@PostMapping("/{id}/iniciarprojeto")
+	@Transactional
+	public ResponseEntity<String> inicializaProjeto(@PathVariable Long id, @RequestBody DateInicializaProjeto projectStartDate) {
+		Set<ConstraintViolation<DateInicializaProjeto>> violations = validator.validate(projectStartDate);
+		for(var violation : violations) {
+			return ResponseEntity.badRequest().body(violation.getMessage());
+		}
+		
+		try {
+			var date = service.setaData(id, projectStartDate.data_inicio_projeto());
+			if (date.isEmpty()) {
+				ResponseEntity.internalServerError().build();
+			}
+			return ResponseEntity.ok(date.get());
+		} catch (Exception e) {
+			return ResponseEntity.internalServerError().body(e.getMessage());
+		}
+	}
 }
+
