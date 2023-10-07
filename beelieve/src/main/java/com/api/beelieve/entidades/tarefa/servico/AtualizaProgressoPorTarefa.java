@@ -7,7 +7,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+<<<<<<< HEAD
 import com.api.beelieve.entidades.cronograma.servico.AtualizaProgressoRealCronograma;
+=======
+>>>>>>> 6c48755fc4d272edf27914aec17648a52749522c
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.servico.AtualizaProgressoProjeto;
@@ -34,20 +37,27 @@ public class AtualizaProgressoPorTarefa {
 	@Autowired
 	private AtualizaProgressoSubProjeto atualizaProgressoSubProjeto;
 	
+
 	@Autowired
 	private AtualizaProgressoRealCronograma atualizaCronograma;
 	
+
 	public void atualizarProgressoSubProjeto(Double progresso_sub_projeto, SubProjeto subProjeto) {
 		
 		subProjeto.setProgresso_sub_projeto(progresso_sub_projeto);
 		Projeto projetoPai = subProjeto.getProjeto();
 		List<SubProjeto> subProjetosIrmãos = projetoPai.getSub_projetos();
 		atualizaProgressoProjeto.atualizarProgresso(subProjetosIrmãos, projetoPai);
+<<<<<<< HEAD
 		
 		Long id_projeto = projetoPai.getId_projeto();
 		
 		subprojeto_repositorio.save(subProjeto);
 		atualizaCronograma.atualizarProgressoCronograma(id_projeto, "subprojeto", subProjeto.getId_sub_projeto(), progresso_sub_projeto);
+=======
+
+		subprojeto_repositorio.save(subProjeto);
+>>>>>>> 6c48755fc4d272edf27914aec17648a52749522c
 	}
 	
 	public void atualizarProgressoNivelSubProjeto(Double progresso_nivel_sub_projeto, NivelSubProjeto nivelSubProj) {
@@ -56,10 +66,14 @@ public class AtualizaProgressoPorTarefa {
 		List<NivelSubProjeto> nivelSubIrmaos = subProjetoPai.getNivel_sub_projeto();
 		atualizaProgressoSubProjeto.atualizaProgresso(nivelSubIrmaos, subProjetoPai);
 		
+<<<<<<< HEAD
 		Long id_projeto = subProjetoPai.getProjeto().getId_projeto();
 		
 		nivel_subprojeto_repositorio.save(nivelSubProj);
 		atualizaCronograma.atualizarProgressoCronograma(id_projeto, "nivelsubprojeto", nivelSubProj.getId_nivel_sub_projeto(), progresso_nivel_sub_projeto);
+=======
+		nivel_subprojeto_repositorio.save(nivelSubProj);
+>>>>>>> 6c48755fc4d272edf27914aec17648a52749522c
 	}
 	
 	

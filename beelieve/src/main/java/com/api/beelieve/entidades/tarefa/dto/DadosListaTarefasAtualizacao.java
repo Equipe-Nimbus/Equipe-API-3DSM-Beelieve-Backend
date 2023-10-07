@@ -7,6 +7,7 @@ public record DadosListaTarefasAtualizacao(
 		Long id_pai,
 		Double progresso_pai,
 		Boolean inicializado,
+
 		List<DadosTarefaAtualizacao> lista_tarefas
 		) {
 }

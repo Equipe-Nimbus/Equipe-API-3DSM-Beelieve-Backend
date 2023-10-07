@@ -7,7 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+
 import com.api.beelieve.entidades.cronograma.servico.AtualizaProgressoRealCronograma;
+
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
@@ -19,8 +21,10 @@ public class AtualizaProgressoProjeto {
 	@Autowired
 	private ProjetoRepositorio projeto_repositorio;
 	
+
 	@Autowired
 	private AtualizaProgressoRealCronograma atualizaCronograma;
+
 	
 	private BigDecimal divisor;
 	private BigDecimal dividendo;
@@ -51,7 +55,9 @@ public class AtualizaProgressoProjeto {
 		
 		
 		projeto_repositorio.save(projeto);
+
 		atualizaCronograma.atualizarProgressoCronograma(projeto.getId_projeto(), "projeto", projeto.getId_projeto(), resultado.doubleValue());
+
 	}
 
 	
