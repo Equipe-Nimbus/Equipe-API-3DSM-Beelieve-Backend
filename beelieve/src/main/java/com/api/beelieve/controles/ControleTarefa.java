@@ -58,6 +58,7 @@ public class ControleTarefa {
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
 		
+		System.out.println(listaTarefas.progresso_pai() != null && listaTarefas.inicializado());
 		
 		if("subprojeto".equals(listaTarefas.tipo_pai())) {
 			SubProjeto nivelPai = repositorio_subprojeto.findById(listaTarefas.id_pai()).get();
