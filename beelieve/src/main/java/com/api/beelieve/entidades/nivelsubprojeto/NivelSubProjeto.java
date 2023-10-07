@@ -89,7 +89,7 @@ public class NivelSubProjeto{
 		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
 		this.ordem_nivel_sub_projeto = nivelSubProj.ordem_nivel_sub_projeto();
-
+		this.progresso_nivel_sub_projeto = 0.0;
 	}
 
 

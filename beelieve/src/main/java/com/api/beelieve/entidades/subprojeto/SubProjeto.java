@@ -31,6 +31,7 @@ import lombok.ToString;
 @Entity
 @Table(name = "subProjeto")
 @Data
+@ToString
 public class SubProjeto{
 	
 
@@ -97,6 +98,7 @@ public class SubProjeto{
 		this.projeto = projetoPai;
 		this.ordem_sub_projeto = dadoSub.ordem_sub_projeto();
 		this.nome_sub_projeto = dadoSub.nome_sub_projeto();
+		this.progresso_sub_projeto = 0.0;
 		if(dadoSub.nivel_sub_projeto() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
 			dadoSub.nivel_sub_projeto().forEach((nivelSub)->{

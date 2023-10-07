@@ -16,6 +16,7 @@ import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.api.beelieve.entidades.tarefa.dto.DadosListaTarefasAtualizacao;
+import com.api.beelieve.entidades.tarefa.servico.AtualizaProgressoPorTarefa;
 import com.api.beelieve.entidades.tarefa.servico.LeituraListaTarefa;
 import com.api.beelieve.repositorio.NivelSubProjetoRepositorio;
 import com.api.beelieve.repositorio.SubProjetoRepositorio;
@@ -39,6 +40,8 @@ public class ControleTarefa {
 	@Autowired
 	private NivelSubProjetoRepositorio repositorio_nivelsubProjetoRepositorio;
 	
+	@Autowired AtualizaProgressoPorTarefa atualizaProgresso;
+	
 	@PostMapping("/cadastrar")
 	public void cadastrar(@RequestBody Tarefa tarefa) {
 		repositorio_tarefa.save(tarefa);
@@ -54,16 +57,22 @@ public class ControleTarefa {
 	@PutMapping("/atualizar")
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
-		System.out.println("============= ENTRADA ==============");
-		System.out.println(listaTarefas);
+		
 		
 		if("subprojeto".equals(listaTarefas.tipo_pai())) {
 			SubProjeto nivelPai = repositorio_subprojeto.findById(listaTarefas.id_pai()).get();
 			leituraListaTarefa.atualizarListaSubProjeto(listaTarefas.lista_tarefas(), nivelPai);
+			if(listaTarefas.progresso_pai() != null) {
+				atualizaProgresso.atualizarProgressoSubProjeto(listaTarefas.progresso_pai(), nivelPai);
+			}
+			
 		}
 		else if ("nivelsubprojeto".equals(listaTarefas.tipo_pai())) {
 			NivelSubProjeto nivelPai = repositorio_nivelsubProjetoRepositorio.findById(listaTarefas.id_pai()).get();
 			leituraListaTarefa.atualizarListaNivel(listaTarefas.lista_tarefas(), nivelPai);
+			if(listaTarefas.progresso_pai() != null) {
+				atualizaProgresso.atualizarProgressoNivelSubProjeto(listaTarefas.progresso_pai(), nivelPai);
+			}
 		}
 		
 		return ResponseEntity.ok().build();
