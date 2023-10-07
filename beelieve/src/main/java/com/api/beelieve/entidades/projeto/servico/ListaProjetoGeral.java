@@ -20,7 +20,8 @@ public class ListaProjetoGeral {
 					projeto.getNome_projeto(),
 					projeto.getDescricao_projeto(),
 					projeto.getChefe_projeto(),
-					projeto.getProgresso_projeto()
+					projeto.getProgresso_projeto(),
+					projeto.getData_inicio_projeto()
 					);
 			listaFinal.add(atributosProjeto);
 		}
