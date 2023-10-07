@@ -34,7 +34,4 @@ public class ControleCronograma {
 		cronograma_repositorio.save(cronograma);
 		return ResponseEntity.ok().build();
 	}
-	
-	
-	
 }
