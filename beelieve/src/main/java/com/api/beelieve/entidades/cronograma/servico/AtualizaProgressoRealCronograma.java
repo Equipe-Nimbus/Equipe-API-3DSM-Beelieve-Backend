@@ -28,8 +28,7 @@ public class AtualizaProgressoRealCronograma {
 		DataCustomizada dataAtual = data_repositorio.findById(Long.valueOf(1)).get();
 		Calendar calendario = Calendar.getInstance();
 		calendario.setTime(dataAtual.getData());
-		int numeroMes = calendario.MONTH + 1;
-		
+		int numeroMes = calendario.get(calendario.MONTH) + 1;
 		String mesProgresso = mesesCronograma.converteNumeroMes(numeroMes);
 		
 		cronograma.getLista_cronograma().forEach((mes)->{
@@ -37,12 +36,11 @@ public class AtualizaProgressoRealCronograma {
 				mes.getNiveis().forEach((entidade)->{
 					if(entidade.getId_nivel() == id_entidade && entidade.getTipo().equals(tipo_entidade)) {
 						entidade.setProgresso_real(progresso_real);
+					
 					}
 				});
 			}
 		});
-		
 		cronograma_repositorio.save(cronograma);
 	}
-		
 }
