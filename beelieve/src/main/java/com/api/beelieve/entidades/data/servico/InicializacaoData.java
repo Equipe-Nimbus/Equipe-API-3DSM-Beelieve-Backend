@@ -12,6 +12,7 @@ import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
 
 import com.api.beelieve.entidades.data.DataCustomizada;
+import com.api.beelieve.entidades.data.DataTeste;
 import com.api.beelieve.repositorio.DataRepositorio;
 
 @Component
@@ -19,6 +20,9 @@ public class InicializacaoData implements ApplicationListener<ApplicationReadyEv
 	
 	@Autowired
 	private DataRepositorio data_repositorio;
+	
+	@Autowired
+	private DataTeste dataTeste;
 	
 	@Override
 	public void onApplicationEvent(ApplicationReadyEvent event) {
@@ -34,6 +38,7 @@ public class InicializacaoData implements ApplicationListener<ApplicationReadyEv
 		java.sql.Date sqlDate = new java.sql.Date(dataSistema.getTime());
 		DataCustomizada data = new DataCustomizada(sqlDate);
 		data_repositorio.save(data); 
+		dataTeste.data = data.getData();
 		DataCustomizada a = data_repositorio.findById(Long.valueOf(1)).get();
 		System.out.println(a);
 	}

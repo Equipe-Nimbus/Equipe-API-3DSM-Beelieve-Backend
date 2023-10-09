@@ -21,7 +21,7 @@ import lombok.ToString;
 @ToString
 public class DataCustomizada {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Long id;
 	
 	@Column
@@ -31,5 +31,6 @@ public class DataCustomizada {
 	
 	public DataCustomizada(Date data) {
 		this.data = data;
+		this.id = Long.valueOf(1);
 	}
 }

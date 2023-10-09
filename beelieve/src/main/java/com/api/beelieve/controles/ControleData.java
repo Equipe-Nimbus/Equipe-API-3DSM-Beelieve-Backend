@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
 import com.api.beelieve.entidades.data.DataCustomizada;
+import com.api.beelieve.entidades.data.DataTeste;
 import com.api.beelieve.entidades.data.servico.AdicionaUmDia;
 import com.api.beelieve.repositorio.DataRepositorio;
 
@@ -37,6 +38,9 @@ public class ControleData {
 	@Autowired
 	private InicializacaoMesesCronograma mesesCronograma;
 	
+	@Autowired
+	private DataTeste dataTeste;
+	
 	
 	@PostMapping("/muda")
 	@Transient
@@ -45,6 +49,7 @@ public class ControleData {
 		DataCustomizada data = data_repositorio.findById(Long.valueOf(1)).get();
 		data.setData(manipulaData.adicionaDia(dataMudanca.getData()));
 		data_repositorio.save(data);
+		dataTeste.data = data.getData();
 		System.out.println(data);
 	}
 	

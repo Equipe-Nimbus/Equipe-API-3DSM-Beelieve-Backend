@@ -23,6 +23,7 @@ import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.DeletaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
 import com.api.beelieve.entidades.data.DataCustomizada;
+import com.api.beelieve.entidades.data.DataTeste;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
@@ -98,6 +99,9 @@ public class ControleProjeto {
 	@Autowired
 	private InicializaProjeto service;
 	
+	@Autowired
+	private DataTeste dataTestes;
+	
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	
 	
@@ -130,7 +134,8 @@ public class ControleProjeto {
 		//List<Object> listaProjetoMaisArvore = new ArrayList<Object>();
 		//listaProjetoMaisArvore.add(projeto);
 		//listaProjetoMaisArvore.add(nodes);
-		//listaProjetoMaisArvore.add(edges);		
+		//listaProjetoMaisArvore.add(edges);
+		System.out.println(dataTestes.data);
 		return ResponseEntity.ok(projeto);
 	};
 	
