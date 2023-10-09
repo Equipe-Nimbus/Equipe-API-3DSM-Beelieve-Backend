@@ -5,9 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.api.beelieve.entidades.projeto.ConversorListagem;
-import com.api.beelieve.entidades.projeto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
+import com.api.beelieve.entidades.projeto.servico.ConversorListagem;
 
 public interface ProjetoRepositorio extends JpaRepository<Projeto, Long> {
 

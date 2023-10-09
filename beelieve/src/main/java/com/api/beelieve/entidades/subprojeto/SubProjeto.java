@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
+import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.subprojeto.dto.DadosEstruturaSubProjetoAtualizacao;
+import com.api.beelieve.entidades.subprojeto.dto.DadosSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -22,11 +23,15 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 
 @Entity
 @Table(name = "subProjeto")
+@Data
+@ToString
 public class SubProjeto{
 	
 
@@ -59,12 +64,17 @@ public class SubProjeto{
 	private BigDecimal orcamento_sub_projeto;
 	
 	@Column
+	private BigDecimal materiais_sub_projeto;
+	
+	@Column
 	private BigDecimal hora_humano_sub_projeto;
 	
 	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_projeto")
 	private Projeto projeto;
+	
+
 	
 	
 	public SubProjeto() {
@@ -75,7 +85,6 @@ public class SubProjeto{
 		this.nome_sub_projeto = subProj.nome_sub_projeto();
 		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		this.projeto = projetoPai;
-		this.ordem_sub_projeto = subProj.ordem_sub_projeto();
 		if(subProj.nivel_sub_projeto() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
 			subProj.nivel_sub_projeto().forEach((nivelSubProj)->{
@@ -89,6 +98,7 @@ public class SubProjeto{
 		this.projeto = projetoPai;
 		this.ordem_sub_projeto = dadoSub.ordem_sub_projeto();
 		this.nome_sub_projeto = dadoSub.nome_sub_projeto();
+		this.progresso_sub_projeto = 0.0;
 		if(dadoSub.nivel_sub_projeto() != null) {
 			List<NivelSubProjeto> nivelSubProjetos = new ArrayList<NivelSubProjeto>();
 			dadoSub.nivel_sub_projeto().forEach((nivelSub)->{

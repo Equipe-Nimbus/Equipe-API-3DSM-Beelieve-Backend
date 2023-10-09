@@ -4,6 +4,8 @@ import java.util.Date;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.tarefa.dto.DadosTarefaAtualizacao;
+import com.api.beelieve.entidades.tarefa.dto.DadosTarefaCadastro;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
