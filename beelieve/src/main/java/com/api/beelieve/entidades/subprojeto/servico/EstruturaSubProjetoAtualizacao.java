@@ -58,6 +58,9 @@ public class EstruturaSubProjetoAtualizacao{
 				if(dadosSub.id_sub_projeto() == subProjeto.getSub_projeto_id()) {
 					subProjeto.setNomeSubProjeto(dadosSub.nome_sub_projeto());
 					subProjeto.setOrdem_sub_projeto(dadosSub.ordem_sub_projeto());
+					subProjeto.setOrcamento_sub_projeto(dadosSub.orcamento_sub_projeto());
+					subProjeto.setHora_humano_sub_projeto(dadosSub.hora_humano_sub_projeto());
+					subProjeto.setMateriais_sub_projeto(dadosSub.materiais_sub_projeto());
 					if(dadosSub.nivel_sub_projeto() != null) {
 						repositorio_tarefa.deleteAll(subProjeto.getTarefas());
 						List<Progresso> listaNivel = estruturaNivelAtualizacao.atualizarEstrutura(dadosSub.nivel_sub_projeto(), subProjeto);

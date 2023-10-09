@@ -27,6 +27,9 @@ public class AtualizarEstruturaProjetoNiveis {
 	public List<Progresso> atualizarProjeto(Long id, DadosEstruturaProjetoAtualizacao dadosAtualizacao) {
 		Projeto projetoAtual = repositorio_projeto.findById(id).get();
 		projetoAtual.setNome_projeto(dadosAtualizacao.nome_projeto());
+		projetoAtual.setOrcamento_projeto(dadosAtualizacao.orcamento_projeto());
+		projetoAtual.setHora_humano_total(dadosAtualizacao.hora_humano_total());
+		projetoAtual.setMateriais_projeto(dadosAtualizacao.materiais_projeto());
 		if(dadosAtualizacao.sub_projetos() != null) {
 			listaProgresso = atualizaEstruturaProjeto.atualizarEstrutura(dadosAtualizacao.sub_projetos(), projetoAtual);
 		}
