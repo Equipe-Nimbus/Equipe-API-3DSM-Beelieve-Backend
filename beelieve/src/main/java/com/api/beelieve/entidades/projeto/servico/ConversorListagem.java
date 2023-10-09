@@ -29,6 +29,7 @@ public class ConversorListagem {
 				projeto.getData_inicio_projeto(),
 				projeto.getOrcamento_projeto(),
 				projeto.getHora_humano_total(),
+				projeto.getMateriais_projeto(),
 				projeto.getHora_valor_projeto(),
 				this.converterListaSubProjeto(projeto.getSub_projetos()));
 		
@@ -48,6 +49,7 @@ public class ConversorListagem {
 						subProjeto.getProgresso(),
 						subProjeto.getOrcamentoSubProjeto(),
 						subProjeto.getHoraHomemSubprojeto(),
+						subProjeto.getMateriais_sub_projeto(),
 						this.converterListaNivelSubProjeto(subProjeto.getNivelSubProjeto()),
 						this.converterListaTarefa(subProjeto.getTarefas()))
 						);
@@ -85,6 +87,7 @@ public class ConversorListagem {
 						nivelSubProjeto.getProgresso_nivel_sub_projeto(),
 						nivelSubProjeto.getOrcamento_nivel_sub_projeto(),
 						nivelSubProjeto.getHora_humano_nivel_sub_projeto(),
+						nivelSubProjeto.getMateriais_nivel_sub_projeto(),
 						this.converterListaTarefa(nivelSubProjeto.getTarefas())));
 			});
 		}

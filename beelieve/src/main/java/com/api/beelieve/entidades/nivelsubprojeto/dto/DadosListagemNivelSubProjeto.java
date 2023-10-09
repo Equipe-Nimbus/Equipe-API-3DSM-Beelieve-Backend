@@ -16,6 +16,7 @@ public record DadosListagemNivelSubProjeto(
 		Double progresso_nivel_sub_projeto,
 		BigDecimal orcamento_nivel_sub_projeto,
 		BigDecimal hora_humano_nivel_sub_projeto,
+		BigDecimal materiais_nivel_sub_projeto,
 		List<DadosListagemTarefa> tarefas
 		
 		) {

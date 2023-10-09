@@ -18,6 +18,7 @@ public record DadosListagemProjeto(
 		Date data_inicio_projeto,
 		BigDecimal orcamento_projeto,
 		BigDecimal hora_humano_total,
+		BigDecimal materiais_projeto,
 		BigDecimal hora_valor_projeto,
 		List<DadosListagemSubProjeto> sub_projetos
 		) {
