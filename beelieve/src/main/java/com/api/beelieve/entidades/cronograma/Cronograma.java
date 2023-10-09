@@ -23,6 +23,8 @@ public class Cronograma {
 	@Id
 	private Long _id;
 	
+	private Date inicio_projeto;
+	
 	private List<Mes> lista_cronograma;
 	
 	public Cronograma() {};

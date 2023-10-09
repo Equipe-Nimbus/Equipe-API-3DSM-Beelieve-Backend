@@ -34,6 +34,7 @@ public class InicializacaoMesesCronograma {
 			}
 		});
 		
+		cronograma.setInicio_projeto(dataInicio);
 		cronograma_repositorio.save(cronograma);
 		numeroMes = 0;
 	}
