@@ -8,9 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
-import com.api.beelieve.entidades.data.DataTeste;
-import com.api.beelieve.repositorio.DataRepositorio;
-
 
 
 @SpringBootApplication
