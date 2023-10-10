@@ -22,7 +22,7 @@ import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma
 import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.DeletaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
-import com.api.beelieve.entidades.data.DataCustomizada;
+import com.api.beelieve.entidades.data.DataAtualAplicacao;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
@@ -39,7 +39,6 @@ import com.api.beelieve.entidades.projeto.servico.DeleteProjeto;
 import com.api.beelieve.entidades.projeto.servico.InicializaProjeto;
 import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
-import com.api.beelieve.repositorio.DataRepositorio;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 
 import jakarta.transaction.Transactional;
@@ -90,13 +89,13 @@ public class ControleProjeto {
 	private DeleteProjeto deletaProjeto;
 	
 	@Autowired
-	private DataRepositorio data_repositorio;
-	
-	@Autowired
 	private InicializacaoMesesCronograma inicializacaoCronograma;
 	
 	@Autowired
 	private InicializaProjeto service;
+	
+	@Autowired
+	private DataAtualAplicacao dataAtualAplicacao;
 	
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	
@@ -130,7 +129,8 @@ public class ControleProjeto {
 		//List<Object> listaProjetoMaisArvore = new ArrayList<Object>();
 		//listaProjetoMaisArvore.add(projeto);
 		//listaProjetoMaisArvore.add(nodes);
-		//listaProjetoMaisArvore.add(edges);		
+		//listaProjetoMaisArvore.add(edges);
+
 		return ResponseEntity.ok(projeto);
 	};
 	
@@ -161,8 +161,7 @@ public class ControleProjeto {
 		
 		try {
 			var date = service.setaData(id, projectStartDate.data_inicio_projeto());
-			DataCustomizada dataAplicacao = data_repositorio.findById(Long.valueOf(1)).get();
-			inicializacaoCronograma.inicializarCronograma(dataAplicacao.getData(), id);
+			inicializacaoCronograma.inicializarCronograma(dataAtualAplicacao.data, id);
 			
 			if (date.isEmpty()) {
 				ResponseEntity.internalServerError().build();

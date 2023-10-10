@@ -16,9 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
-import com.api.beelieve.entidades.data.DataCustomizada;
+import com.api.beelieve.entidades.data.DataAtualAplicacao;
+import com.api.beelieve.entidades.data.dto.DadosMudancaDataAplicacao;
 import com.api.beelieve.entidades.data.servico.AdicionaUmDia;
-import com.api.beelieve.repositorio.DataRepositorio;
 
 import jakarta.persistence.Transient;
 
@@ -27,9 +27,6 @@ import jakarta.persistence.Transient;
 @RestController
 @RequestMapping("/data")
 public class ControleData {
-
-	@Autowired
-	private DataRepositorio data_repositorio;
 	
 	@Autowired
 	private AdicionaUmDia manipulaData;
@@ -37,25 +34,16 @@ public class ControleData {
 	@Autowired
 	private InicializacaoMesesCronograma mesesCronograma;
 	
+	@Autowired
+	private DataAtualAplicacao dataAtualAplicacao;
+	
 	
 	@PostMapping("/muda")
 	@Transient
-	public void mudaHora(@RequestBody DataCustomizada dataMudanca) {
-		System.out.println(dataMudanca);
-		DataCustomizada data = data_repositorio.findById(Long.valueOf(1)).get();
-		data.setData(manipulaData.adicionaDia(dataMudanca.getData()));
-		data_repositorio.save(data);
-		System.out.println(data);
+	public void mudaHora(@RequestBody DadosMudancaDataAplicacao dataNova) {
+		System.out.println(dataNova.dataNova());
+		dataAtualAplicacao.data = dataNova.dataNova();
+		System.out.println("Data mudada: " + dataAtualAplicacao.data);
 	}
 	
-	@PostMapping("/teste")
-	public String teste(@RequestBody DataCustomizada data) {
-		Calendar calendario = Calendar.getInstance();
-		calendario.setTime(data.getData());
-		calendario.add(Calendar.DAY_OF_MONTH, 1);
-		int numeroMes = calendario.get(Calendar.MONTH) + 1;
-		mesesCronograma.inicializarCronograma(data.getData(), Long.valueOf(1));
-		return mesesCronograma.converteNumeroMes(numeroMes);
-		
-	}
 }
