@@ -1,8 +1,10 @@
 package com.api.beelieve.controles;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -160,13 +162,26 @@ public class ControleProjeto {
 		}
 		
 		try {
-			var date = service.setaData(id, projectStartDate.data_inicio_projeto());
-			inicializacaoCronograma.inicializarCronograma(dataAtualAplicacao.data, id);
-			
-			if (date.isEmpty()) {
-				ResponseEntity.internalServerError().build();
+			Calendar dataFront = Calendar.getInstance();
+			Calendar dataBack = Calendar.getInstance();
+			var formatter = new SimpleDateFormat("MM-yyyy");
+			dataFront.setTime(formatter.parse(projectStartDate.data_inicio_projeto()));
+			dataBack.setTime(dataAtualAplicacao.data);
+			if((dataBack.get(Calendar.MONTH) == dataFront.get(Calendar.MONTH)) && (dataBack.get(Calendar.YEAR) == dataFront.get(Calendar.YEAR))) {
+				var date = service.setaData(id, projectStartDate.data_inicio_projeto());
+				inicializacaoCronograma.inicializarCronograma(formatter.parse(projectStartDate.data_inicio_projeto()), id);
+				if (date.isEmpty()) {
+					ResponseEntity.internalServerError().build();
+				}
+				return ResponseEntity.ok(date.get());
 			}
-			return ResponseEntity.ok(date.get());
+			else {
+				Projeto foundProject = repositorio_projeto.findById(id).get();
+				foundProject.setData_inicio_projeto(dataAtualAplicacao.data);
+				inicializacaoCronograma.inicializarCronograma(dataAtualAplicacao.data, id);
+				repositorio_projeto.save(foundProject);
+				return ResponseEntity.ok(formatter.format(dataAtualAplicacao.data));
+			}	
 		} catch (Exception e) {
 			return ResponseEntity.internalServerError().body(e.getMessage());
 		}

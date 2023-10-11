@@ -42,8 +42,12 @@ public class ControleData {
 	@Transient
 	public void mudaHora(@RequestBody DadosMudancaDataAplicacao dataNova) {
 		System.out.println(dataNova.dataNova());
-		dataAtualAplicacao.data = dataNova.dataNova();
+		Calendar calendario = Calendar.getInstance();
+		calendario.setTime(dataNova.dataNova());
+		calendario.add(Calendar.DAY_OF_MONTH, 1);
+		Date data = calendario.getTime();
+		dataAtualAplicacao.data = data;
+		
 		System.out.println("Data mudada: " + dataAtualAplicacao.data);
 	}
-	
 }
