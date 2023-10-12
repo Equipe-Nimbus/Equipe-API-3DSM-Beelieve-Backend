@@ -37,16 +37,13 @@ public class AtualizaProgressoRealCronograma {
 		String mesProgresso = mesesCronograma.converteNumeroMes(numeroMes);
 		
 		diferencaAno = Math.abs(calendarioAtual.get(calendarioAtual.YEAR) - calendarioInicial.get(calendarioInicial.YEAR));
-		System.out.println("Data atual: " + calendarioAtual.get(calendarioAtual.YEAR));
-		System.out.println("Data inicial: " + calendarioInicial.get(calendarioInicial.YEAR));
-		System.out.println("Diferença " + diferencaAno);
 		
 		cronograma.getLista_cronograma().forEach((mes)->{
 			if(mesProgresso.equals(mes.getMes_cronograma())) {
 				mes.getNiveis().forEach((entidade)->{
 					if(entidade.getId_nivel() == id_entidade && entidade.getTipo().equals(tipo_entidade)) {
 						if(diferencaAno == 0) {
-							entidade.setProgresso_real(progresso_real * 100);
+							entidade.setProgresso_real(progresso_real);
 						}
 						else {
 							diferencaAno -= 1;

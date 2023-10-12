@@ -57,7 +57,7 @@ public class ControleTarefa {
 	@PutMapping("/atualizar")
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
-		
+		System.out.println(listaTarefas);
 
 		System.out.println(listaTarefas.progresso_pai() != null && listaTarefas.inicializado());
 

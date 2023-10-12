@@ -1,6 +1,7 @@
 package com.api.beelieve.entidades.projeto.servico;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.List;
 
@@ -37,20 +38,16 @@ public class AtualizaProgressoProjeto {
 		resultado = BigDecimal.ZERO;
 		
 		subProjetosIrmãos.forEach((subProj)->{
-			//System.out.println(subProj.getOrdem_sub_projeto());
-			
 			divisor = divisor.add(BigDecimal.valueOf(1));
 			dividendo = dividendo.add(BigDecimal.valueOf(subProj.getProgresso_sub_projeto()));
-
 		});
-		//System.out.println("Divisor: " + divisor);
-		//System.out.println("Dividendo: " + dividendo);
+
 		if(divisor.compareTo(BigDecimal.ZERO) > 0) {
-			resultado = dividendo.divide(divisor);
+			resultado = dividendo.divide(divisor, MathContext.DECIMAL128);
 		}
-		//System.out.println("Resultado: " + resultado);
+
 		
-		resultado = resultado.setScale(2, RoundingMode.HALF_UP);
+		resultado = resultado.setScale(2, RoundingMode.HALF_EVEN);
 		projeto.setProgresso_projeto(resultado.doubleValue());
 		
 		
