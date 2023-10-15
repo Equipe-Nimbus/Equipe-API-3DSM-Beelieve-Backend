@@ -21,7 +21,9 @@ public class DeleteNivelSubProjeto {
 	public void deleteCascata(List<NivelSubProjeto> nivelSubProjeto) {
 		nivelSubProjeto.forEach((nivel)->{
 			if(nivel.getTarefas() != null) {
-				repositorio_tarefa.deleteAll(nivel.getTarefas());
+				nivel.getTarefas().forEach((tarefa) ->{
+					repositorio_tarefa.deleteById(tarefa.getTarefa_id());
+				});
 			}
 		});
 		
