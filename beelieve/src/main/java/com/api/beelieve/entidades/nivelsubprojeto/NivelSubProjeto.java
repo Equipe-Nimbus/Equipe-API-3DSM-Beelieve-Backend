@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import com.api.beelieve.entidades.cronograma.Cronograma;
+import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProjetoAtualizacao;
+import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -53,6 +56,9 @@ public class NivelSubProjeto{
 	
 	@Column
 	private BigDecimal hora_humano_nivel_sub_projeto;
+	
+	@Column
+	private BigDecimal materiais_nivel_sub_projeto;
 
 
 	@Column
@@ -63,6 +69,7 @@ public class NivelSubProjeto{
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
+
 	
 	public NivelSubProjeto() {
 		
@@ -82,7 +89,7 @@ public class NivelSubProjeto{
 		this.nome_nivel_sub_projeto = nivelSubProj.nome_nivel_sub_projeto();
 		this.subProjeto = subProjeto;
 		this.ordem_nivel_sub_projeto = nivelSubProj.ordem_nivel_sub_projeto();
-
+		this.progresso_nivel_sub_projeto = 0.0;
 	}
 
 
