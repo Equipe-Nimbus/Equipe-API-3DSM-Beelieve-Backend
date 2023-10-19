@@ -50,4 +50,9 @@ public class ControleData {
 		
 		System.out.println("Data mudada: " + dataAtualAplicacao.data);
 	}
+	
+	@GetMapping("/pega")
+	public Date pegaHora() {
+		return dataAtualAplicacao.data;
+	}
 }
