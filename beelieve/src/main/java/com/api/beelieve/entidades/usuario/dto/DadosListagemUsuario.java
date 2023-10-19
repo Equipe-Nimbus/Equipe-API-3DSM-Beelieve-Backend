@@ -8,5 +8,4 @@ public record DadosListagemUsuario(
 		String senha,
 		String cargo
 		) {
-
 }
