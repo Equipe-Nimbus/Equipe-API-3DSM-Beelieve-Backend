@@ -6,11 +6,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
+import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioGeral;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
@@ -23,6 +26,12 @@ public class ControleUsuario {
 	@Autowired
 	private ListaUsuarioGeral listaUsuarioGeral;
 	
+	@PostMapping("/cadastrar")
+	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
+		Usuario criaUsuario = new Usuario(usuario);
+		repositorio_usuario.save(criaUsuario);
+		return ResponseEntity.ok().build();
+	};
 	
 	@GetMapping("/listar")
 	public ResponseEntity<List<DadosListagemUsuario>> listar() {
@@ -30,7 +39,7 @@ public class ControleUsuario {
 		List<DadosListagemUsuario> listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
 		System.out.println(listaUsuarioModificada);
 		return ResponseEntity.ok(listaUsuarioModificada);
-	}
+	};
 	
 	@GetMapping("/listar/{id}")
 	public ResponseEntity<DadosListagemUsuario> listarId(@PathVariable Long id){
