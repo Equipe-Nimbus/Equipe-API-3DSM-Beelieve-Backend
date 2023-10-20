@@ -42,8 +42,9 @@ public class AtualizaProgressoPorTarefa {
 	
 
 	public void atualizarProgressoSubProjeto(Double progresso_sub_projeto, SubProjeto subProjeto) {
-		
-		subProjeto.setProgresso_sub_projeto(progresso_sub_projeto);
+		BigDecimal progressoSub = BigDecimal.valueOf(progresso_sub_projeto);
+		progressoSub = progressoSub.setScale(2, RoundingMode.HALF_EVEN);
+		subProjeto.setProgresso_sub_projeto(progressoSub.doubleValue());
 		Projeto projetoPai = subProjeto.getProjeto();
 		List<SubProjeto> subProjetosIrmãos = projetoPai.getSub_projetos();
 		atualizaProgressoProjeto.atualizarProgresso(subProjetosIrmãos, projetoPai);
@@ -57,7 +58,9 @@ public class AtualizaProgressoPorTarefa {
 	}
 	
 	public void atualizarProgressoNivelSubProjeto(Double progresso_nivel_sub_projeto, NivelSubProjeto nivelSubProj) {
-		nivelSubProj.setProgresso_nivel_sub_projeto(progresso_nivel_sub_projeto);
+		BigDecimal progressoNivel = BigDecimal.valueOf(progresso_nivel_sub_projeto);
+		progressoNivel = progressoNivel.setScale(2, RoundingMode.HALF_EVEN);
+		nivelSubProj.setProgresso_nivel_sub_projeto(progressoNivel.doubleValue());
 		SubProjeto subProjetoPai = nivelSubProj.getSubProjeto();
 		List<NivelSubProjeto> nivelSubIrmaos = subProjetoPai.getNivel_sub_projeto();
 		atualizaProgressoSubProjeto.atualizaProgresso(nivelSubIrmaos, subProjetoPai);
