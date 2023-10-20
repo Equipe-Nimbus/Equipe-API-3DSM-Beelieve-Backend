@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
-import com.api.beelieve.entidades.usuario.servico.ConversorListagem;
+import com.api.beelieve.entidades.usuario.servico.ConversorListagemUsuario;
 
 public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 	
-	public static final ConversorListagem conversorUsuario = new ConversorListagem();
+	public static final ConversorListagemUsuario conversorUsuario = new ConversorListagemUsuario();
 	
 	public default DadosListagemUsuario acharUsuario(Long id_usuario) {
 		Usuario usuario = this.findById(id_usuario).get();

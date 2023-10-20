@@ -6,16 +6,17 @@ import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
 
 @Service
-public class ConversorListagem {
+public class ConversorListagemUsuario {
 	
 	public DadosListagemUsuario converterListagemUsuario(Usuario usuario) {
 		DadosListagemUsuario dadosListagemUsuario = new DadosListagemUsuario(
 				usuario.getId_usuario(),
 				usuario.getNome(),
-				usuario.getCpf(),
+				usuario.getMatricula(),
 				usuario.getEmail(),
 				usuario.getSenha(),
-				usuario.getCargo()
+				usuario.getCargo(),
+				usuario.getDepartamento()
 				);	
 		
 		return dadosListagemUsuario;

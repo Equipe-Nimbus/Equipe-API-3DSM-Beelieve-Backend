@@ -12,6 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_usuario;
 
@@ -19,7 +20,7 @@ public class Usuario {
 	private String nome;
 	
 	@Column
-	private String cpf;
+	private String matricula;
 	
 	@Column
 	private String email;
@@ -30,16 +31,20 @@ public class Usuario {
 	@Column
 	private String cargo;
 	
+	@Column
+	private String departamento;
+
 	public Usuario(){
 		
 	}
 	
 	public Usuario(DadosUsuarioCadastro dadosUsuario) {
 		this.nome = dadosUsuario.nome();
-		this.cpf = dadosUsuario.cpf();
+		this.matricula = dadosUsuario.matricula();
 		this.email = dadosUsuario.email();
 		this.senha = dadosUsuario.senha();
 		this.cargo = dadosUsuario.cargo();
+		this.departamento = dadosUsuario.departamento();
 	}
 	
 	public Long getId_usuario() {
@@ -56,14 +61,6 @@ public class Usuario {
 
 	public void setNome(String nome) {
 		this.nome = nome;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
 	}
 
 	public String getEmail() {
@@ -89,5 +86,22 @@ public class Usuario {
 	public void setCargo(String cargo) {
 		this.cargo = cargo;
 	}
+	
+	public String getMatricula() {
+		return matricula;
+	}
+
+	public void setMatricula(String matricula) {
+		this.matricula = matricula;
+	}
+
+	public String getDepartamento() {
+		return departamento;
+	}
+
+	public void setDepartamento(String departamento) {
+		this.departamento = departamento;
+	}
+	
 	
 }
