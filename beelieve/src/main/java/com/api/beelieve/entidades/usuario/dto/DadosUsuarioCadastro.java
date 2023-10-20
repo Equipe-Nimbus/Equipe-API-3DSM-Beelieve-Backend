@@ -1,10 +1,12 @@
 package com.api.beelieve.entidades.usuario.dto;
 
 public record DadosUsuarioCadastro(
+		Long id_usuario,
 		String nome,
-		String cpf,
+		String matricula,
 		String email,
 		String senha,
-		String cargo
+		String cargo,
+		String departamento
 		) {
 }
