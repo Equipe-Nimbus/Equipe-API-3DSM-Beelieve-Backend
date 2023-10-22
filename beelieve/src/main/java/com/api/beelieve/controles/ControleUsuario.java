@@ -7,15 +7,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.entidades.usuario.Usuario;
+import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
+import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioGeral;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
+
+import jakarta.persistence.Transient;
 
 @RestController
 @RequestMapping("/usuario")
@@ -25,6 +30,9 @@ public class ControleUsuario {
 	
 	@Autowired
 	private ListaUsuarioGeral listaUsuarioGeral;
+	
+	@Autowired
+	private AtualizaUsuario atualizaUsuario;
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
@@ -46,5 +54,12 @@ public class ControleUsuario {
 		DadosListagemUsuario usuario = repositorio_usuario.acharUsuario(id);
 		return ResponseEntity.ok(usuario);
 	};
+	
+	@PutMapping("/atualiza")
+	public ResponseEntity<?> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
+		atualizaUsuario.atualizarUsuario(dadosAtualizacao);
+		return ResponseEntity.ok().build();
+	}
+	
 	
 }
