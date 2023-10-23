@@ -1,6 +1,7 @@
 package com.api.beelieve.controles;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -12,8 +13,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
@@ -62,9 +65,12 @@ public class ControleUsuario {
 	};
 	
 	@GetMapping("/lista/paginada")
-	public ResponseEntity<Page<Usuario>> listaPaginada(Pageable infoPaginacao){
-		Page<Usuario> paginacao = listaPaginada.listaPaginada(infoPaginacao);
-		return ResponseEntity.ok(paginacao);
+	public ResponseEntity<List<Usuario>> listaPaginada(
+			@RequestParam Map<String, String> filtro,
+			Pageable infoPaginacao){
+		FiltroUsuario filtroUsuario = new FiltroUsuario(filtro);
+		Page<Usuario> paginacao = listaPaginada.listaPaginada(filtroUsuario, infoPaginacao);
+		return ResponseEntity.ok(paginacao.getContent());
 	};
 	
 	@PutMapping("/atualiza")
