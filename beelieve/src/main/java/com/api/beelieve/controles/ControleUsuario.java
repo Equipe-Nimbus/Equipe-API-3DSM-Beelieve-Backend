@@ -3,6 +3,8 @@ package com.api.beelieve.controles;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -18,6 +20,7 @@ import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioGeral;
+import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
 import jakarta.persistence.Transient;
@@ -33,6 +36,9 @@ public class ControleUsuario {
 	
 	@Autowired
 	private AtualizaUsuario atualizaUsuario;
+	
+	@Autowired
+	private ListaUsuarioPaginado listaPaginada;
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
@@ -55,11 +61,17 @@ public class ControleUsuario {
 		return ResponseEntity.ok(usuario);
 	};
 	
+	@GetMapping("/lista/paginada")
+	public ResponseEntity<Page<Usuario>> listaPaginada(Pageable infoPaginacao){
+		Page<Usuario> paginacao = listaPaginada.listaPaginada(infoPaginacao);
+		return ResponseEntity.ok(paginacao);
+	};
+	
 	@PutMapping("/atualiza")
 	public ResponseEntity<?> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
 		atualizaUsuario.atualizarUsuario(dadosAtualizacao);
 		return ResponseEntity.ok().build();
-	}
+	};
 	
 	
 }
