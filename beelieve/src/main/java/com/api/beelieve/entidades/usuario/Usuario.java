@@ -35,6 +35,12 @@ public class Usuario {
 	
 	@Column
 	private String departamento;
+	
+	@Column
+	private String telefone;
+	
+	@Column
+	private Boolean is_active;
 
 	public Usuario(){
 		
@@ -47,6 +53,8 @@ public class Usuario {
 		this.senha = dadosUsuario.senha();
 		this.cargo = dadosUsuario.cargo();
 		this.departamento = dadosUsuario.departamento();
+		this.telefone = dadosUsuario.telefone();
+		this.is_active = dadosUsuario.is_active();
 	}
 	
 	public Long getId_usuario() {
@@ -103,6 +111,22 @@ public class Usuario {
 
 	public void setDepartamento(String departamento) {
 		this.departamento = departamento;
+	}
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	public Boolean getIs_active() {
+		return is_active;
+	}
+
+	public void setIs_active(Boolean is_active) {
+		this.is_active = is_active;
 	}
 	
 	

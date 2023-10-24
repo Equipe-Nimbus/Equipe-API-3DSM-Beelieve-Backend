@@ -6,6 +6,8 @@ public record DadosUsuarioCadastro(
 		String email,
 		String senha,
 		String cargo,
-		String departamento
+		String departamento,
+		String telefone,
+		Boolean is_active
 		) {
 }
