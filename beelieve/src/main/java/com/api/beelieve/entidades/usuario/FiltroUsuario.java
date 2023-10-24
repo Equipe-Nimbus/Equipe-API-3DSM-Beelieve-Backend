@@ -56,7 +56,7 @@ public class FiltroUsuario {
 			}
 			if(StringUtils.hasText(email)) {
 				Path<String> campoEmail = root.<String>get("email");
-				Predicate predicadoEmail = builder.equal(campoEmail, email);
+				Predicate predicadoEmail = builder.like(campoEmail, "%" + email + "%");
 				listaPredicados.add(predicadoEmail);
 			}
 			return builder.and(listaPredicados.toArray(new Predicate[0]));
