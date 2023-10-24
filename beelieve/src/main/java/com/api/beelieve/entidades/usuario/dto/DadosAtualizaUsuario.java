@@ -6,7 +6,9 @@ public record DadosAtualizaUsuario(
 		String email,
 		String senha,
 		String cargo,
-		String departamento
+		String departamento,
+		String telefone,
+		Boolean is_active
 		) {
 
 }

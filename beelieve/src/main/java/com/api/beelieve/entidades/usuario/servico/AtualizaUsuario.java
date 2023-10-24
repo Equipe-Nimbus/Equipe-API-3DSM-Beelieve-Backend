@@ -34,6 +34,12 @@ public class AtualizaUsuario {
 		if(dadoAtualizado.senha() != null) {
 			usuario.setSenha(dadoAtualizado.senha());
 		}
+		if(dadoAtualizado.telefone() != null) {
+			usuario.setTelefone(dadoAtualizado.telefone());
+		}
+		if(dadoAtualizado.is_active() != null) {
+			usuario.setIs_active(dadoAtualizado.is_active());
+		}
 	}
 	
 }

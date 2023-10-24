@@ -20,7 +20,9 @@ public class ListaUsuarioGeral {
 					usuario.getEmail(),
 					usuario.getSenha(),
 					usuario.getCargo(),
-					usuario.getDepartamento()
+					usuario.getDepartamento(),
+					usuario.getTelefone(),
+					usuario.getIs_active()
 					);
 			listaFinal.add(atributosUsuario);
 		}

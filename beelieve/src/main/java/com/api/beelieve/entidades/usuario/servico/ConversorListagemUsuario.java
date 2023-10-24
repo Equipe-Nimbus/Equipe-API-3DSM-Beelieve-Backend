@@ -16,7 +16,9 @@ public class ConversorListagemUsuario {
 				usuario.getEmail(),
 				usuario.getSenha(),
 				usuario.getCargo(),
-				usuario.getDepartamento()
+				usuario.getDepartamento(),
+				usuario.getTelefone(),
+				usuario.getIs_active()
 				);	
 		
 		return dadosListagemUsuario;
