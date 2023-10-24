@@ -24,6 +24,9 @@ public class AtualizarTarefa {
 		if(dadosTarefa.prazo_tarefa() != null) {
 			tarefaAtual.setPrazo_tarefa(dadosTarefa.prazo_tarefa());
 		}
+		if(dadosTarefa.tendencia_tarefa() != null) {
+			tarefaAtual.setTendencia_tarefa(dadosTarefa.tendencia_tarefa());
+		}
 		System.out.println(dadosTarefa);
 	}
 }

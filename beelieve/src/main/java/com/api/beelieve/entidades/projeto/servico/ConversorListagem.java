@@ -68,7 +68,8 @@ public class ConversorListagem {
 						tarefa.getResultadoEsperado(),
 						tarefa.getPeso_tarefa(),
 						tarefa.getStatus(),
-						tarefa.getPrazo_tarefa()));
+						tarefa.getPrazo_tarefa(),
+						tarefa.getTendencia_tarefa()));
 			});
 		}
 		

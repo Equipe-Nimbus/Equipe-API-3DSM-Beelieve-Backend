@@ -7,7 +7,8 @@ public record DadosTarefaCadastro(
 		String resultado_esperado_tarefa,
 		Integer peso_tarefa,
 		Integer status_tarefa,
-		Date prazo_tarefa
+		Date prazo_tarefa,
+		Date tendencia_tarefa
 		) {
 
 }
