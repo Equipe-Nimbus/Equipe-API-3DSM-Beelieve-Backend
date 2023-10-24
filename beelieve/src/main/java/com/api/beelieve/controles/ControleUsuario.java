@@ -26,8 +26,6 @@ import com.api.beelieve.entidades.usuario.servico.ListaUsuarioGeral;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
-import jakarta.persistence.Transient;
-
 @RestController
 @RequestMapping("/usuario")
 public class ControleUsuario {
@@ -79,5 +77,9 @@ public class ControleUsuario {
 		return ResponseEntity.ok().build();
 	};
 	
-	
+	@PutMapping("/deleta")
+	public ResponseEntity<?> deletaUsuario(@RequestBody DadosAtualizaUsuario usuarioDelete){
+		atualizaUsuario.atualizarUsuario(usuarioDelete);
+		return ResponseEntity.ok().build();
+	};
 }
