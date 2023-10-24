@@ -25,6 +25,9 @@ public class Usuario {
 	private String matricula;
 	
 	@Column
+	private String cpf;
+	
+	@Column
 	private String email;
 	
 	@Column
@@ -49,6 +52,7 @@ public class Usuario {
 	public Usuario(DadosUsuarioCadastro dadosUsuario) {
 		this.nome = dadosUsuario.nome();
 		this.matricula = dadosUsuario.matricula();
+		this.cpf = dadosUsuario.cpf();
 		this.email = dadosUsuario.email();
 		this.senha = dadosUsuario.senha();
 		this.cargo = dadosUsuario.cargo();
@@ -127,6 +131,14 @@ public class Usuario {
 
 	public void setIs_active(Boolean is_active) {
 		this.is_active = is_active;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
 	}
 	
 	

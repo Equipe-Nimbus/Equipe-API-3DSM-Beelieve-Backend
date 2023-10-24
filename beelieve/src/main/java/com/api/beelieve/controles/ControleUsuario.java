@@ -71,13 +71,13 @@ public class ControleUsuario {
 		return ResponseEntity.ok(paginacao);
 	};
 	
-	@PutMapping("/atualiza")
+	@PutMapping("/atualizar")
 	public ResponseEntity<?> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
 		atualizaUsuario.atualizarUsuario(dadosAtualizacao);
 		return ResponseEntity.ok().build();
 	};
 	
-	@PutMapping("/deleta")
+	@PutMapping("/deletar")
 	public ResponseEntity<?> deletaUsuario(@RequestBody DadosAtualizaUsuario usuarioDelete){
 		atualizaUsuario.atualizarUsuario(usuarioDelete);
 		return ResponseEntity.ok().build();

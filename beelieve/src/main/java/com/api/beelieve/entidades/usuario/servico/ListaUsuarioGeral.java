@@ -17,6 +17,7 @@ public class ListaUsuarioGeral {
 					usuario.getId_usuario(),
 					usuario.getNome(),
 					usuario.getMatricula(),
+					usuario.getCpf(),
 					usuario.getEmail(),
 					usuario.getSenha(),
 					usuario.getCargo(),
