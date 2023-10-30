@@ -26,8 +26,11 @@ import com.api.beelieve.entidades.cronograma.servico.DeletaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
 import com.api.beelieve.entidades.data.DataAtualAplicacao;
 import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoBox;
+import com.api.beelieve.entidades.projeto.dto.DadosArvoreProjetoLigacao;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
+import com.api.beelieve.entidades.projeto.dto.DadosListagemProjetoNodesEdges;
 import com.api.beelieve.entidades.projeto.dto.DadosOrcamentoProjeto;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoListagemGeral;
@@ -124,16 +127,16 @@ public class ControleProjeto {
 	}
 
 	@GetMapping("/listar/{id}")
-	public ResponseEntity<DadosListagemProjeto> listarId(@PathVariable Long id){
-		DadosListagemProjeto projeto = repositorio_projeto.acharProjeto(id);
-		//List<DadosArvoreProjetoBox> nodes = arvoreProjeto.arvoreProjetoBox(projeto);
-		//List<DadosArvoreProjetoLigacao> edges = arvoreProjeto.arvoreProjetoLigacao(projeto);
-		//List<Object> listaProjetoMaisArvore = new ArrayList<Object>();
-		//listaProjetoMaisArvore.add(projeto);
-		//listaProjetoMaisArvore.add(nodes);
-		//listaProjetoMaisArvore.add(edges);
-
-		return ResponseEntity.ok(projeto);
+	public ResponseEntity<DadosListagemProjetoNodesEdges> listarId(@PathVariable Long id){
+		DadosListagemProjeto projetoEscolhido = repositorio_projeto.acharProjeto(id);
+		List<DadosArvoreProjetoBox> nodesProjeto = arvoreProjeto.arvoreProjetoBox(projetoEscolhido);
+		List<DadosArvoreProjetoLigacao> edgesProjeto = arvoreProjeto.arvoreProjetoLigacao(projetoEscolhido);
+		DadosListagemProjetoNodesEdges projetoNodesEdges = new DadosListagemProjetoNodesEdges(
+				projetoEscolhido,
+				nodesProjeto,
+				edgesProjeto				
+				);
+		return ResponseEntity.ok(projetoNodesEdges);
 	};
 	
 	@PutMapping("/atualizar/estrutura")
