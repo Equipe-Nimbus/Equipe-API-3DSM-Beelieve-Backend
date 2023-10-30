@@ -9,6 +9,7 @@ import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosListagemNivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
+import com.api.beelieve.entidades.projeto.dto.DadosProjetoListagemGeral;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.subprojeto.dto.DadosListagemSubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
@@ -32,6 +33,19 @@ public class ConversorListagem {
 				projeto.getMateriais_projeto(),
 				projeto.getHora_valor_projeto(),
 				this.converterListaSubProjeto(projeto.getSub_projetos()));
+		
+		return dadosListagemProjeto;
+	}
+	
+	public DadosProjetoListagemGeral converterListagemGeralProjeto(Projeto projeto) {
+		DadosProjetoListagemGeral dadosListagemProjeto = new DadosProjetoListagemGeral(
+				projeto.getId_projeto(),
+				projeto.getNome_projeto(),
+				projeto.getDescricao_projeto(),
+				projeto.getChefe_projeto(),
+				projeto.getProgresso_projeto(),
+				projeto.getData_inicio_projeto()
+			);
 		
 		return dadosListagemProjeto;
 	}
