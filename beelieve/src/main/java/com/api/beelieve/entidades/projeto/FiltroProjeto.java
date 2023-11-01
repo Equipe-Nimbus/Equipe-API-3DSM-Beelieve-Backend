@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import com.api.beelieve.entidades.usuario.Usuario;
+
+import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
 import lombok.Getter;
@@ -36,7 +39,10 @@ public class FiltroProjeto {
 				listaPredicados.add(predicadoNome);
 			}
 			if(StringUtils.hasText(chefe)) {
-				Path<String> campoChefe = root.<String>get("chefe_projeto");
+				Join<Projeto, Usuario> joinChefe = root.join("chefe_projeto");
+				
+				
+				Path<String> campoChefe = joinChefe.<String>get("nome");
 				Predicate predicadoChefe = builder.like(campoChefe, "%"+ chefe +"%");
 				listaPredicados.add(predicadoChefe);
 			}

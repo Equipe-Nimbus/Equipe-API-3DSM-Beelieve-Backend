@@ -11,6 +11,7 @@ import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.dto.DadosEstruturaSubProjetoAtualizacao;
 import com.api.beelieve.entidades.subprojeto.dto.DadosSubProjetoCadastro;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.api.beelieve.entidades.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -51,8 +52,9 @@ public class SubProjeto{
 	@OneToMany(mappedBy = "subProjeto")
 	private List<NivelSubProjeto> nivel_sub_projeto;
 	
-	@Column
-	private String chefe_sub_projeto;
+	@ManyToOne(optional = true)
+	@JoinColumn(name="chefe_sub_projeto")
+	private Usuario chefe_sub_projeto;
 	
 	@Column
 	private Date prazo_sub_projeto;
@@ -155,13 +157,8 @@ public class SubProjeto{
 
 
 
-	public String getChefeSubProjeto() {
-		return chefe_sub_projeto;
-	}
 
-	public void setChefeSubProjeto(String chefeSubProjeto) {
-		this.chefe_sub_projeto = chefeSubProjeto;
-	}
+
 
 	public Date getPrazoSubProjeto() {
 		return prazo_sub_projeto;
