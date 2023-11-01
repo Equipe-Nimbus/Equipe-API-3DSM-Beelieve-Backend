@@ -59,6 +59,10 @@ public class FiltroUsuario {
 				Predicate predicadoEmail = builder.like(campoEmail, "%" + email + "%");
 				listaPredicados.add(predicadoEmail);
 			}
+			Path<String> campoIs_active = root.<String>get("is_active");
+			Predicate predicadoAtivo = builder.equal(campoIs_active, true);
+			listaPredicados.add(predicadoAtivo);
+			
 			return builder.and(listaPredicados.toArray(new Predicate[0]));
 		};
 	}
