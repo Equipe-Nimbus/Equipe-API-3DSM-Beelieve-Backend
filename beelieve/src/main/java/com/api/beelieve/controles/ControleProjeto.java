@@ -4,10 +4,13 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,10 +28,12 @@ import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.DeletaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.InicializacaoMesesCronograma;
 import com.api.beelieve.entidades.data.DataAtualAplicacao;
+import com.api.beelieve.entidades.projeto.FiltroProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosEstruturaProjetoAtualizacao;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
 import com.api.beelieve.entidades.projeto.dto.DadosOrcamentoProjeto;
+
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoListagemGeral;
 import com.api.beelieve.entidades.projeto.dto.DateInicializaProjeto;
@@ -41,7 +46,10 @@ import com.api.beelieve.entidades.projeto.servico.DeleteProjeto;
 import com.api.beelieve.entidades.projeto.servico.InicializaProjeto;
 import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
+import com.api.beelieve.entidades.usuario.FiltroUsuario;
+import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
+import com.api.beelieve.repositorio.ProjetoRepositorioPaginacao;
 
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
@@ -99,6 +107,9 @@ public class ControleProjeto {
 	@Autowired
 	private DataAtualAplicacao dataAtualAplicacao;
 	
+	@Autowired
+	private ProjetoRepositorioPaginacao repositorio_projeto_paginado;
+	
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	
 	
@@ -114,6 +125,17 @@ public class ControleProjeto {
 		}
 		
 	}
+	
+	
+	@GetMapping("/lista/paginada")
+	public ResponseEntity<Page<DadosProjetoListagemGeral>> listaPaginada(
+			@RequestParam Map<String, String> filtro,
+			Pageable infoPaginacao){
+		FiltroProjeto filtroProjeto = new FiltroProjeto(filtro);
+		Page<DadosProjetoListagemGeral> paginacao = 
+				repositorio_projeto_paginado.gerarPagina(filtroProjeto.toSpec(), infoPaginacao);
+		return ResponseEntity.ok(paginacao);
+	};
 	
 	
 	@GetMapping("/listar")

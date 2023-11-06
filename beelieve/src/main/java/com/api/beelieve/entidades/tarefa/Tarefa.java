@@ -41,6 +41,9 @@ public class Tarefa {
 	@Column
 	private Date prazo_tarefa;
 	
+	@Column
+	private Date tendencia_tarefa;
+	
 	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
@@ -63,6 +66,7 @@ public class Tarefa {
 		this.status_tarefa = dadosTarefa.status_tarefa();
 		this.peso_tarefa = dadosTarefa.peso_tarefa();
 		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
+		this.tendencia_tarefa = dadosTarefa.tendencia_tarefa();
 	}
 
 	
@@ -75,6 +79,7 @@ public class Tarefa {
 		this.status_tarefa = dadosTarefa.status_tarefa();
 		this.peso_tarefa = dadosTarefa.peso_tarefa();
 		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
+		this.tendencia_tarefa = dadosTarefa.tendencia_tarefa();
 	}
 
 
@@ -164,6 +169,14 @@ public class Tarefa {
 
 	public void setPrazo_tarefa(Date prazo_tarefa) {
 		this.prazo_tarefa = prazo_tarefa;
+	}
+	
+	public Date getTendencia_tarefa() {
+		return tendencia_tarefa;
+	}
+
+	public void setTendencia_tarefa(Date tendencia_tarefa) {
+		this.tendencia_tarefa = tendencia_tarefa;
 	}
 	
 
