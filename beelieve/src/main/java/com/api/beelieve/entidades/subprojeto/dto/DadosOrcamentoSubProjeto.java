@@ -7,7 +7,7 @@ import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosOrcamentoNivelSubProj
 
 public record DadosOrcamentoSubProjeto(
 		Long id_sub_projeto,
-		String chefe_sub_projeto,
+		Long chefe_sub_projeto,
 		BigDecimal hora_humano_sub_projeto,
 		BigDecimal orcamento_sub_projeto,
 		BigDecimal materiais_sub_projeto,

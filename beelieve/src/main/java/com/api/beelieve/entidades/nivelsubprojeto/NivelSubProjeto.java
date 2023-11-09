@@ -9,6 +9,7 @@ import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosEstruturaNivelSubProj
 import com.api.beelieve.entidades.nivelsubprojeto.dto.DadosNivelSubProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
+import com.api.beelieve.entidades.usuario.Usuario;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import jakarta.persistence.CascadeType;
@@ -60,16 +61,15 @@ public class NivelSubProjeto{
 	@Column
 	private BigDecimal materiais_nivel_sub_projeto;
 
-
-	@Column
-	private String grupo_nivel_sub_projeto;
 	
 
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
-
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "chefe_nivel_sub_projeto")
+	private Usuario chefe_nivel_sub_projeto;
 	
 	public NivelSubProjeto() {
 		

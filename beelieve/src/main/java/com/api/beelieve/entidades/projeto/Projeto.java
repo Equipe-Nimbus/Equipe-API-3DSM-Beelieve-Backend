@@ -8,12 +8,15 @@ import java.util.List;
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.usuario.Usuario;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
@@ -33,8 +36,10 @@ public class Projeto {
 	@Column
 	private String nome_projeto;
 	
-	@Column
-	private String chefe_projeto;
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "chefe_projeto")
+	private Usuario chefe_projeto;
 	
 
 	@OneToMany(mappedBy = "projeto")
@@ -109,13 +114,6 @@ public class Projeto {
 		this.nome_projeto = nome_projeto;
 	}
 
-	public String getChefe_projeto() {
-		return chefe_projeto;
-	}
-
-	public void setChefe_projeto(String chefe_projeto) {
-		this.chefe_projeto = chefe_projeto;
-	}
 
 	public List<SubProjeto> getSub_projetos() {
 		return sub_projetos;

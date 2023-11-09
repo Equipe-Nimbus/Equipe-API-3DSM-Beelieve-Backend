@@ -1,5 +1,10 @@
 package com.api.beelieve.entidades.usuario;
 
+import java.util.List;
+
+import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
+import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 
 import jakarta.persistence.Column;
@@ -7,6 +12,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.ToString;
 
@@ -44,6 +50,15 @@ public class Usuario {
 	
 	@Column
 	private Boolean is_active;
+	
+	@OneToMany(mappedBy = "chefe_projeto")
+	private List<Projeto> projetosAtrelados;
+	
+	@OneToMany(mappedBy = "chefe_sub_projeto")
+	private List<SubProjeto> subProjetosAtrelados;
+	
+	@OneToMany(mappedBy = "chefe_nivel_sub_projeto")
+	private List<NivelSubProjeto> nivelSubProjetoAtelados;
 
 	public Usuario(){
 		

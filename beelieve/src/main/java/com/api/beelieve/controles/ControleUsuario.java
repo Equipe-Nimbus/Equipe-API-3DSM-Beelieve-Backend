@@ -21,8 +21,9 @@ import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
+import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuicaoSeparado;
 import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
-import com.api.beelieve.entidades.usuario.servico.ListaUsuarioGeral;
+import com.api.beelieve.entidades.usuario.servico.ListaUsuarioAtribuicao;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
@@ -33,7 +34,7 @@ public class ControleUsuario {
 	private UsuarioRepositorio repositorio_usuario;
 	
 	@Autowired
-	private ListaUsuarioGeral listaUsuarioGeral;
+	private ListaUsuarioAtribuicao listaUsuarioGeral;
 	
 	@Autowired
 	private AtualizaUsuario atualizaUsuario;
@@ -48,10 +49,10 @@ public class ControleUsuario {
 		return ResponseEntity.ok().build();
 	};
 	
-	@GetMapping("/listar")
-	public ResponseEntity<List<DadosListagemUsuario>> listar() {
+	@GetMapping("/listar/atribuicao")
+	public ResponseEntity<DadosUsuariosAtribuicaoSeparado> listar() {
 		List<Usuario> listaUsuario = repositorio_usuario.findAll();
-		List<DadosListagemUsuario> listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
+		DadosUsuariosAtribuicaoSeparado listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
 		System.out.println(listaUsuarioModificada);
 		return ResponseEntity.ok(listaUsuarioModificada);
 	};
@@ -61,6 +62,7 @@ public class ControleUsuario {
 		DadosListagemUsuario usuario = repositorio_usuario.acharUsuario(id);
 		return ResponseEntity.ok(usuario);
 	};
+	
 	
 	@GetMapping("/lista/paginada")
 	public ResponseEntity<Page<Usuario>> listaPaginada(
