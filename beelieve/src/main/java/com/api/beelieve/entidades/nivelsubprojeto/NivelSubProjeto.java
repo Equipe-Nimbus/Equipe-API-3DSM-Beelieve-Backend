@@ -67,9 +67,7 @@ public class NivelSubProjeto{
 	@JoinColumn(name = "id_sub_projeto")
 	private SubProjeto subProjeto;
 	
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "chefe_nivel_sub_projeto")
-	private Usuario chefe_nivel_sub_projeto;
+
 	
 	public NivelSubProjeto() {
 		

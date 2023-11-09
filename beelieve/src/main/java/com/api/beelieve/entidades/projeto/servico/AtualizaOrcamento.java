@@ -73,13 +73,7 @@ public class AtualizaOrcamento {
 		listaOrcamentoNivel.forEach((orcamentoNivel)->{
 			listaNivelSub.forEach((nivelSub)->{
 				if(orcamentoNivel.id_nivel_sub_projeto() == nivelSub.getId_nivel_sub_projeto()) {
-					if(orcamentoNivel.chefe_nivel_sub_projeto() != null) {
-						Usuario usuario = repositorio_usuario.findById(orcamentoNivel.chefe_nivel_sub_projeto()).get(); 
-						nivelSub.setChefe_nivel_sub_projeto(usuario);
-					}
-					else {
-						nivelSub.setChefe_nivel_sub_projeto(null);
-					}
+					
 					nivelSub.setHora_humano_nivel_sub_projeto(orcamentoNivel.hora_humano_nivel_sub_projeto());
 					nivelSub.setOrcamento_nivel_sub_projeto(orcamentoNivel.orcamento_nivel_sub_projeto());
 					nivelSub.setMateriais_nivel_sub_projeto(orcamentoNivel.materiais_nivel_sub_projeto());

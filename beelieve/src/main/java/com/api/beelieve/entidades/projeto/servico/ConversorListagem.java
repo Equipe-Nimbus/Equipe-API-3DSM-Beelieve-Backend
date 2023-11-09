@@ -110,7 +110,6 @@ public class ConversorListagem {
 						nivelSubProjeto.getId_nivel_sub_projeto(),
 						nivelSubProjeto.getOrdem_nivel_sub_projeto(),
 						nivelSubProjeto.getNome_nivel_sub_projeto(),
-						this.chefe(nivelSubProjeto.getChefe_nivel_sub_projeto()),
 						nivelSubProjeto.getPrazo_nivel_sub_projeto(),
 						nivelSubProjeto.getProgresso_nivel_sub_projeto(),
 						nivelSubProjeto.getOrcamento_nivel_sub_projeto(),
