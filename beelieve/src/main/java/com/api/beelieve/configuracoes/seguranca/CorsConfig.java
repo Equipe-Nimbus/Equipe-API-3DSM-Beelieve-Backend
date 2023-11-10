@@ -1,4 +1,4 @@
-package com.api.beelieve.configuracoes.seguca;
+package com.api.beelieve.configuracoes.seguranca;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;

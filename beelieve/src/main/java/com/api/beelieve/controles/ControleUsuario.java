@@ -20,6 +20,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.configuracoes.seguranca.DadosToken;
+import com.api.beelieve.configuracoes.seguranca.ServicoToken;
 import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
@@ -57,6 +59,9 @@ public class ControleUsuario {
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+	
+	@Autowired
+	private ServicoToken servicoToken;
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
@@ -132,6 +137,8 @@ public class ControleUsuario {
 	public ResponseEntity login(@RequestBody DadosLoginUsuario login) {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
 		Authentication autenticacao = authenticationManager.authenticate(token); 
-		return ResponseEntity.ok().build();
+		DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken((Usuario) autenticacao.getPrincipal()));
+		
+		return ResponseEntity.ok(tokenJWT);
 	}
 }
