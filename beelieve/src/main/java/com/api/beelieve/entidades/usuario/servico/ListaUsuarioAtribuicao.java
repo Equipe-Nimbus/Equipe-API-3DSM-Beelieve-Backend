@@ -17,7 +17,7 @@ public class ListaUsuarioAtribuicao {
 		List<DadosListagemUsuarioAtribuicao> listaEngenheiro = new ArrayList<DadosListagemUsuarioAtribuicao>();
 		for(Usuario usuario: listaUsuarios) {
 			DadosListagemUsuarioAtribuicao atributosUsuario = new DadosListagemUsuarioAtribuicao(
-					usuario.getId_usuario(),
+					usuario.getIdUsuario(),
 					usuario.getNome(),
 					usuario.getCargo()
 					);

@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +24,7 @@ import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
+import com.api.beelieve.entidades.usuario.dto.DadosLoginUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuicaoSeparado;
 import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
@@ -41,6 +46,9 @@ public class ControleUsuario {
 	
 	@Autowired
 	private ListaUsuarioPaginado listaPaginada;
+	
+	@Autowired
+	private AuthenticationManager authenticationManager;
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
@@ -84,4 +92,13 @@ public class ControleUsuario {
 		atualizaUsuario.atualizarUsuario(usuarioDelete);
 		return ResponseEntity.ok().build();
 	};
+	
+	
+	
+	@PostMapping("/login")
+	public ResponseEntity login(@RequestBody DadosLoginUsuario login) {
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
+		Authentication autenticacao = authenticationManager.authenticate(token); 
+		return ResponseEntity.ok().build();
+	}
 }
