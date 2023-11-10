@@ -31,4 +31,8 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 		
 		return listaDadosUsuario;
 	}
+	
+	public Usuario findByCpf (String cpf);
+	
+	public Usuario findByEmail (String email);
 }

@@ -3,7 +3,10 @@ package com.api.beelieve.repositorio;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.repository.query.Param;
 
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.projeto.dto.DadosListagemProjeto;
@@ -31,4 +34,6 @@ public interface ProjetoRepositorio extends JpaRepository<Projeto, Long> {
 		
 		return listaDadosProjeto;
 	}
+	
+	public Projeto findByNomeProjeto (String nome);
 }

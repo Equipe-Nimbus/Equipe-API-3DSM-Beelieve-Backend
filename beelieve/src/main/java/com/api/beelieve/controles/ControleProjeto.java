@@ -115,15 +115,20 @@ public class ControleProjeto {
 	
 	@PostMapping("/cadastrar")
 	@Transactional
-	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
-		Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
-		if (projeto.prazo_meses() != null) {
-			criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
-		}
-		else {
-			criaCronograma.criarCronograma(projetoCadastrado, 6);
-		}
-		
+	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
+		Projeto consultaNomeProjeto = repositorio_projeto.findByNomeProjeto(projeto.nome_projeto());
+		if(consultaNomeProjeto != null) {
+			return ResponseEntity.badRequest().body("Já existe um projeto com esse nome!");
+		} else {
+			Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
+			if (projeto.prazo_meses() != null) {
+				criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
+			}
+			else {
+				criaCronograma.criarCronograma(projetoCadastrado, 6);
+			}
+			return ResponseEntity.ok().build();
+		}		
 	}
 	
 	

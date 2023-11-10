@@ -27,6 +27,8 @@ import com.api.beelieve.entidades.usuario.servico.ListaUsuarioAtribuicao;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
+import jakarta.transaction.Transactional;
+
 @RestController
 @RequestMapping("/usuario")
 public class ControleUsuario {
@@ -43,10 +45,19 @@ public class ControleUsuario {
 	private ListaUsuarioPaginado listaPaginada;
 	
 	@PostMapping("/cadastrar")
-	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
+	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
-		repositorio_usuario.save(criaUsuario);
-		return ResponseEntity.ok().build();
+		Usuario consultaUsuarioEmail = repositorio_usuario.findByEmail(criaUsuario.getEmail());
+		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
+		if(consultaUsuarioEmail != null) {
+			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
+		}  else if(consultaUsuarioCpf != null) {
+			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse cpf!");
+		} else {
+			repositorio_usuario.save(criaUsuario);
+			return ResponseEntity.ok().build();
+		}
+		
 	};
 	
 	@GetMapping("/listar/atribuicao")
