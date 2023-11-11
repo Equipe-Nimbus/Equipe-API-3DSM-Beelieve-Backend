@@ -34,7 +34,7 @@ public class FiltroProjeto {
 		return (root, query, builder) -> {
 			List<Predicate> listaPredicados = new ArrayList<Predicate>();
 			if(StringUtils.hasText(nome)) {
-				Path<String> campoNome = root.<String>get("nome_projeto");
+				Path<String> campoNome = root.<String>get("nomeProjeto");
 				Predicate predicadoNome = builder.like(campoNome, "%"+ nome +"%");
 				listaPredicados.add(predicadoNome);
 			}

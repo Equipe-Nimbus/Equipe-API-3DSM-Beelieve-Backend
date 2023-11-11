@@ -115,15 +115,20 @@ public class ControleProjeto {
 	
 	@PostMapping("/cadastrar")
 	@Transactional
-	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
-		Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
-		if (projeto.prazo_meses() != null) {
-			criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
-		}
-		else {
-			criaCronograma.criarCronograma(projetoCadastrado, 6);
-		}
-		
+	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
+		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(projeto.nome_projeto());
+		if(consultaProjetoNome != null) {
+			return ResponseEntity.badRequest().body("Já existe um projeto com esse nome!");
+		} else {
+			Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
+			if (projeto.prazo_meses() != null) {
+				criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
+			}
+			else {
+				criaCronograma.criarCronograma(projetoCadastrado, 6);
+			}
+			return ResponseEntity.ok().build();
+		}		
 	}
 	
 	
@@ -160,11 +165,17 @@ public class ControleProjeto {
 	
 	@PutMapping("/atualizar/estrutura")
 	@Transactional
-	public ResponseEntity<List<Progresso>> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
-		DadosEstruturaProjetoAtualizacao dadosClone = clonaDadosEstrutura.clonar(dadosAtualizacao);
-		List<Progresso> listaNovosNiveis = atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
-		atualizaEstruturaCronograma.atualizaEstrutura(dadosClone, listaNovosNiveis);
-		return ResponseEntity.ok().build();
+	public ResponseEntity<String> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
+		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(dadosAtualizacao.nome_projeto());
+		if (consultaProjetoNome != null) {
+			return ResponseEntity.badRequest().body("Já existe um projeto com esse nome!");
+		} 
+		else {
+			DadosEstruturaProjetoAtualizacao dadosClone = clonaDadosEstrutura.clonar(dadosAtualizacao);
+			List<Progresso> listaNovosNiveis = atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
+			atualizaEstruturaCronograma.atualizaEstrutura(dadosClone, listaNovosNiveis);
+			return ResponseEntity.ok().build();
+		}
 	}
 	
 	@PutMapping("/atualizar/orcamento")

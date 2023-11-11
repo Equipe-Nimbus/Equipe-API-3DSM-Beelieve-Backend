@@ -35,7 +35,7 @@ public class Projeto {
 	private String ordem_projeto;
 	
 	@Column
-	private String nome_projeto;
+	private String nomeProjeto;
 	
 
 	@ManyToOne(optional = true)
@@ -78,7 +78,7 @@ public class Projeto {
 	}
 	
 	public Projeto(DadosProjetoCadastro dadosProjeto) {
-		this.nome_projeto = dadosProjeto.nome_projeto();
+		this.nomeProjeto = dadosProjeto.nome_projeto();
 		this.ordem_projeto = dadosProjeto.ordem_projeto();
 		this.descricao_projeto = dadosProjeto.descricao_projeto();
 		this.hora_valor_projeto = dadosProjeto.valor_hora_projeto();
@@ -109,11 +109,11 @@ public class Projeto {
 	}
 
 	public String getNome_projeto() {
-		return nome_projeto;
+		return nomeProjeto;
 	}
 
 	public void setNome_projeto(String nome_projeto) {
-		this.nome_projeto = nome_projeto;
+		this.nomeProjeto = nome_projeto;
 	}
 
 
