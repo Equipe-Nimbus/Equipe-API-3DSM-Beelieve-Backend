@@ -68,6 +68,9 @@ public class ControleUsuario {
 	public ResponseEntity<Page<Usuario>> listaPaginada(
 			@RequestParam Map<String, String> filtro,
 			Pageable infoPaginacao){
+		filtro.forEach((chave, valor)->{
+			System.out.println("Chave: " + chave + " Valor: " + valor);
+		});
 		FiltroUsuario filtroUsuario = new FiltroUsuario(filtro);
 		Page<Usuario> paginacao = listaPaginada.listaPaginada(filtroUsuario, infoPaginacao);
 		return ResponseEntity.ok(paginacao);

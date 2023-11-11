@@ -32,7 +32,7 @@ public class FiltroUsuario {
 			this.departamento = parametros.get("departamento");
 		}
 		if(parametros.containsKey("cargo")) {
-			this.cargo = parametros.get("cargo");
+			this.cargo = parametros.get("cargo").replace("_", " ");
 		}
 	}
 	
