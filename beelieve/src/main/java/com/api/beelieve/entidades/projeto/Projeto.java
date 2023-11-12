@@ -24,7 +24,6 @@ import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "projeto")
 @Data
 public class Projeto {
 	
