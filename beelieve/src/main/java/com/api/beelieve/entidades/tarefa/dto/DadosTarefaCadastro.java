@@ -8,7 +8,8 @@ public record DadosTarefaCadastro(
 		Integer peso_tarefa,
 		Integer status_tarefa,
 		Date prazo_tarefa,
-		Date tendencia_tarefa
+		Date tendencia_tarefa,
+		String atribuicao
 		) {
 
 }
