@@ -37,6 +37,7 @@ public class FiltroProjeto {
 				Path<String> campoNome = root.<String>get("nomeProjeto");
 				Predicate predicadoNome = builder.like(campoNome, "%"+ nome +"%");
 				listaPredicados.add(predicadoNome);
+
 			}
 			if(StringUtils.hasText(chefe)) {
 				Join<Projeto, Usuario> joinChefe = root.join("chefe_projeto");

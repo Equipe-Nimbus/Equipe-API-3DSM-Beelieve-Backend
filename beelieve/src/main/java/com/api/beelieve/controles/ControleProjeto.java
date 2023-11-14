@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.entidades.analista_projeto.servico.AtribuiAnalista;
 import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma;
 import com.api.beelieve.entidades.cronograma.servico.CriaCronograma;
@@ -48,6 +49,7 @@ import com.api.beelieve.entidades.projeto.servico.ListaProjetoGeral;
 import com.api.beelieve.entidades.projeto.servico.MontarArvoreProjeto;
 import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
+import com.api.beelieve.entidades.usuario.dto.DadosAtribuicaoAnalista;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 import com.api.beelieve.repositorio.ProjetoRepositorioPaginacao;
 
@@ -79,6 +81,9 @@ public class ControleProjeto {
 
 	@Autowired
 	private AtualizarEstruturaProjetoNiveis atualizaEstruturaProjeto;
+	
+	@Autowired
+	private AtribuiAnalista atibuiAnalista;
 	
 	@Autowired
 	private ConversorListagem conversorListagem;
@@ -129,6 +134,13 @@ public class ControleProjeto {
 			}
 			return ResponseEntity.ok().build();
 		}		
+	}
+	
+	@PostMapping("/atribuir/analista")
+	@Transactional
+	public ResponseEntity atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
+		atibuiAnalista.atribuir(atribuicaoAnalista);
+		return ResponseEntity.ok().build();
 	}
 	
 	

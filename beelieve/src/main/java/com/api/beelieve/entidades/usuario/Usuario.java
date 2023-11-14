@@ -1,12 +1,15 @@
 package com.api.beelieve.entidades.usuario;
 
 import java.util.List;
+import java.util.Set;
 
+import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -17,10 +20,13 @@ import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
 @ToString
+@Data
 @Table(name = "usuario")
 public class Usuario {
 	
@@ -60,13 +66,8 @@ public class Usuario {
 	@OneToMany(mappedBy = "chefe_sub_projeto")
 	private List<SubProjeto> subProjetosAtrelados;
 	
-	@ManyToMany
-	@JoinTable(
-			name="atribuicao_analista",
-			joinColumns = @JoinColumn(name = "id_usuario"),
-			inverseJoinColumns = @JoinColumn(name = "id_projeto")
-			)
-	private List<Projeto> projetosAtribuidos;
+	@OneToMany(mappedBy = "analista")
+	private List<Analista_Projeto> projetosAtribuidosAnalista;
 
 	public Usuario(){
 		
