@@ -56,14 +56,19 @@ public class FiltroUsuario {
 			listaPredicados.add(especificacaoGeral.toPredicate(root, query, builder));
 			
 			if(StringUtils.hasText(projeto)) {
-				//Specification<Usuario> especificacaoLiderPacote = criarSpecificationLiderPacote();
-				//listaPredicados.add(especificacaoLiderPacote.toPredicate(root, query, builder));
+				Specification<Usuario> especificacaoLiderPacote = criarSpecificationLiderPacote();
+				listaPredicados.add(especificacaoLiderPacote.toPredicate(root, query, builder));
 				
 				Specification<Usuario> especificacaoEngeinheiro = criarSpecificationEngeinheiro();
 				listaPredicados.add(especificacaoEngeinheiro.toPredicate(root, query, builder));
 				
-				//Specification<Usuario> especificacaoAnalista = criarSpecificationAnalista();
-				//listaPredicados.add(especificacaoAnalista.toPredicate(root, query, builder));
+				Specification<Usuario> especificacaoAnalista = criarSpecificationAnalista();
+				listaPredicados.add(especificacaoAnalista.toPredicate(root, query, builder));
+				
+				//Specification<Usuario> especificacaoProjeto = especificacaoAnalista.or(especificacaoEngeinheiro).or(especificacaoLiderPacote);
+				//listaPredicados.add(especificacaoProjeto.toPredicate(root, query, builder));
+				
+				
 			}
 			
 			return builder.and(listaPredicados.toArray(new Predicate[0]));
@@ -74,13 +79,12 @@ public class FiltroUsuario {
 	private Specification<Usuario> criarSpecificationLiderPacote() {
 		return (root, query, builder) -> {
 			
-			query.distinct(true);
-			
-	        Join<Usuario, SubProjeto> joinSubProjetos = root.join("subProjetosAtrelados", JoinType.LEFT);
+	        Join<Usuario, SubProjeto> joinSubProjetos = root.join("subProjetosAtrelados");
+	        
+	        Join<SubProjeto, Projeto> joinProjetoSub = joinSubProjetos.join("projeto");
+	        
 
-	        joinSubProjetos.fetch("projeto");
-
-			Path<String> campoNomeLider = joinSubProjetos.get("projeto").get("nome_projeto");
+			Path<String> campoNomeLider = joinProjetoSub.get("nome_projeto");
 
 			
 			return builder.like(campoNomeLider, "%" + projeto + "%");
@@ -90,19 +94,22 @@ public class FiltroUsuario {
 	private Specification<Usuario> criarSpecificationAnalista() {
 		return (root, query, builder) -> {
 			
-			root.fetch("projetosAtribuidos");
+			Join<Usuario, Projeto> joinAnalista = root.join("projetosAtribuidos",JoinType.INNER);
 			
-			Path<String> campoNomeAnalista = root.get("projetosAtribuidos").get("id_projeto");
+			
+			Path<String> campoNomeAnalista = joinAnalista.get("nome_projeto");
 
 			
-			return builder.equal(campoNomeAnalista, 2);
+			return builder.like(campoNomeAnalista, "%" + projeto + "%");
 		};
 	}
 	
 	private Specification<Usuario> criarSpecificationEngeinheiro() {
 		return (root, query, builder) -> {
-			root.fetch("projetosAtrelados", JoinType.INNER);
-			Path<String> campoNomeProjetoEngenhiro = root.get("projetosAtrelados").get("nome_projeto");
+			
+			Join<Usuario, Projeto> joinEng = root.join("projetosAtrelados");
+			
+			Path<String> campoNomeProjetoEngenhiro = joinEng.get("nome_projeto");
 
 			
 			return builder.like(campoNomeProjetoEngenhiro, "%" + projeto + "%");

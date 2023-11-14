@@ -22,9 +22,11 @@ import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuicaoSeparado;
+import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuidosAoProjeto;
 import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioAtribuicao;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
+import com.api.beelieve.entidades.usuario.servico.ListaUsuariosAtribuidosAoProjeto;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
 @RestController
@@ -42,6 +44,9 @@ public class ControleUsuario {
 	@Autowired
 	private ListaUsuarioPaginado listaPaginada;
 	
+	@Autowired
+	private ListaUsuariosAtribuidosAoProjeto resgataAtribuidos;
+	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<?> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
@@ -56,6 +61,12 @@ public class ControleUsuario {
 		System.out.println(listaUsuarioModificada);
 		return ResponseEntity.ok(listaUsuarioModificada);
 	};
+	
+	@GetMapping("/atribuidos/projeto/{id}")
+	public ResponseEntity<DadosUsuariosAtribuidosAoProjeto> listarUsuariosAtribuidos(@PathVariable Long id) {
+		DadosUsuariosAtribuidosAoProjeto dadosProjetoAtribuidos = resgataAtribuidos.listar(id);
+		return ResponseEntity.ok(dadosProjetoAtribuidos);
+	}
 	
 	@GetMapping("/listar/{id}")
 	public ResponseEntity<DadosListagemUsuario> listarId(@PathVariable Long id){

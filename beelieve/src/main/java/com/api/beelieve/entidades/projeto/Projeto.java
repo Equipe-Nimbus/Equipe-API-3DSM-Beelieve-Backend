@@ -4,12 +4,15 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.usuario.Usuario;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -69,8 +72,8 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-	@ManyToMany(mappedBy = "projetosAtribuidos")
-	private List<Usuario> analistasAtribuidos;
+	@OneToMany(mappedBy = "projeto")
+	private List<Analista_Projeto> analistasAtribuidos;
 
 	public Projeto() {
 		
