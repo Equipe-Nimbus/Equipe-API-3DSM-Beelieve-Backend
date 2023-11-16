@@ -114,7 +114,6 @@ public class ControleProjeto {
 	
 	
 	@PostMapping("/cadastrar")
-	@Transactional
 	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
 		if (projeto.prazo_meses() != null) {

@@ -1,5 +1,6 @@
 package com.api.beelieve.entidades.usuario;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -8,12 +9,14 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import com.api.beelieve.configuracoes.seguranca.Perfil;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -75,6 +78,9 @@ public class Usuario implements UserDetails {
 			inverseJoinColumns = @JoinColumn(name = "id_projeto")
 			)
 	private List<Projeto> projetosAtribuidos;
+	
+	@ElementCollection
+	private List<Perfil> listaPerfil = new ArrayList<>();
 
 	public Usuario(){
 		
@@ -91,15 +97,16 @@ public class Usuario implements UserDetails {
 		this.telefone = dadosUsuario.telefone();
 		this.is_active = dadosUsuario.is_active();
 	}
-	
-
-	
-
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		// TODO Auto-generated method stub
-		return List.of(new SimpleGrantedAuthority("Role_User"));
+		List<SimpleGrantedAuthority> listaAutorizacao = new ArrayList<>();
+		for (Perfil perfil : this.listaPerfil) {
+			SimpleGrantedAuthority autorizacao = new SimpleGrantedAuthority(perfil.toString());
+			listaAutorizacao.add(autorizacao);
+		}
+		return listaAutorizacao;
+		//return List.of(new SimpleGrantedAuthority("Role_User"));
 	}
 
 	@Override
