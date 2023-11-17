@@ -10,6 +10,7 @@ import com.api.beelieve.entidades.usuario.Usuario;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
+import com.auth0.jwt.exceptions.JWTVerificationException;
 
 @Service
 public class ServicoToken {
@@ -26,6 +27,21 @@ public class ServicoToken {
 		        .sign(algoritimo);
 		} catch (JWTCreationException exception){
 		    throw new RuntimeException("Não foi possível gerar o token", exception);
+		}
+	}
+	
+	public String validaToken(String tokenJWT) {
+		try {
+		    Algorithm algorithm = Algorithm.HMAC256("senhaToken");
+		    return JWT.require(algorithm)
+		        .withIssuer("beelieve")
+		        .build()
+		        .verify(tokenJWT)
+		        .getSubject();
+		        
+
+		} catch (JWTVerificationException exception){
+		    throw new RuntimeException("Token invalido ou expirado", exception);
 		}
 	}
 	
