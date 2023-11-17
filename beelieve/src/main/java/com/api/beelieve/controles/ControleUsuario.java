@@ -7,6 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +24,7 @@ import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
+import com.api.beelieve.entidades.usuario.dto.DadosLoginUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuicaoSeparado;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuidosAoProjeto;
@@ -48,11 +53,15 @@ public class ControleUsuario {
 	
 	@Autowired
 	private ListaUsuariosAtribuidosAoProjeto resgataAtribuidos;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
 	
 	@PostMapping("/cadastrar")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
-		Usuario consultaUsuarioEmail = repositorio_usuario.findByEmail(criaUsuario.getEmail());
+		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
 		if(consultaUsuarioEmail != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
@@ -100,7 +109,7 @@ public class ControleUsuario {
 	
 	@PutMapping("/atualizar")
 	public ResponseEntity<String> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
-		Usuario consultaUsuarioEmail = repositorio_usuario.findByEmail(dadosAtualizacao.email());
+		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(dadosAtualizacao.email());
 		if (consultaUsuarioEmail != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
 		}
@@ -116,4 +125,13 @@ public class ControleUsuario {
 		atualizaUsuario.atualizarUsuario(usuarioDelete);
 		return ResponseEntity.ok().build();
 	};
+	
+	
+	
+	@PostMapping("/login")
+	public ResponseEntity login(@RequestBody DadosLoginUsuario login) {
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
+		Authentication autenticacao = authenticationManager.authenticate(token); 
+		return ResponseEntity.ok().build();
+	}
 }

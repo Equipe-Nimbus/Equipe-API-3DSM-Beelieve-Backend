@@ -10,7 +10,7 @@ public class ConversorListagemUsuario {
 	
 	public DadosListagemUsuario converterListagemUsuario(Usuario usuario) {
 		DadosListagemUsuario dadosListagemUsuario = new DadosListagemUsuario(
-				usuario.getId_usuario(),
+				usuario.getIdUsuario(),
 				usuario.getNome(),
 				usuario.getMatricula(),
 				usuario.getCpf(),

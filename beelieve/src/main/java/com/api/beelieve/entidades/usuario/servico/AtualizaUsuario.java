@@ -1,6 +1,7 @@
 package com.api.beelieve.entidades.usuario.servico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.usuario.Usuario;
@@ -32,7 +33,7 @@ public class AtualizaUsuario {
 			usuario.setEmail(dadoAtualizado.email());
 		}
 		if(dadoAtualizado.senha() != null) {
-			usuario.setSenha(dadoAtualizado.senha());
+			usuario.setSenha(new BCryptPasswordEncoder().encode(dadoAtualizado.senha()));
 		}
 		if(dadoAtualizado.telefone() != null) {
 			usuario.setTelefone(dadoAtualizado.telefone());
