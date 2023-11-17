@@ -119,7 +119,7 @@ public class ControleProjeto {
 	
 	
 	@PostMapping("/cadastrar")
-<<<<<<< HEAD
+
 
 	@Transactional
 	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
@@ -143,17 +143,7 @@ public class ControleProjeto {
 	public ResponseEntity atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
 		atibuiAnalista.atribuir(atribuicaoAnalista);
 		return ResponseEntity.ok().build();
-=======
-	public void cadastrar(@RequestBody DadosProjetoCadastro projeto) {
-		Projeto projetoCadastrado = cadastraProjeto.cadastrarCascata(projeto);
-		if (projeto.prazo_meses() != null) {
-			criaCronograma.criarCronograma(projetoCadastrado, projeto.prazo_meses());
-		}
-		else {
-			criaCronograma.criarCronograma(projetoCadastrado, 6);
-		}
-		
->>>>>>> bb28bbcf66210be8300d49e95906445916461fce
+
 	}
 	
 	

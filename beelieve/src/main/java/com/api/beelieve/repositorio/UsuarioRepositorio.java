@@ -34,16 +34,12 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 		return listaDadosUsuario;
 	}
 
-	
-<<<<<<< HEAD
 	public Usuario findByCpf (String cpf);
 	
 	public Usuario getByEmail (String email);
 
 
-	
-=======
->>>>>>> bb28bbcf66210be8300d49e95906445916461fce
+
 	public UserDetails findByEmail(String email);
 	
 
