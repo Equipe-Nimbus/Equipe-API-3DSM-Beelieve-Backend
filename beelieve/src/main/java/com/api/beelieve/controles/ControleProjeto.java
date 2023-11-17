@@ -119,6 +119,7 @@ public class ControleProjeto {
 	
 	
 	@PostMapping("/cadastrar")
+
 	@Transactional
 	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(projeto.nome_projeto());

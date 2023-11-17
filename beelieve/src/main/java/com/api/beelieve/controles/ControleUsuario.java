@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.api.beelieve.configuracoes.seguranca.DadosToken;
+import com.api.beelieve.configuracoes.seguranca.Perfil;
 import com.api.beelieve.configuracoes.seguranca.ServicoToken;
 import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
@@ -66,6 +68,7 @@ public class ControleUsuario {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
+
 		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
 		if(consultaUsuarioEmail != null) {
@@ -74,9 +77,23 @@ public class ControleUsuario {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse cpf!");
 		} else {
 			repositorio_usuario.save(criaUsuario);
+			if(usuario.cargo() == "Gerente") {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_GERENTE);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);			
+			} else if (usuario.cargo() == "Engenheiro Chefe") {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			} else if (usuario.cargo() == "Líder de Pacote de Trabalho") {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			} else {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			}
 			return ResponseEntity.ok().build();
 		}
-		
 	};
 	
 	@GetMapping("/listar/atribuicao")
@@ -134,7 +151,7 @@ public class ControleUsuario {
 	
 	
 	@PostMapping("/login")
-	public ResponseEntity login(@RequestBody DadosLoginUsuario login) {
+	public ResponseEntity<DadosToken> login(@RequestBody DadosLoginUsuario login) {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
 		Authentication autenticacao = authenticationManager.authenticate(token);
 		Usuario usuario = (Usuario) autenticacao.getPrincipal();
