@@ -56,11 +56,15 @@ public class ControleUsuario {
 	private ListaUsuarioPaginado listaPaginada;
 	
 	@Autowired
+<<<<<<< HEAD
 	private ListaUsuariosAtribuidosAoProjeto resgataAtribuidos;
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
+=======
+	private AuthenticationManager authenticationManager;
+>>>>>>> bb28bbcf66210be8300d49e95906445916461fce
 	
 	@Autowired
 	private ServicoToken servicoToken;
@@ -68,6 +72,7 @@ public class ControleUsuario {
 	@PostMapping("/cadastrar")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
+<<<<<<< HEAD
 
 		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
@@ -94,6 +99,25 @@ public class ControleUsuario {
 			}
 			return ResponseEntity.ok().build();
 		}
+=======
+		repositorio_usuario.save(criaUsuario);
+		if(usuario.cargo() == "Gerente") {
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_GERENTE);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);			
+		} else if (usuario.cargo() == "Engenheiro Chefe") {
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+		} else if (usuario.cargo() == "Líder de Pacote de Trabalho") {
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+		} else {
+			criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+		}
+		return ResponseEntity.ok().build();
+>>>>>>> bb28bbcf66210be8300d49e95906445916461fce
 	};
 	
 	@GetMapping("/listar/atribuicao")

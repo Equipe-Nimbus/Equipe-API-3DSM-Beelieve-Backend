@@ -5,9 +5,12 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
+<<<<<<< HEAD
 
 import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
 
+=======
+>>>>>>> bb28bbcf66210be8300d49e95906445916461fce
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -32,10 +35,17 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 import lombok.Data;
+<<<<<<< HEAD
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
+=======
+import lombok.ToString;
+
+@Entity
+@ToString
+>>>>>>> bb28bbcf66210be8300d49e95906445916461fce
 @Data
 @Table(name = "usuario")
 public class Usuario implements UserDetails {
@@ -76,6 +86,7 @@ public class Usuario implements UserDetails {
 	@OneToMany(mappedBy = "chefe_sub_projeto")
 	private List<SubProjeto> subProjetosAtrelados;
 	
+<<<<<<< HEAD
 
 	@OneToMany(mappedBy = "analista")
 	private List<Analista_Projeto> projetosAtribuidosAnalista;
@@ -84,6 +95,18 @@ public class Usuario implements UserDetails {
 	@ElementCollection
 	private List<Perfil> listaPerfil = new ArrayList<>();
 
+=======
+	@ManyToMany
+	@JoinTable(
+			name="atribuicao_analista",
+			joinColumns = @JoinColumn(name = "id_usuario"),
+			inverseJoinColumns = @JoinColumn(name = "id_projeto")
+			)
+	private List<Projeto> projetosAtribuidos;
+	
+	@ElementCollection
+	private List<Perfil> listaPerfil = new ArrayList<>();
+>>>>>>> bb28bbcf66210be8300d49e95906445916461fce
 
 	public Usuario(){
 		
