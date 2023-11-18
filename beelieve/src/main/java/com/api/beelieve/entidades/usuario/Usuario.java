@@ -5,7 +5,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
+
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,6 +23,7 @@ import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -78,10 +80,10 @@ public class Usuario implements UserDetails {
 
 
 	@OneToMany(mappedBy = "analista")
-	private List<Analista_Projeto> projetosAtribuidosAnalista;
+	private List<AnalistaProjeto> projetosAtribuidosAnalista;
 
 	
-	@ElementCollection
+	@ElementCollection(fetch = FetchType.EAGER)
 	private List<Perfil> listaPerfil = new ArrayList<>();
 
 

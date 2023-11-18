@@ -7,6 +7,9 @@ import java.util.Map;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
 
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
+
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.usuario.Usuario;
 
 import jakarta.persistence.criteria.Join;
@@ -20,8 +23,13 @@ import lombok.ToString;
 public class FiltroProjeto {
 	private String nome;
 	private String chefe;
+	private String cargo;
+	private Long id_usuario;
 	
-	public FiltroProjeto (Map<String, String> parametros){
+	
+	public FiltroProjeto (Map<String, String> parametros, String cargo, Long id_usuario){
+		this.cargo = cargo;
+		this.id_usuario = id_usuario;
 		if(parametros.containsKey("nome")) {
 			this.nome = parametros.get("nome");
 		}
@@ -39,13 +47,33 @@ public class FiltroProjeto {
 				listaPredicados.add(predicadoNome);
 
 			}
-			if(StringUtils.hasText(chefe)) {
-				Join<Projeto, Usuario> joinChefe = root.join("chefe_projeto");
+			if(StringUtils.hasText(chefe) || this.cargo.equals("Engenheiro Chefe")) {
+				Join<Usuario, Projeto> joinChefe = root.join("chefe_projeto");
 				
-				
-				Path<String> campoChefe = joinChefe.<String>get("nome");
-				Predicate predicadoChefe = builder.like(campoChefe, "%"+ chefe +"%");
-				listaPredicados.add(predicadoChefe);
+				if(this.cargo.equals("Engenheiro Chefe")) {
+					Path<String> campoIdUsuario = joinChefe.<String>get("idUsuario");
+					Predicate predicadoUsuario = builder.equal(campoIdUsuario, this.id_usuario);
+					listaPredicados.add(predicadoUsuario);
+				}
+				else {
+					Path<String> campoChefe = joinChefe.<String>get("nome");
+					Predicate predicadoChefe = builder.like(campoChefe, "%"+ chefe +"%");
+					listaPredicados.add(predicadoChefe);
+				}
+			}
+			if(!cargo.equals("Gerente") && !cargo.equals("Engenheiro Chefe")) {
+				if(cargo.equals("Lider de Pacote de Trabalho")) {
+					Join<SubProjeto, Projeto> joinUsuario = root.join("sub_projetos");
+					Path<String> campoIdUsuario = joinUsuario.get("chefe_sub_projeto").get("idUsuario");
+					Predicate predicadoUsuario = builder.equal(campoIdUsuario, this.id_usuario);
+					listaPredicados.add(predicadoUsuario);
+				}
+				else{
+					Join<AnalistaProjeto, Projeto> joinUsuario = root.join("analistasAtribuidos");
+					Path<String> campoIdUsuario = joinUsuario.get("analista").get("idUsuario");
+					Predicate predicadoUsuario = builder.equal(campoIdUsuario, this.id_usuario);
+					listaPredicados.add(predicadoUsuario);
+				}
 			}
 			return builder.and(listaPredicados.toArray(new Predicate[0]));
 		};

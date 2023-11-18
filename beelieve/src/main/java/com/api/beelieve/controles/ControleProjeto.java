@@ -53,6 +53,7 @@ import com.api.beelieve.entidades.usuario.dto.DadosAtribuicaoAnalista;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 import com.api.beelieve.repositorio.ProjetoRepositorioPaginacao;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.transaction.Transactional;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.Validation;
@@ -150,8 +151,12 @@ public class ControleProjeto {
 	@GetMapping("/lista/paginada")
 	public ResponseEntity<Page<DadosProjetoListagemGeral>> listaPaginada(
 			@RequestParam Map<String, String> filtro,
+			HttpServletRequest request,
 			Pageable infoPaginacao){
-		FiltroProjeto filtroProjeto = new FiltroProjeto(filtro);
+		String cargo = (String) request.getAttribute("cargo");
+		Long id_usuario = (Long) request.getAttribute("id_usuario");
+		
+		FiltroProjeto filtroProjeto = new FiltroProjeto(filtro, cargo, id_usuario);
 		Page<DadosProjetoListagemGeral> paginacao = 
 				repositorio_projeto_paginado.gerarPagina(filtroProjeto.toSpec(), infoPaginacao);
 		return ResponseEntity.ok(paginacao);
