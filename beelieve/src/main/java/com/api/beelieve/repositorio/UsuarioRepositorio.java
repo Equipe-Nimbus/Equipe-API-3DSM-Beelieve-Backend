@@ -34,5 +34,7 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 	
 	public Usuario findByCpf (String cpf);
 	
+	public Usuario getByEmail (String email);
+	
 	public Usuario findByEmail (String email);
 }

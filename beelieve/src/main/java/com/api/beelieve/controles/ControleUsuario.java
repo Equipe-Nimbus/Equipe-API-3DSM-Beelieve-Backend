@@ -100,10 +100,15 @@ public class ControleUsuario {
 	
 	@PutMapping("/atualizar")
 	public ResponseEntity<String> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
-		Usuario consultaUsuarioEmail = repositorio_usuario.findByEmail(dadosAtualizacao.email());
-		if (consultaUsuarioEmail != null) {
-			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
-		}
+		Usuario consultaUsuario = repositorio_usuario.getByEmail(dadosAtualizacao.email());
+		if (consultaUsuario != null) {
+			if (consultaUsuario.getId_usuario() == dadosAtualizacao.id_usuario()) {
+				atualizaUsuario.atualizarUsuario(dadosAtualizacao);
+				return ResponseEntity.ok().build();
+			} else {
+				return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
+			}							
+		}			
 		else {
 			atualizaUsuario.atualizarUsuario(dadosAtualizacao);
 			return ResponseEntity.ok().build();

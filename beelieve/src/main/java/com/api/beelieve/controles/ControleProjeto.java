@@ -178,10 +178,17 @@ public class ControleProjeto {
 	@PutMapping("/atualizar/estrutura")
 	@Transactional
 	public ResponseEntity<String> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
-		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(dadosAtualizacao.nome_projeto());
-		if (consultaProjetoNome != null) {
-			return ResponseEntity.badRequest().body("Já existe um projeto com esse nome!");
-		} 
+		Projeto consultaProjeto = repositorio_projeto.findByNomeProjeto(dadosAtualizacao.nome_projeto());
+		if (consultaProjeto != null) {
+			if (consultaProjeto.getId_projeto() == dadosAtualizacao.id_projeto()) {
+				DadosEstruturaProjetoAtualizacao dadosClone = clonaDadosEstrutura.clonar(dadosAtualizacao);
+				List<Progresso> listaNovosNiveis = atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
+				atualizaEstruturaCronograma.atualizaEstrutura(dadosClone, listaNovosNiveis);
+				return ResponseEntity.ok().build();
+			} else {
+				return ResponseEntity.badRequest().body("Já existe um projeto com esse nome!");
+			}
+		}
 		else {
 			DadosEstruturaProjetoAtualizacao dadosClone = clonaDadosEstrutura.clonar(dadosAtualizacao);
 			List<Progresso> listaNovosNiveis = atualizaEstruturaProjeto.atualizarProjeto(dadosAtualizacao.id_projeto(), dadosAtualizacao);
