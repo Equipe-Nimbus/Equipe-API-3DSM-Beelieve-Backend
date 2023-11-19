@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -120,9 +121,7 @@ public class ControleProjeto {
 	
 	
 	@PostMapping("/cadastrar")
-
-
-	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(projeto.nome_projeto());
 		if(consultaProjetoNome != null) {
@@ -140,15 +139,15 @@ public class ControleProjeto {
 	}
 	
 	@PostMapping("/atribuir/analista")
-	@Transactional
-	public ResponseEntity atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
+	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	public ResponseEntity<?> atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
 		atibuiAnalista.atribuir(atribuicaoAnalista);
 		return ResponseEntity.ok().build();
 
 	}
 	
-	
 	@GetMapping("/lista/paginada")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<Page<DadosProjetoListagemGeral>> listaPaginada(
 			@RequestParam Map<String, String> filtro,
 			HttpServletRequest request,
@@ -161,30 +160,16 @@ public class ControleProjeto {
 				repositorio_projeto_paginado.gerarPagina(filtroProjeto.toSpec(), infoPaginacao);
 		return ResponseEntity.ok(paginacao);
 	};
-	
-	
-	@GetMapping("/listar")
-	public ResponseEntity<List<DadosProjetoListagemGeral>> listar() {
-		List<Projeto> listaProjeto = repositorio_projeto.findAll();
-		List<DadosProjetoListagemGeral> listaProjetoModificada = listaProjetoGeral.listarProjetos(listaProjeto);
-		return ResponseEntity.ok(listaProjetoModificada);
-	}
 
 	@GetMapping("/listar/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<DadosListagemProjeto> listarId(@PathVariable Long id){
 		DadosListagemProjeto projeto = repositorio_projeto.acharProjeto(id);
-		//List<DadosArvoreProjetoBox> nodes = arvoreProjeto.arvoreProjetoBox(projeto);
-		//List<DadosArvoreProjetoLigacao> edges = arvoreProjeto.arvoreProjetoLigacao(projeto);
-		//List<Object> listaProjetoMaisArvore = new ArrayList<Object>();
-		//listaProjetoMaisArvore.add(projeto);
-		//listaProjetoMaisArvore.add(nodes);
-		//listaProjetoMaisArvore.add(edges);
-
 		return ResponseEntity.ok(projeto);
 	};
 	
 	@PutMapping("/atualizar/estrutura")
-	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	public ResponseEntity<String> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
 		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(dadosAtualizacao.nome_projeto());
 		if (consultaProjetoNome != null) {
@@ -199,7 +184,7 @@ public class ControleProjeto {
 	}
 	
 	@PutMapping("/atualizar/orcamento")
-	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	public ResponseEntity<DadosListagemProjeto> atualizarOrcamento(@RequestBody DadosOrcamentoProjeto dadoOrcamentoProduto){
 		atualizaOrcamento.atualizaOrcamento(dadoOrcamentoProduto);
 		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
@@ -207,7 +192,7 @@ public class ControleProjeto {
 	}
 	
 	@PostMapping("/{id}/iniciarprojeto")
-	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
 	public ResponseEntity<String> inicializaProjeto(@PathVariable Long id, @RequestBody DateInicializaProjeto projectStartDate) {
 		Set<ConstraintViolation<DateInicializaProjeto>> violations = validator.validate(projectStartDate);
 		for(var violation : violations) {
@@ -241,7 +226,7 @@ public class ControleProjeto {
 	}
 	
 	@DeleteMapping("/deletar/{id}")
-	@Transactional
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<?> deletarProjetoPorId(@PathVariable Long id) {
 		Projeto projetoEscolhido = repositorio_projeto.findById(id).get();
 		Long idProjetoEscolhido = projetoEscolhido.getId_projeto();

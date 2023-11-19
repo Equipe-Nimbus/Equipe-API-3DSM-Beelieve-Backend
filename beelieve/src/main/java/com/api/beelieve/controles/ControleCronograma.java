@@ -2,6 +2,7 @@ package com.api.beelieve.controles;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,12 +25,14 @@ public class ControleCronograma {
 
 	
 	@GetMapping("/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<Cronograma> resgataCronograma(@PathVariable Long id) {
 		Cronograma cronograma = cronograma_repositorio.findById(id).get();
 		return ResponseEntity.ok(cronograma);
 	}
 	
 	@PutMapping("/atualiza")
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	public ResponseEntity<CronogramaRepositorio> atualizaCronograma(@RequestBody Cronograma cronograma){
 		cronograma_repositorio.save(cronograma);
 		return ResponseEntity.ok().build();

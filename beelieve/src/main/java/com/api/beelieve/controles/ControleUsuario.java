@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -61,17 +62,15 @@ public class ControleUsuario {
 
 	@Autowired
 	private AuthenticationManager authenticationManager;
-
-
 	
 	@Autowired
 	private ServicoToken servicoToken;
 	
+	
 	@PostMapping("/cadastrar")
+	@PreAuthorize("hasAuthority('ROLE_GERENTE')")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
-
-
 		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
 		if(consultaUsuarioEmail != null) {
@@ -79,27 +78,28 @@ public class ControleUsuario {
 		}  else if(consultaUsuarioCpf != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse cpf!");
 		} else {
-			repositorio_usuario.save(criaUsuario);
-			if(usuario.cargo() == "Gerente") {
+			if(criaUsuario.getCargo().equals("Gerente")) {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_GERENTE);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);			
-			} else if (usuario.cargo() == "Engenheiro Chefe") {
+			} else if (criaUsuario.getCargo().equals("Engenheiro Chefe")) {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
-			} else if (usuario.cargo() == "Líder de Pacote de Trabalho") {
+			} else if (criaUsuario.getCargo().equals("Líder de Pacote de Trabalho")) {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
 			} else {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
 			}
+			repositorio_usuario.save(criaUsuario);
 			return ResponseEntity.ok().build();
 		}
 	};
 	
 	@GetMapping("/listar/atribuicao")
+	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
 	public ResponseEntity<DadosUsuariosAtribuicaoSeparado> listar() {
 		List<Usuario> listaUsuario = repositorio_usuario.findAll();
 		DadosUsuariosAtribuicaoSeparado listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
@@ -108,12 +108,14 @@ public class ControleUsuario {
 	};
 	
 	@GetMapping("/atribuidos/projeto/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<DadosUsuariosAtribuidosAoProjeto> listarUsuariosAtribuidos(@PathVariable Long id) {
 		DadosUsuariosAtribuidosAoProjeto dadosProjetoAtribuidos = resgataAtribuidos.listar(id);
 		return ResponseEntity.ok(dadosProjetoAtribuidos);
 	}
 	
 	@GetMapping("/listar/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<DadosListagemUsuario> listarId(@PathVariable Long id){
 		DadosListagemUsuario usuario = repositorio_usuario.acharUsuario(id);
 		return ResponseEntity.ok(usuario);
@@ -121,6 +123,7 @@ public class ControleUsuario {
 	
 	
 	@GetMapping("/lista/paginada")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<Page<Usuario>> listaPaginada(
 			@RequestParam Map<String, String> filtro,
 			Pageable infoPaginacao){
@@ -133,6 +136,7 @@ public class ControleUsuario {
 	};
 	
 	@PutMapping("/atualizar")
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<String> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
 		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(dadosAtualizacao.email());
 		if (consultaUsuarioEmail != null) {
@@ -146,6 +150,7 @@ public class ControleUsuario {
 	};
 	
 	@PutMapping("/deletar")
+	@PreAuthorize("hasAuthority('ROLE_GERENTE')")
 	public ResponseEntity<?> deletaUsuario(@RequestBody DadosAtualizaUsuario usuarioDelete){
 		atualizaUsuario.atualizarUsuario(usuarioDelete);
 		return ResponseEntity.ok().build();

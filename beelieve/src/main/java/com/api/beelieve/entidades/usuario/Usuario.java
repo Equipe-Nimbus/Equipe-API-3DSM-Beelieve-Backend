@@ -85,9 +85,8 @@ public class Usuario implements UserDetails {
 	
 	@ElementCollection(fetch = FetchType.EAGER)
 	private List<Perfil> listaPerfil = new ArrayList<>();
-
-
-
+	
+	
 	public Usuario(){
 		
 	}
@@ -106,13 +105,29 @@ public class Usuario implements UserDetails {
 
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		List<SimpleGrantedAuthority> listaAutorizacao = new ArrayList<>();
-		for (Perfil perfil : this.listaPerfil) {
-			SimpleGrantedAuthority autorizacao = new SimpleGrantedAuthority(perfil.toString());
-			listaAutorizacao.add(autorizacao);
+		if (this.cargo.equals("Gerente")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_GERENTE.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ENGENHEIRO.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else if (this.cargo.equals("Engenheiro Chefe")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_ENGENHEIRO.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else if (this.cargo.equals("Líder de Pacote de Trabalho")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
 		}
-		return listaAutorizacao;
-		//return List.of(new SimpleGrantedAuthority("Role_User"));
 	}
 
 	@Override
