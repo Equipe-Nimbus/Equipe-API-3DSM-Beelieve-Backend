@@ -160,10 +160,11 @@ public class ControleUsuario {
 	
 	@PostMapping("/login")
 	public ResponseEntity<DadosToken> login(@RequestBody DadosLoginUsuario login) {
+		System.out.println(login);
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
 		Authentication autenticacao = authenticationManager.authenticate(token);
 		Usuario usuario = (Usuario) autenticacao.getPrincipal();
-		DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken(usuario), usuario.getCargo());
+		DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken(usuario), usuario.getCargo(), usuario.getNome());
 		
 		return ResponseEntity.ok(tokenJWT);
 	}
