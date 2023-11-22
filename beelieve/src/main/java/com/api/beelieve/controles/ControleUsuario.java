@@ -29,8 +29,6 @@ import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuariosAtribuidosAoProjeto;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
-import jakarta.transaction.Transactional;
-
 @RestController
 @RequestMapping("/usuario")
 public class ControleUsuario {
@@ -87,7 +85,7 @@ public class ControleUsuario {
 	
 	
 	@GetMapping("/lista/paginada")
-	public ResponseEntity<Page<Usuario>> listaPaginada(
+	public ResponseEntity<Page<DadosListagemUsuario>> listaPaginada(
 			@RequestParam Map<String, String> filtro,
 			Pageable infoPaginacao){
 		filtro.forEach((chave, valor)->{
@@ -95,7 +93,19 @@ public class ControleUsuario {
 		});
 		FiltroUsuario filtroUsuario = new FiltroUsuario(filtro);
 		Page<Usuario> paginacao = listaPaginada.listaPaginada(filtroUsuario, infoPaginacao);
-		return ResponseEntity.ok(paginacao);
+		var usuarios = paginacao.map(p -> new DadosListagemUsuario(
+				p.getId_usuario(), 
+				p.getNome(), 
+				p.getMatricula(), 
+				p.getCpf(), 
+				p.getEmail(), 
+				p.getSenha(), 
+				p.getCargo(), 
+				p.getDepartamento(), 
+				p.getTelefone(), 
+				p.getIs_active()));
+		System.out.println("Usuarios: " + usuarios);
+		return ResponseEntity.ok(usuarios);
 	};
 	
 	@PutMapping("/atualizar")
