@@ -57,6 +57,7 @@ public class ControleTarefa {
 	
 	@PutMapping("/atualizar")
 	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
+	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
 		System.out.println(listaTarefas);
 

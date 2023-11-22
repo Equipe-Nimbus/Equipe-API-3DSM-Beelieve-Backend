@@ -16,6 +16,8 @@ import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.repositorio.ProjetoRepositorio;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
+import jakarta.transaction.Transactional;
+
 @Service
 public class AtualizaOrcamento {
 	
@@ -26,7 +28,7 @@ public class AtualizaOrcamento {
 	private UsuarioRepositorio repositorio_usuario;
 	
 	
-	
+	@Transactional
 	public void atualizaOrcamento(DadosOrcamentoProjeto orcamentoProjeto) {
 		Projeto projeto = repositorio_projeto.findById(orcamentoProjeto.id_projeto()).get();
 		if(orcamentoProjeto.chefe_projeto() != null) {
@@ -47,6 +49,7 @@ public class AtualizaOrcamento {
 		
 	}
 	
+	@Transactional
 	public void atualizaOrcamentoSubProjeto(List<DadosOrcamentoSubProjeto> listaOrcamentoSub, List<SubProjeto> listaSubProjeto) {
 		listaOrcamentoSub.forEach((orcamentoSub)->{
 			listaSubProjeto.forEach((subProjeto)->{
@@ -69,6 +72,7 @@ public class AtualizaOrcamento {
 		});
 	}
 	
+	@Transactional
 	public void atualizaOrcamentoNivelSubProjeto(List<DadosOrcamentoNivelSubProjeto> listaOrcamentoNivel, List<NivelSubProjeto> listaNivelSub) {
 		listaOrcamentoNivel.forEach((orcamentoNivel)->{
 			listaNivelSub.forEach((nivelSub)->{

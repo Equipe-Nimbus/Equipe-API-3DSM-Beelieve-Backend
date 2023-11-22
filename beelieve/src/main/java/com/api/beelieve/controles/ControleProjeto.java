@@ -122,6 +122,7 @@ public class ControleProjeto {
 	
 	@PostMapping("/cadastrar")
 	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
+	@Transactional
 	public ResponseEntity<String> cadastrar(@RequestBody DadosProjetoCadastro projeto) {
 		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(projeto.nome_projeto());
 		if(consultaProjetoNome != null) {
@@ -140,6 +141,7 @@ public class ControleProjeto {
 	
 	@PostMapping("/atribuir/analista")
 	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@Transactional
 	public ResponseEntity<?> atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
 		atibuiAnalista.atribuir(atribuicaoAnalista);
 		return ResponseEntity.ok().build();
@@ -170,6 +172,7 @@ public class ControleProjeto {
 	
 	@PutMapping("/atualizar/estrutura")
 	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
+	@Transactional
 	public ResponseEntity<String> atualizarEstrutura(@RequestBody DadosEstruturaProjetoAtualizacao dadosAtualizacao){
 		Projeto consultaProjetoNome = repositorio_projeto.findByNomeProjeto(dadosAtualizacao.nome_projeto());
 		if (consultaProjetoNome != null) {
@@ -185,6 +188,7 @@ public class ControleProjeto {
 	
 	@PutMapping("/atualizar/orcamento")
 	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
+	@Transactional
 	public ResponseEntity<DadosListagemProjeto> atualizarOrcamento(@RequestBody DadosOrcamentoProjeto dadoOrcamentoProduto){
 		atualizaOrcamento.atualizaOrcamento(dadoOrcamentoProduto);
 		DadosListagemProjeto projetoAtualizado = repositorio_projeto.acharProjeto(dadoOrcamentoProduto.id_projeto());
@@ -193,6 +197,7 @@ public class ControleProjeto {
 	
 	@PostMapping("/{id}/iniciarprojeto")
 	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@Transactional
 	public ResponseEntity<String> inicializaProjeto(@PathVariable Long id, @RequestBody DateInicializaProjeto projectStartDate) {
 		Set<ConstraintViolation<DateInicializaProjeto>> violations = validator.validate(projectStartDate);
 		for(var violation : violations) {
@@ -227,6 +232,7 @@ public class ControleProjeto {
 	
 	@DeleteMapping("/deletar/{id}")
 	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
+	@Transactional
 	public ResponseEntity<?> deletarProjetoPorId(@PathVariable Long id) {
 		Projeto projetoEscolhido = repositorio_projeto.findById(id).get();
 		Long idProjetoEscolhido = projetoEscolhido.getId_projeto();
