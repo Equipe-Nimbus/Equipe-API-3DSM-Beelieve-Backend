@@ -3,7 +3,9 @@ package com.api.beelieve.repositorio;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.data.jdbc.repository.query.Query;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
@@ -31,10 +33,12 @@ public interface UsuarioRepositorio extends JpaRepository<Usuario, Long>{
 		
 		return listaDadosUsuario;
 	}
-	
+
 	public Usuario findByCpf (String cpf);
 	
 	public Usuario getByEmail (String email);
-	
-	public Usuario findByEmail (String email);
+
+
+	public UserDetails findByEmail(String email);
+
 }

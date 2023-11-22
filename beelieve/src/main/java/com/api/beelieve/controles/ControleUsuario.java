@@ -7,6 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,10 +22,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.configuracoes.seguranca.DadosToken;
+import com.api.beelieve.configuracoes.seguranca.Perfil;
+import com.api.beelieve.configuracoes.seguranca.ServicoToken;
 import com.api.beelieve.entidades.usuario.FiltroUsuario;
 import com.api.beelieve.entidades.usuario.Usuario;
 import com.api.beelieve.entidades.usuario.dto.DadosAtualizaUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosListagemUsuario;
+import com.api.beelieve.entidades.usuario.dto.DadosLoginUsuario;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuicaoSeparado;
 import com.api.beelieve.entidades.usuario.dto.DadosUsuariosAtribuidosAoProjeto;
@@ -45,25 +55,49 @@ public class ControleUsuario {
 	private ListaUsuarioPaginado listaPaginada;
 	
 	@Autowired
+
 	private ListaUsuariosAtribuidosAoProjeto resgataAtribuidos;
+
+	@Autowired
+	private AuthenticationManager authenticationManager;
+	
+	@Autowired
+	private ServicoToken servicoToken;
+	
 	
 	@PostMapping("/cadastrar")
+	@PreAuthorize("hasAuthority('ROLE_GERENTE')")
 	public ResponseEntity<String> cadastrar(@RequestBody DadosUsuarioCadastro usuario) {
 		Usuario criaUsuario = new Usuario(usuario);
-		Usuario consultaUsuarioEmail = repositorio_usuario.findByEmail(criaUsuario.getEmail());
+		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
 		if(consultaUsuarioEmail != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
 		}  else if(consultaUsuarioCpf != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse cpf!");
 		} else {
+			if(criaUsuario.getCargo().equals("Gerente")) {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_GERENTE);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);			
+			} else if (criaUsuario.getCargo().equals("Engenheiro Chefe")) {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			} else if (criaUsuario.getCargo().equals("Líder de Pacote de Trabalho")) {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			} else {
+				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
+			}
 			repositorio_usuario.save(criaUsuario);
 			return ResponseEntity.ok().build();
 		}
-		
 	};
 	
 	@GetMapping("/listar/atribuicao")
+	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
 	public ResponseEntity<DadosUsuariosAtribuicaoSeparado> listar() {
 		List<Usuario> listaUsuario = repositorio_usuario.findAll();
 		DadosUsuariosAtribuicaoSeparado listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
@@ -72,12 +106,14 @@ public class ControleUsuario {
 	};
 	
 	@GetMapping("/atribuidos/projeto/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<DadosUsuariosAtribuidosAoProjeto> listarUsuariosAtribuidos(@PathVariable Long id) {
 		DadosUsuariosAtribuidosAoProjeto dadosProjetoAtribuidos = resgataAtribuidos.listar(id);
 		return ResponseEntity.ok(dadosProjetoAtribuidos);
 	}
 	
 	@GetMapping("/listar/{id}")
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<DadosListagemUsuario> listarId(@PathVariable Long id){
 		DadosListagemUsuario usuario = repositorio_usuario.acharUsuario(id);
 		return ResponseEntity.ok(usuario);
@@ -85,16 +121,15 @@ public class ControleUsuario {
 	
 	
 	@GetMapping("/lista/paginada")
-	public ResponseEntity<Page<DadosListagemUsuario>> listaPaginada(
-			@RequestParam Map<String, String> filtro,
-			Pageable infoPaginacao){
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
+	public ResponseEntity<Page<DadosListagemUsuario>> listaPaginada(@RequestParam Map<String, String> filtro, Pageable infoPaginacao){
 		filtro.forEach((chave, valor)->{
 			System.out.println("Chave: " + chave + " Valor: " + valor);
 		});
 		FiltroUsuario filtroUsuario = new FiltroUsuario(filtro);
 		Page<Usuario> paginacao = listaPaginada.listaPaginada(filtroUsuario, infoPaginacao);
 		var usuarios = paginacao.map(p -> new DadosListagemUsuario(
-				p.getId_usuario(), 
+				p.getIdUsuario(), 
 				p.getNome(), 
 				p.getMatricula(), 
 				p.getCpf(), 
@@ -109,10 +144,11 @@ public class ControleUsuario {
 	};
 	
 	@PutMapping("/atualizar")
+	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
 	public ResponseEntity<String> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
 		Usuario consultaUsuario = repositorio_usuario.getByEmail(dadosAtualizacao.email());
 		if (consultaUsuario != null) {
-			if (consultaUsuario.getId_usuario() == dadosAtualizacao.id_usuario()) {
+			if (consultaUsuario.getIdUsuario() == dadosAtualizacao.id_usuario()) {
 				atualizaUsuario.atualizarUsuario(dadosAtualizacao);
 				return ResponseEntity.ok().build();
 			} else {
@@ -127,8 +163,22 @@ public class ControleUsuario {
 	};
 	
 	@PutMapping("/deletar")
+	@PreAuthorize("hasAuthority('ROLE_GERENTE')")
 	public ResponseEntity<?> deletaUsuario(@RequestBody DadosAtualizaUsuario usuarioDelete){
 		atualizaUsuario.atualizarUsuario(usuarioDelete);
 		return ResponseEntity.ok().build();
 	};
+	
+	
+	
+	@PostMapping("/login")
+	public ResponseEntity<DadosToken> login(@RequestBody DadosLoginUsuario login) {
+		System.out.println(login);
+		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
+		Authentication autenticacao = authenticationManager.authenticate(token);
+		Usuario usuario = (Usuario) autenticacao.getPrincipal();
+		DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken(usuario), usuario.getCargo(), usuario.getNome());
+		
+		return ResponseEntity.ok(tokenJWT);
+	}
 }

@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -55,6 +56,7 @@ public class ControleTarefa {
 	}
 	
 	@PutMapping("/atualizar")
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	@Transactional
 	public ResponseEntity<List<Tarefa>> atualizar(@RequestBody DadosListaTarefasAtualizacao listaTarefas) {
 		System.out.println(listaTarefas);
@@ -79,8 +81,7 @@ public class ControleTarefa {
 
 				atualizaProgresso.atualizarProgressoNivelSubProjeto(listaTarefas.progresso_pai(), nivelPai);
 			}
-		}
-		
+		}		
 		return ResponseEntity.ok().build();
 	}
 }

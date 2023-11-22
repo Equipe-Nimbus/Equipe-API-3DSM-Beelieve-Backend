@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.repositorio.Analista_ProjetoRepositorio;
 
@@ -20,7 +20,7 @@ public class DeleteAtribuicaoAnalista {
 	
 	@Transactional
 	public void deleteAtribuicao(Projeto projeto) {
-		List<Analista_Projeto> analistas = projeto.getAnalistasAtribuidos();
+		List<AnalistaProjeto> analistas = projeto.getAnalistasAtribuidos();
 		
 		analistas.forEach((analistaAtribuido)->{
 			Long relaçãoId = analistaAtribuido.getId_relacao_analista_projeto();

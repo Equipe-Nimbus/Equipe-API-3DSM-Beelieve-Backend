@@ -1,9 +1,19 @@
 package com.api.beelieve.entidades.usuario;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Set;
 
-import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
+
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.api.beelieve.configuracoes.seguranca.Perfil;
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
 import com.api.beelieve.entidades.projeto.Projeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
@@ -11,7 +21,9 @@ import com.api.beelieve.entidades.usuario.dto.DadosUsuarioCadastro;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
+import jakarta.persistence.ElementCollection;
 import jakarta.persistence.Entity;
+import jakarta.persistence.FetchType;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -25,13 +37,12 @@ import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 @Entity
-@ToString
 @Data
 @Table(name = "usuario")
-public class Usuario {
+public class Usuario implements UserDetails {
 	
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id_usuario;
+	private Long idUsuario;
 
 	@Column
 	private String nome;
@@ -61,14 +72,21 @@ public class Usuario {
 	private Boolean is_active;
 	
 	@OneToMany(mappedBy = "chefe_projeto")
-	private List<Projeto> projetosAtrelados;
+	private List<Projeto> projetosChefiados;
 	
 	@OneToMany(mappedBy = "chefe_sub_projeto")
 	private List<SubProjeto> subProjetosAtrelados;
 	
-	@OneToMany(mappedBy = "analista")
-	private List<Analista_Projeto> projetosAtribuidosAnalista;
 
+
+	@OneToMany(mappedBy = "analista")
+	private List<AnalistaProjeto> projetosAtribuidosAnalista;
+
+	
+	@ElementCollection(fetch = FetchType.EAGER)
+	private List<Perfil> listaPerfil = new ArrayList<>();
+	
+	
 	public Usuario(){
 		
 	}
@@ -78,92 +96,73 @@ public class Usuario {
 		this.matricula = dadosUsuario.matricula();
 		this.cpf = dadosUsuario.cpf();
 		this.email = dadosUsuario.email();
-		this.senha = dadosUsuario.senha();
+		this.senha = new BCryptPasswordEncoder().encode(dadosUsuario.senha());
 		this.cargo = dadosUsuario.cargo();
 		this.departamento = dadosUsuario.departamento();
 		this.telefone = dadosUsuario.telefone();
 		this.is_active = dadosUsuario.is_active();
 	}
-	
-	public Long getId_usuario() {
-		return id_usuario;
+
+	@Override
+	public Collection<? extends GrantedAuthority> getAuthorities() {
+		if (this.cargo.equals("Gerente")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_GERENTE.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ENGENHEIRO.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else if (this.cargo.equals("Engenheiro Chefe")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_ENGENHEIRO.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else if (this.cargo.equals("Líder de Pacote de Trabalho")) {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		} else {
+			return List.of(
+					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
+					);
+		}
 	}
 
-	public void setId_usuario(Long id_usuario) {
-		this.id_usuario = id_usuario;
-	}
-	
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
+	@Override
+	public String getPassword() {
+		// TODO Auto-generated method stub
 		return senha;
 	}
 
-	public void setSenha(String senha) {
-		this.senha = senha;
+	@Override
+	public String getUsername() {
+		// TODO Auto-generated method stub
+		return email;
 	}
 
-	public String getCargo() {
-		return cargo;
+	@Override
+	public boolean isAccountNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
-	public void setCargo(String cargo) {
-		this.cargo = cargo;
-	}
-	
-	public String getMatricula() {
-		return matricula;
+	@Override
+	public boolean isAccountNonLocked() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
-	public void setMatricula(String matricula) {
-		this.matricula = matricula;
+	@Override
+	public boolean isCredentialsNonExpired() {
+		// TODO Auto-generated method stub
+		return true;
 	}
 
-	public String getDepartamento() {
-		return departamento;
-	}
-
-	public void setDepartamento(String departamento) {
-		this.departamento = departamento;
-	}
-
-	public String getTelefone() {
-		return telefone;
-	}
-
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
-
-	public Boolean getIs_active() {
-		return is_active;
-	}
-
-	public void setIs_active(Boolean is_active) {
-		this.is_active = is_active;
-	}
-
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-	
-	
+	@Override
+	public boolean isEnabled() {
+		// TODO Auto-generated method stub
+		return true;
+	}	
 }

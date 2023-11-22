@@ -6,7 +6,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Set;
 
-import com.api.beelieve.entidades.analista_projeto.Analista_Projeto;
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
@@ -73,7 +73,7 @@ public class Projeto {
 	private BigDecimal hora_valor_projeto;
 	
 	@OneToMany(mappedBy = "projeto")
-	private List<Analista_Projeto> analistasAtribuidos;
+	private List<AnalistaProjeto> analistasAtribuidos;
 
 	public Projeto() {
 		

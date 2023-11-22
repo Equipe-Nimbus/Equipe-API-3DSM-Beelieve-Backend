@@ -1,13 +1,10 @@
 package com.api.beelieve.controles;
 
-
-
-
-
 import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,8 +18,6 @@ import com.api.beelieve.entidades.data.dto.DadosMudancaDataAplicacao;
 import com.api.beelieve.entidades.data.servico.AdicionaUmDia;
 
 import jakarta.persistence.Transient;
-
-
 
 @RestController
 @RequestMapping("/data")
@@ -40,6 +35,7 @@ public class ControleData {
 	
 	@PostMapping("/muda")
 	@Transient
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public void mudaHora(@RequestBody DadosMudancaDataAplicacao dataNova) {
 		System.out.println(dataNova.dataNova());
 		Calendar calendario = Calendar.getInstance();
@@ -52,6 +48,7 @@ public class ControleData {
 	}
 	
 	@GetMapping("/pega")
+	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public Date pegaHora() {
 		return dataAtualAplicacao.data;
 	}

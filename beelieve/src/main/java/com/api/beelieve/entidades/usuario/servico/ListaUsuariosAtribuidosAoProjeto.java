@@ -29,6 +29,7 @@ public class ListaUsuariosAtribuidosAoProjeto {
 	
 	private List<DadosUsuariosAnalistasAtribuidos> resgatarAnalistas(Projeto projeto){
 		List<DadosUsuariosAnalistasAtribuidos> analistaProjeto = new ArrayList<DadosUsuariosAnalistasAtribuidos>();
+
 		projeto.getAnalistasAtribuidos().forEach((relacaoAnalistaProjeto)->{
 			analistaProjeto.add(new DadosUsuariosAnalistasAtribuidos(
 					relacaoAnalistaProjeto.getAnalista().getNome(),
