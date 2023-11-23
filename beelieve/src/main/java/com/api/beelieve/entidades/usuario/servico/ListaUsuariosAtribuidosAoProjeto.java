@@ -53,12 +53,15 @@ public class ListaUsuariosAtribuidosAoProjeto {
 		List<DadosUsuariosLideresAtribuidos> lideresProjeto = new ArrayList<DadosUsuariosLideresAtribuidos>();
 		lideresProjeto.add(this.resgatarEngeinheiro(projeto));
 		projeto.getSub_projetos().forEach((subProjeto)->{
-			lideresProjeto.add(new DadosUsuariosLideresAtribuidos(
-					subProjeto.getOrdem_sub_projeto(),
-					subProjeto.getNomeSubProjeto(),
-					subProjeto.getChefe_sub_projeto().getNome(),
-					subProjeto.getChefe_sub_projeto().getCargo(),
-					subProjeto.getChefe_sub_projeto().getEmail()));
+			
+			if(subProjeto.getChefe_sub_projeto() != null) {
+				lideresProjeto.add(new DadosUsuariosLideresAtribuidos(
+						subProjeto.getOrdem_sub_projeto(),
+						subProjeto.getNomeSubProjeto(),
+						subProjeto.getChefe_sub_projeto().getNome(),
+						subProjeto.getChefe_sub_projeto().getCargo(),
+						subProjeto.getChefe_sub_projeto().getEmail()));
+			}
 		});
 	
 		return lideresProjeto;
