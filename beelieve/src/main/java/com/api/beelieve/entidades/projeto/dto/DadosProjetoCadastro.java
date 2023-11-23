@@ -9,6 +9,7 @@ import com.api.beelieve.entidades.subprojeto.dto.DadosSubProjetoCadastro;
 public record DadosProjetoCadastro(
 		String ordem_projeto,
 		String nome_projeto,
+		Long id_usuario,
 		String descricao_projeto,
 		Integer prazo_meses,
 		BigDecimal valor_hora_projeto,
