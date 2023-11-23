@@ -32,6 +32,7 @@ public class ListaUsuariosAtribuidosAoProjeto {
 
 		projeto.getAnalistasAtribuidos().forEach((relacaoAnalistaProjeto)->{
 			analistaProjeto.add(new DadosUsuariosAnalistasAtribuidos(
+					relacaoAnalistaProjeto.getAnalista().getIdUsuario(),
 					relacaoAnalistaProjeto.getAnalista().getNome(),
 					relacaoAnalistaProjeto.getAnalista().getEmail()));
 		});

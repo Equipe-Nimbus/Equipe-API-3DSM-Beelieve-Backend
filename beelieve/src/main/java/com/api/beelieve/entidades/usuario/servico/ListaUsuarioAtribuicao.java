@@ -17,21 +17,22 @@ public class ListaUsuarioAtribuicao {
 		List<DadosListagemUsuarioAtribuicao> listaEngenheiro = new ArrayList<DadosListagemUsuarioAtribuicao>();
 		List<DadosListagemUsuarioAtribuicao> listaAnalista = new ArrayList<DadosListagemUsuarioAtribuicao>();
 		for(Usuario usuario: listaUsuarios) {
-			DadosListagemUsuarioAtribuicao atributosUsuario = new DadosListagemUsuarioAtribuicao(
-					usuario.getIdUsuario(),
-					usuario.getNome(),
-					usuario.getCargo()
-					);
-			if(atributosUsuario.cargo().equals("Engenheiro Chefe")) {
-				listaEngenheiro.add(atributosUsuario);
+			if(usuario.getIs_active()) {
+				DadosListagemUsuarioAtribuicao atributosUsuario = new DadosListagemUsuarioAtribuicao(
+						usuario.getIdUsuario(),
+						usuario.getNome(),
+						usuario.getCargo()
+						);
+				if(atributosUsuario.cargo().equals("Engenheiro Chefe")) {
+					listaEngenheiro.add(atributosUsuario);
+				}
+				else if (atributosUsuario.cargo().equals("Lider de Pacote de Trabalho")){
+					listaChefe.add(atributosUsuario);
+				}
+				else if (atributosUsuario.cargo().equals("Analista")){
+					listaAnalista.add(atributosUsuario);
+				}
 			}
-			else if (atributosUsuario.cargo().equals("Lider de Pacote de Trabalho")){
-				listaChefe.add(atributosUsuario);
-			}
-			else if (atributosUsuario.cargo().equals("Analista")){
-				listaAnalista.add(atributosUsuario);
-			}
-			
 		}
 		DadosUsuariosAtribuicaoSeparado atribuicao = new DadosUsuariosAtribuicaoSeparado(listaEngenheiro, listaChefe, listaAnalista);
 		return atribuicao;
