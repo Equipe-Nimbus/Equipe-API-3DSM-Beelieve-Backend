@@ -24,7 +24,7 @@ public class CadastroProjeto {
 	
 	public Projeto cadastrarCascata(DadosProjetoCadastro dadosProjeto) {
 		Projeto projeto = new Projeto(dadosProjeto);
-		Usuario engenheiroAtribuido = repositorio_usuario.findById(dadosProjeto.id_usuario()).get();
+		Usuario engenheiroAtribuido = repositorio_usuario.findById(dadosProjeto.chefe_projeto()).get();
 		projeto.setChefe_projeto(engenheiroAtribuido);
 		repositorio_projeto.save(projeto);
 		if(projeto.getSub_projetos() != null) {
