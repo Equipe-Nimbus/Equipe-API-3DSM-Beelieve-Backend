@@ -177,8 +177,13 @@ public class ControleUsuario {
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
 		Authentication autenticacao = authenticationManager.authenticate(token);
 		Usuario usuario = (Usuario) autenticacao.getPrincipal();
-		DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken(usuario), usuario.getCargo(), usuario.getNome());
-		
-		return ResponseEntity.ok(tokenJWT);
+		if(usuario.getEmail().equals(login.login())) {
+			DadosToken tokenJWT = new DadosToken(servicoToken.gerarToken(usuario), usuario.getCargo(), usuario.getNome());
+			
+			return ResponseEntity.ok(tokenJWT);
+		}
+		else {
+			return ResponseEntity.badRequest().build();
+		}
 	}
 }
