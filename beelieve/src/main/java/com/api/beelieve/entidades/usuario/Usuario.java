@@ -118,7 +118,7 @@ public class Usuario implements UserDetails {
 					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
 					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
 					);
-		} else if (this.cargo.equals("Líder de Pacote de Trabalho")) {
+		} else if (this.cargo.equals("Lider de Pacote de Trabalho")) {
 			return List.of(
 					new SimpleGrantedAuthority(Perfil.ROLE_LIDER.toString()),
 					new SimpleGrantedAuthority(Perfil.ROLE_ANALISTA.toString())
