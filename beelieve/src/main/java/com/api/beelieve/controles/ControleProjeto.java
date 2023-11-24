@@ -147,7 +147,7 @@ public class ControleProjeto {
 	}
 	
 	@PostMapping("/atribuir/analista")
-	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	@Transactional
 	public ResponseEntity<?> atribuirAnalista(@RequestBody DadosAtribuicaoAnalista atribuicaoAnalista) {
 		atibuiAnalista.atribuir(atribuicaoAnalista);
@@ -156,7 +156,7 @@ public class ControleProjeto {
 	}
 	
 	@DeleteMapping("/desatribuir/analista")
-	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	@Transactional
 	public ResponseEntity<?> desatribuirAnalista(@RequestBody DadosAtribuicaoAnalista desatribuicaoAnalista){
 		desatribuiAnalista.desatribuirAnalista(desatribuicaoAnalista);

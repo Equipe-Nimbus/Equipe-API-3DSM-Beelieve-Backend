@@ -1,7 +1,8 @@
 package com.api.beelieve.entidades.analista_projeto;
 
 import com.api.beelieve.entidades.projeto.Projeto;
-import com.api.beelieve.entidades.usuario.Usuario;import jakarta.persistence.CascadeType;
+import com.api.beelieve.entidades.usuario.Usuario;
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
