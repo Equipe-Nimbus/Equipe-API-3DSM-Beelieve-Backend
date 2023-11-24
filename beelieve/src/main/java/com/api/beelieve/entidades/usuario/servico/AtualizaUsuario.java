@@ -32,7 +32,7 @@ public class AtualizaUsuario {
 		if(dadoAtualizado.email() != null) {
 			usuario.setEmail(dadoAtualizado.email());
 		}
-		if(dadoAtualizado.senha() != null) {
+		if(dadoAtualizado.senha() != null && dadoAtualizado.senha().equals(usuario.getSenha())) {
 			usuario.setSenha(new BCryptPasswordEncoder().encode(dadoAtualizado.senha()));
 		}
 		if(dadoAtualizado.telefone() != null) {
