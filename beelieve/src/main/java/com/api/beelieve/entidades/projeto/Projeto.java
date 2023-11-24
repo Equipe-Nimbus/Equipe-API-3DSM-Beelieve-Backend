@@ -72,7 +72,7 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-	@OneToMany(mappedBy = "projeto")
+	@OneToMany(mappedBy = "projeto", cascade = CascadeType.REMOVE)
 	private List<AnalistaProjeto> analistasAtribuidos;
 
 	public Projeto() {

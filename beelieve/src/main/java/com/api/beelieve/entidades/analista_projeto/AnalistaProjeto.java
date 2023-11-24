@@ -1,8 +1,7 @@
 package com.api.beelieve.entidades.analista_projeto;
 
 import com.api.beelieve.entidades.projeto.Projeto;
-import com.api.beelieve.entidades.usuario.Usuario;
-
+import com.api.beelieve.entidades.usuario.Usuario;import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -19,11 +18,11 @@ public class AnalistaProjeto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_relacao_analista_projeto;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name="projeto_atrelado")
 	private Projeto projeto;
 	
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.REMOVE)
 	@JoinColumn(name="analista_atrelado")
 	private Usuario analista;
 	

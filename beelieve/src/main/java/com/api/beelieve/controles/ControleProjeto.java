@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.beelieve.entidades.analista_projeto.DesatribuiAnalista;
 import com.api.beelieve.entidades.analista_projeto.servico.AtribuiAnalista;
 import com.api.beelieve.entidades.cronograma.Progresso;
 import com.api.beelieve.entidades.cronograma.servico.AtualizaEstruturaCronograma;
@@ -120,6 +121,9 @@ public class ControleProjeto {
 	@Autowired
 	private ProjetoRepositorioPaginacao repositorio_projeto_paginado;
 	
+	@Autowired
+	private DesatribuiAnalista desatribuiAnalista;
+	
 	private Validator validator = Validation.buildDefaultValidatorFactory().getValidator();
 	
 	
@@ -149,6 +153,14 @@ public class ControleProjeto {
 		atibuiAnalista.atribuir(atribuicaoAnalista);
 		return ResponseEntity.ok().build();
 
+	}
+	
+	@DeleteMapping("/desatribuir/analista")
+	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@Transactional
+	public ResponseEntity<?> desatribuirAnalista(@RequestBody DadosAtribuicaoAnalista desatribuicaoAnalista){
+		desatribuiAnalista.desatribuirAnalista(desatribuicaoAnalista);
+		return ResponseEntity.ok().build();
 	}
 	
 	@GetMapping("/lista/paginada")
