@@ -85,7 +85,7 @@ public class ControleUsuario {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ENGENHEIRO);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
-			} else if (criaUsuario.getCargo().equals("Líder de Pacote de Trabalho")) {
+			} else if (criaUsuario.getCargo().equals("Lider de Pacote de Trabalho")) {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_LIDER);
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_ANALISTA);
 			} else {
