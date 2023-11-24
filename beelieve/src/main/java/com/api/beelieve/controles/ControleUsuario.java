@@ -97,7 +97,7 @@ public class ControleUsuario {
 	};
 	
 	@GetMapping("/listar/atribuicao")
-	@PreAuthorize("hasAnyRole('ROLE_ENGENHEIRO')")
+	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	public ResponseEntity<DadosUsuariosAtribuicaoSeparado> listar() {
 		List<Usuario> listaUsuario = repositorio_usuario.findAll();
 		DadosUsuariosAtribuicaoSeparado listaUsuarioModificada = listaUsuarioGeral.listarUsuarios(listaUsuario);
