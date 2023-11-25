@@ -79,7 +79,7 @@ public class Usuario implements UserDetails {
 	
 
 
-	@OneToMany(mappedBy = "analista", cascade = CascadeType.REMOVE)
+	@OneToMany(mappedBy = "analista")
 	private List<AnalistaProjeto> projetosAtribuidosAnalista;
 
 	
