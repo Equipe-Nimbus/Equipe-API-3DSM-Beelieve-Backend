@@ -12,6 +12,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,6 +38,7 @@ import com.api.beelieve.entidades.usuario.servico.AtualizaUsuario;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioAtribuicao;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuarioPaginado;
 import com.api.beelieve.entidades.usuario.servico.ListaUsuariosAtribuidosAoProjeto;
+import com.api.beelieve.entidades.usuario.servico.RecuperadorUsuarioLogado;
 import com.api.beelieve.repositorio.UsuarioRepositorio;
 
 @RestController
@@ -63,6 +65,10 @@ public class ControleUsuario {
 	
 	@Autowired
 	private ServicoToken servicoToken;
+	
+	@Autowired
+	private RecuperadorUsuarioLogado recuperadorUsuarioLogado;
+	
 	
 	
 	@PostMapping("/cadastrar")
@@ -145,23 +151,38 @@ public class ControleUsuario {
 	
 	@PutMapping("/atualizar")
 	@PreAuthorize("hasAnyRole('ROLE_GERENTE')")
-	public ResponseEntity<String> atuazaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao){
+	public ResponseEntity<String> atualizaUsuario(@RequestBody DadosAtualizaUsuario dadosAtualizacao) {
+	    
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		Long idUsuarioLogado = recuperadorUsuarioLogado.recuperarId(authentication);
+		String emailUsuarioLogado = recuperadorUsuarioLogado.recuperarEmail(authentication);
+		
 		Usuario consultaUsuario = repositorio_usuario.getByEmail(dadosAtualizacao.email());
+		
+		boolean loggout = false;
+		if(idUsuarioLogado.equals(dadosAtualizacao.id_usuario()) && !emailUsuarioLogado.equals(dadosAtualizacao.email())) {
+			loggout = true;
+		}
+		
+		String responseBody = "{\"loggout\": " + loggout + "}";
+		
 		if (consultaUsuario != null) {
 			if (consultaUsuario.getIdUsuario() == dadosAtualizacao.id_usuario()) {
 				atualizaUsuario.atualizarUsuario(dadosAtualizacao);
-				return ResponseEntity.ok().build();
+				
+				return ResponseEntity.ok(responseBody);
 			} else {
 				return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
 			}							
 		}			
 		else {
 			atualizaUsuario.atualizarUsuario(dadosAtualizacao);
-			return ResponseEntity.ok().build();
+			return ResponseEntity.ok(responseBody);
 		}
-		
-	};
-	
+	    
+	}
+
+
 	@PutMapping("/deletar")
 	@PreAuthorize("hasAuthority('ROLE_GERENTE')")
 	public ResponseEntity<?> deletaUsuario(@RequestBody DadosAtualizaUsuario usuarioDelete){
@@ -173,7 +194,6 @@ public class ControleUsuario {
 	
 	@PostMapping("/login")
 	public ResponseEntity<DadosToken> login(@RequestBody DadosLoginUsuario login) {
-		System.out.println(login);
 		UsernamePasswordAuthenticationToken token = new UsernamePasswordAuthenticationToken(login.login(), login.senha()); 
 		Authentication autenticacao = authenticationManager.authenticate(token);
 		Usuario usuario = (Usuario) autenticacao.getPrincipal();

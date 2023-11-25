@@ -28,6 +28,7 @@ public class ControleCronograma {
 	@PreAuthorize("hasAnyRole('ROLE_ANALISTA')")
 	public ResponseEntity<Cronograma> resgataCronograma(@PathVariable Long id) {
 		Cronograma cronograma = cronograma_repositorio.findById(id).get();
+		System.out.println(cronograma);
 		return ResponseEntity.ok(cronograma);
 	}
 	
