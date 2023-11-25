@@ -77,10 +77,13 @@ public class ControleUsuario {
 		Usuario criaUsuario = new Usuario(usuario);
 		Usuario consultaUsuarioEmail = repositorio_usuario.getByEmail(criaUsuario.getEmail());
 		Usuario consultaUsuarioCpf = repositorio_usuario.findByCpf(criaUsuario.getCpf());
+		Usuario consultaNome = repositorio_usuario.findByNome(usuario.nome());
 		if(consultaUsuarioEmail != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse email!");
 		}  else if(consultaUsuarioCpf != null) {
 			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse cpf!");
+		} else if(consultaNome != null) {
+			return ResponseEntity.badRequest().body("Já existe um usuário cadastrado com esse nome!");
 		} else {
 			if(criaUsuario.getCargo().equals("Gerente")) {
 				criaUsuario.getListaPerfil().add(Perfil.ROLE_GERENTE);

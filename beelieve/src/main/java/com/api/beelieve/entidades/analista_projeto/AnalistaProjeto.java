@@ -19,11 +19,11 @@ public class AnalistaProjeto {
 	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id_relacao_analista_projeto;
 
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name="projeto_atrelado")
 	private Projeto projeto;
 	
-	@ManyToOne(cascade = CascadeType.REMOVE)
+	@ManyToOne
 	@JoinColumn(name="analista_atrelado")
 	private Usuario analista;
 	
