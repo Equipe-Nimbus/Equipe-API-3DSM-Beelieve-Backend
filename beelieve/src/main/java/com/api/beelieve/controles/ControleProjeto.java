@@ -155,10 +155,11 @@ public class ControleProjeto {
 
 	}
 	
-	@DeleteMapping("/desatribuir/analista")
+	@PutMapping("/desatribuir/analista")
 	@PreAuthorize("hasAnyRole('ROLE_LIDER')")
 	@Transactional
 	public ResponseEntity<?> desatribuirAnalista(@RequestBody DadosAtribuicaoAnalista desatribuicaoAnalista){
+		System.out.println(desatribuicaoAnalista);
 		desatribuiAnalista.desatribuirAnalista(desatribuicaoAnalista);
 		return ResponseEntity.ok().build();
 	}
