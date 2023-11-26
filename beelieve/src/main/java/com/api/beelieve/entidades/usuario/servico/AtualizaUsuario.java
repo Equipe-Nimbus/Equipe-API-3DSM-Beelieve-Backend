@@ -1,6 +1,7 @@
 package com.api.beelieve.entidades.usuario.servico;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.usuario.Usuario;
@@ -18,7 +19,6 @@ public class AtualizaUsuario {
 	@Transactional
 	public void atualizarUsuario(DadosAtualizaUsuario dadoAtualizado) {
 		Usuario usuario = repositorio_usuario.findById(dadoAtualizado.id_usuario()).get();
-	
 		if(dadoAtualizado.nome() != null) {
 			usuario.setNome(dadoAtualizado.nome());
 		}
@@ -31,8 +31,8 @@ public class AtualizaUsuario {
 		if(dadoAtualizado.email() != null) {
 			usuario.setEmail(dadoAtualizado.email());
 		}
-		if(dadoAtualizado.senha() != null) {
-			usuario.setSenha(dadoAtualizado.senha());
+		if(dadoAtualizado.senha() != null && !dadoAtualizado.senha().equals(usuario.getSenha())) {
+			usuario.setSenha(new BCryptPasswordEncoder().encode(dadoAtualizado.senha()));
 		}
 		if(dadoAtualizado.telefone() != null) {
 			usuario.setTelefone(dadoAtualizado.telefone());

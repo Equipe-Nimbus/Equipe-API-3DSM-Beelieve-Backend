@@ -3,6 +3,7 @@ package com.api.beelieve.entidades.projeto.servico;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.nivelsubprojeto.NivelSubProjeto;
@@ -14,16 +15,21 @@ import com.api.beelieve.entidades.subprojeto.SubProjeto;
 import com.api.beelieve.entidades.subprojeto.dto.DadosListagemSubProjeto;
 import com.api.beelieve.entidades.tarefa.Tarefa;
 import com.api.beelieve.entidades.tarefa.dto.DadosListagemTarefa;
+import com.api.beelieve.entidades.usuario.Usuario;
+import com.api.beelieve.repositorio.UsuarioRepositorio;
 
 @Service
 public class ConversorListagem {
+	
+	@Autowired
+	private UsuarioRepositorio repositorio_usuario;
 	
 	public DadosListagemProjeto converterListagemProjeto(Projeto projeto) {
 		DadosListagemProjeto dadosListagemProjeto = new DadosListagemProjeto(
 				projeto.getId_projeto(),
 				projeto.getOrdem_projeto(),
 				projeto.getNome_projeto(),
-				projeto.getChefe_projeto(),
+				this.chefe(projeto.getChefe_projeto()),
 				projeto.getProgresso_projeto(),
 				projeto.getPrazo_projeto(),
 				projeto.getDescricao_projeto(),
@@ -42,7 +48,7 @@ public class ConversorListagem {
 				projeto.getId_projeto(),
 				projeto.getNome_projeto(),
 				projeto.getDescricao_projeto(),
-				projeto.getChefe_projeto(),
+				this.chefe(projeto.getChefe_projeto()),
 				projeto.getProgresso_projeto(),
 				projeto.getData_inicio_projeto()
 			);
@@ -54,11 +60,17 @@ public class ConversorListagem {
 		List<DadosListagemSubProjeto> dadosListaSubProjetos = new ArrayList<DadosListagemSubProjeto>();
 		if(listaSubProjetoOriginal != null) {
 			listaSubProjetoOriginal.forEach((subProjeto)->{
+				if(subProjeto.getChefe_sub_projeto() == null) {
+					String chefe = null;
+				}
+				else {
+					String chefe = subProjeto.getChefe_sub_projeto().getNome();
+				}
 				dadosListaSubProjetos.add(new DadosListagemSubProjeto(
 						subProjeto.getSub_projeto_id(),
 						subProjeto.getOrdem_sub_projeto(),
 						subProjeto.getNomeSubProjeto(),
-						subProjeto.getChefeSubProjeto(),
+						this.chefe(subProjeto.getChefe_sub_projeto()),
 						subProjeto.getPrazoSubProjeto(),
 						subProjeto.getProgresso(),
 						subProjeto.getOrcamentoSubProjeto(),
@@ -83,7 +95,8 @@ public class ConversorListagem {
 						tarefa.getPeso_tarefa(),
 						tarefa.getStatus(),
 						tarefa.getPrazo_tarefa(),
-						tarefa.getTendencia_tarefa()));
+						tarefa.getTendencia_tarefa(),
+						tarefa.getAtribuicao()));
 			});
 		}
 		
@@ -107,5 +120,12 @@ public class ConversorListagem {
 			});
 		}
 		return dadosListagemNivel;
+	}
+	
+	private String chefe(Usuario usuario) {
+		if(usuario != null) {
+			return usuario.getNome();
+		}
+		return null;
 	}
 }

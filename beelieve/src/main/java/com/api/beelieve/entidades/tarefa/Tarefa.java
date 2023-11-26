@@ -44,6 +44,9 @@ public class Tarefa {
 	@Column
 	private Date tendencia_tarefa;
 	
+	@Column 
+	private String atribuicao; 
+	
 	@JsonManagedReference
 	@ManyToOne
 	@JoinColumn(name = "id_sub_projeto")
@@ -53,6 +56,8 @@ public class Tarefa {
 	@ManyToOne
 	@JoinColumn(name = "id_nivel_sub_projeto")
 	private NivelSubProjeto nivelSubProjeto;
+	
+
 
 	public Tarefa() {
 		
@@ -67,6 +72,7 @@ public class Tarefa {
 		this.peso_tarefa = dadosTarefa.peso_tarefa();
 		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
 		this.tendencia_tarefa = dadosTarefa.tendencia_tarefa();
+		this.atribuicao = dadosTarefa.atribuicao();
 	}
 
 	
@@ -80,6 +86,7 @@ public class Tarefa {
 		this.peso_tarefa = dadosTarefa.peso_tarefa();
 		this.prazo_tarefa = dadosTarefa.prazo_tarefa();
 		this.tendencia_tarefa = dadosTarefa.tendencia_tarefa();
+		this.atribuicao = dadosTarefa.atribuicao();
 	}
 
 
@@ -92,6 +99,7 @@ public class Tarefa {
 		this.nivelSubProjeto = nivelSubProjeto;
 		this.prazo_tarefa = tarefa.prazo_tarefa();
 		this.peso_tarefa = tarefa.peso_tarefa();
+		this.atribuicao = tarefa.atribuicao();
 	}
 
 
@@ -102,6 +110,7 @@ public class Tarefa {
 		this.resultado_esperado_tarefa = tarefa.resultado_esperado_tarefa();
 		this.status_tarefa = 0;
 		this.subProjeto = subProjeto;
+		this.atribuicao = tarefa.atribuicao();
 	}
 
 
@@ -179,8 +188,12 @@ public class Tarefa {
 		this.tendencia_tarefa = tendencia_tarefa;
 	}
 	
+	public String getAtribuicao() {
+		return atribuicao;
+	}
 
-
-
+	public void setAtribuicao(String atribuicao) {
+		this.atribuicao = atribuicao;
+	}
 
 }

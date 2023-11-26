@@ -4,23 +4,29 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
+import com.api.beelieve.entidades.analista_projeto.AnalistaProjeto;
 import com.api.beelieve.entidades.cronograma.Cronograma;
 import com.api.beelieve.entidades.projeto.dto.DadosProjetoCadastro;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.usuario.Usuario;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 import jakarta.persistence.Table;
 import lombok.Data;
 
 @Entity
-@Table(name = "projeto")
 @Data
 public class Projeto {
 	
@@ -31,10 +37,12 @@ public class Projeto {
 	private String ordem_projeto;
 	
 	@Column
-	private String nome_projeto;
+	private String nomeProjeto;
 	
-	@Column
-	private String chefe_projeto;
+
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "chefe_projeto")
+	private Usuario chefe_projeto;
 	
 
 	@OneToMany(mappedBy = "projeto")
@@ -64,14 +72,15 @@ public class Projeto {
 	@Column
 	private BigDecimal hora_valor_projeto;
 	
-	
+	@OneToMany(mappedBy = "projeto")
+	private List<AnalistaProjeto> analistasAtribuidos;
 
 	public Projeto() {
 		
 	}
 	
 	public Projeto(DadosProjetoCadastro dadosProjeto) {
-		this.nome_projeto = dadosProjeto.nome_projeto();
+		this.nomeProjeto = dadosProjeto.nome_projeto();
 		this.ordem_projeto = dadosProjeto.ordem_projeto();
 		this.descricao_projeto = dadosProjeto.descricao_projeto();
 		this.hora_valor_projeto = dadosProjeto.valor_hora_projeto();
@@ -102,20 +111,13 @@ public class Projeto {
 	}
 
 	public String getNome_projeto() {
-		return nome_projeto;
+		return nomeProjeto;
 	}
 
 	public void setNome_projeto(String nome_projeto) {
-		this.nome_projeto = nome_projeto;
+		this.nomeProjeto = nome_projeto;
 	}
 
-	public String getChefe_projeto() {
-		return chefe_projeto;
-	}
-
-	public void setChefe_projeto(String chefe_projeto) {
-		this.chefe_projeto = chefe_projeto;
-	}
 
 	public List<SubProjeto> getSub_projetos() {
 		return sub_projetos;

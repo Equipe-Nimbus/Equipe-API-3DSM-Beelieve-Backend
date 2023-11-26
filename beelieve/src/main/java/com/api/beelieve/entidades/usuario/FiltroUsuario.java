@@ -6,10 +6,18 @@ import java.util.Map;
 
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.RequestParam;
 
+
+import com.api.beelieve.entidades.projeto.Projeto;
+import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.fasterxml.jackson.core.StreamReadConstraints.Builder;
+
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
 import jakarta.persistence.criteria.Path;
 import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
+import jakarta.persistence.criteria.Selection;
 import lombok.Getter;
 import lombok.ToString;
 
@@ -20,6 +28,7 @@ public class FiltroUsuario {
 	private String email;
 	private String cargo;
 	private String departamento;
+	private String projeto;
 	
 	public FiltroUsuario(Map<String, String> parametros) {
 		if(parametros.containsKey("nome")) {
@@ -32,13 +41,86 @@ public class FiltroUsuario {
 			this.departamento = parametros.get("departamento");
 		}
 		if(parametros.containsKey("cargo")) {
-			this.cargo = parametros.get("cargo");
+			this.cargo = parametros.get("cargo").replace("_", " ");
+		}
+		if(parametros.containsKey("projeto")) {
+			this.projeto = parametros.get("projeto");
 		}
 	}
 	
 	public Specification<Usuario> toSpec(){
 		return (root, query, builder) -> {
+			List<Predicate> listaPredicados = new ArrayList<>();
+			
+			Specification<Usuario> especificacaoGeral = criarSpecificationGeral();
+			listaPredicados.add(especificacaoGeral.toPredicate(root, query, builder));
+			
+			if(StringUtils.hasText(projeto)) {
+				Specification<Usuario> especificacaoLiderPacote = criarSpecificationLiderPacote();
+				listaPredicados.add(especificacaoLiderPacote.toPredicate(root, query, builder));
+				
+				Specification<Usuario> especificacaoEngeinheiro = criarSpecificationEngeinheiro();
+				listaPredicados.add(especificacaoEngeinheiro.toPredicate(root, query, builder));
+				
+				Specification<Usuario> especificacaoAnalista = criarSpecificationAnalista();
+				listaPredicados.add(especificacaoAnalista.toPredicate(root, query, builder));
+				
+				//Specification<Usuario> especificacaoProjeto = especificacaoAnalista.or(especificacaoEngeinheiro).or(especificacaoLiderPacote);
+				//listaPredicados.add(especificacaoProjeto.toPredicate(root, query, builder));
+				
+				
+			}
+			
+			return builder.and(listaPredicados.toArray(new Predicate[0]));
+		};
+	}
+	
+	
+	private Specification<Usuario> criarSpecificationLiderPacote() {
+		return (root, query, builder) -> {
+			
+	        Join<Usuario, SubProjeto> joinSubProjetos = root.join("subProjetosAtrelados");
+	        
+	        Join<SubProjeto, Projeto> joinProjetoSub = joinSubProjetos.join("projeto");
+	        
+
+			Path<String> campoNomeLider = joinProjetoSub.get("nome_projeto");
+
+			
+			return builder.like(campoNomeLider, "%" + projeto + "%");
+		};
+	}
+	
+	private Specification<Usuario> criarSpecificationAnalista() {
+		return (root, query, builder) -> {
+			
+			Join<Usuario, Projeto> joinAnalista = root.join("projetosAtribuidos",JoinType.INNER);
+			
+			
+			Path<String> campoNomeAnalista = joinAnalista.get("nome_projeto");
+
+			
+			return builder.like(campoNomeAnalista, "%" + projeto + "%");
+		};
+	}
+	
+	private Specification<Usuario> criarSpecificationEngeinheiro() {
+		return (root, query, builder) -> {
+			
+			Join<Usuario, Projeto> joinEng = root.join("projetosAtrelados");
+			
+			Path<String> campoNomeProjetoEngenhiro = joinEng.get("nome_projeto");
+
+			
+			return builder.like(campoNomeProjetoEngenhiro, "%" + projeto + "%");
+			
+		};
+	}
+	
+	private Specification<Usuario> criarSpecificationGeral(){
+		return (root, query, builder) -> {
 			List<Predicate> listaPredicados = new ArrayList<Predicate>();
+			
 			if(StringUtils.hasText(nome)) {
 				Path<String> campoNome = root.<String>get("nome");
 				Predicate predicadoNome = builder.like(campoNome, "%" + nome + "%");
@@ -59,11 +141,13 @@ public class FiltroUsuario {
 				Predicate predicadoEmail = builder.like(campoEmail, "%" + email + "%");
 				listaPredicados.add(predicadoEmail);
 			}
+			
 			Path<String> campoIs_active = root.<String>get("is_active");
 			Predicate predicadoAtivo = builder.equal(campoIs_active, true);
 			listaPredicados.add(predicadoAtivo);
 			
 			return builder.and(listaPredicados.toArray(new Predicate[0]));
 		};
+			
 	}
 }

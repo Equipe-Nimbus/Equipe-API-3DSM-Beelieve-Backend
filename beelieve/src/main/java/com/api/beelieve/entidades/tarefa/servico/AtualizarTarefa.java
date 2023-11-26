@@ -27,6 +27,9 @@ public class AtualizarTarefa {
 		if(dadosTarefa.tendencia_tarefa() != null) {
 			tarefaAtual.setTendencia_tarefa(dadosTarefa.tendencia_tarefa());
 		}
+		if(dadosTarefa.atribuicao() != null) {
+			tarefaAtual.setAtribuicao(dadosTarefa.atribuicao());
+		}
 		System.out.println(dadosTarefa);
 	}
 }

@@ -1,5 +1,9 @@
 package com.api.beelieve.entidades.usuario.dto;
 
+import java.util.List;
+
+import com.api.beelieve.configuracoes.seguranca.Perfil;
+
 public record DadosUsuarioCadastro(
 		String nome,
 		String matricula,

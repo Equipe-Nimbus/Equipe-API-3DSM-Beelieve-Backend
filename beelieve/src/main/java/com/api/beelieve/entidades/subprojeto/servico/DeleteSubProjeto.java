@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.api.beelieve.entidades.nivelsubprojeto.servico.DeleteNivelSubProjeto;
 import com.api.beelieve.entidades.subprojeto.SubProjeto;
+import com.api.beelieve.entidades.tarefa.servico.DeleteAtribuicaoTarefa;
 import com.api.beelieve.repositorio.SubProjetoRepositorio;
 import com.api.beelieve.repositorio.TarefaRepositorio;
 
@@ -21,6 +22,9 @@ public class DeleteSubProjeto {
 	
 	@Autowired
 	private DeleteNivelSubProjeto deleteNivel;
+	
+	@Autowired
+	private DeleteAtribuicaoTarefa delete_atribuicao;
 
 	public void deleteCascata(List<SubProjeto> sub_projetos) {
 		sub_projetos.forEach((sub_projeto)->{
@@ -28,6 +32,9 @@ public class DeleteSubProjeto {
 				deleteNivel.deleteCascata(sub_projeto.getNivelSubProjeto());
 			}
 			else if (sub_projeto.getTarefas() != null) {
+				sub_projeto.getTarefas().forEach((tarefa)->{
+					delete_atribuicao.deleteAtribuicao(tarefa);
+				});
 				repositorio_tarefa.deleteAll(sub_projeto.getTarefas());
 			}
 		});	
